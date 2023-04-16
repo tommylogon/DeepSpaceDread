@@ -6,18 +6,27 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool godMode;
-    
-    public State playerState;
+    [SerializeField] private bool godMode;
+    [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float crouchSpeed = .2f;
+    [SerializeField] private float sprintSpeed = 3f;
+    [SerializeField] private float maxSpeed = 1f;
+    [SerializeField] private State playerState;
+    public bool isCrouching;
+    public bool isSprinting;
+
+    [SerializeField] FieldOfView fov;
 
     public event Action OnDeath;
+
+    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         playerState = State.Alive;
         
-        
+        rb= GetComponent<Rigidbody2D>();
         
     }
 
@@ -32,14 +41,64 @@ public class PlayerController : MonoBehaviour
     {
         if (playerState == State.Alive)
         {
-
-            
+            HandleInput();
+            HandleAim();
+            if(transform.rotation.z != 0f)
+            {
+                transform.eulerAngles = new Vector3 (0,0,0);
+            }
         }
 
 
 
     }
 
+    private void HandleAim()
+    {
+        Vector3 aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position ).normalized;
+        fov.SetOrigin(transform.position);
+        fov.SetAimDirection(aimDir);
+        
+    }
+
+    private void HandleInput()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        
+
+        Vector3 movement = new Vector3(horizontal, vertical, 0f);
+        movement = Vector3.ClampMagnitude(movement, 1f);
+
+        rb.AddForce(movement * moveSpeed);
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+
+        if (isSprinting)
+        {
+            rb.AddForce(movement * moveSpeed*sprintSpeed);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed*sprintSpeed);
+        }
+        if (isCrouching)
+        {
+            
+            rb.AddForce(movement * moveSpeed * crouchSpeed);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed *crouchSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isSprinting = !isSprinting;
+            isCrouching = false;
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isCrouching = !isCrouching;
+            isSprinting = false;
+        }
+
+
+
+    }
     
 
 
