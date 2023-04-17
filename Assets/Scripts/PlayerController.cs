@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeed = .2f;
     [SerializeField] private float sprintSpeed = 3f;
     [SerializeField] private float maxSpeed = 1f;
+    [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private State playerState;
     public bool isCrouching;
     public bool isSprinting;
 
     [SerializeField] FieldOfView fov;
+    [SerializeField] GameObject Light;
 
     public event Action OnDeath;
 
@@ -58,7 +60,20 @@ public class PlayerController : MonoBehaviour
         Vector3 aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position ).normalized;
         fov.SetOrigin(transform.position);
         fov.SetAimDirection(aimDir);
-        
+
+
+        // Calculate the direction from the GameObject to the mouse cursor
+        Vector3 direction = UtilsClass.GetMouseWorldPosition() - transform.position;
+
+        // Calculate the angle between the direction and the z-axis
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Rotate the GameObject towards the mouse cursor
+        Light.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
+
+
+
+
     }
 
     private void HandleInput()
