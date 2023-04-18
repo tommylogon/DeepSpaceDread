@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,12 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeed = .2f;
     [SerializeField] private float sprintSpeed = 3f;
     [SerializeField] private float maxSpeed = 1f;
-    [SerializeField] private float rotationSpeed = 500f;
+
     [SerializeField] private State playerState;
     public bool isCrouching;
     public bool isSprinting;
-
-    [SerializeField] FieldOfView fov;
+    [SerializeField] private float fov =180;
+    //[SerializeField] FieldOfView fov;
     [SerializeField] GameObject Light;
 
     public event Action OnDeath;
@@ -29,7 +30,8 @@ public class PlayerController : MonoBehaviour
         playerState = State.Alive;
         
         rb= GetComponent<Rigidbody2D>();
-        
+
+
     }
 
     private void PlayerController_OnDeath()
@@ -58,22 +60,15 @@ public class PlayerController : MonoBehaviour
     private void HandleAim()
     {
         Vector3 aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position ).normalized;
-        fov.SetOrigin(transform.position);
-        fov.SetAimDirection(aimDir);
+        //fov.SetOrigin(transform.position);
+        //fov.SetAimDirection(aimDir);
 
-
-        // Calculate the direction from the GameObject to the mouse cursor
-        Vector3 direction = UtilsClass.GetMouseWorldPosition() - transform.position;
-
-        // Calculate the angle between the direction and the z-axis
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        // Rotate the GameObject towards the mouse cursor
-        Light.transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
-
-
-
-
+       
+            
+            float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
+           
+            Light.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
+        
     }
 
     private void HandleInput()
@@ -109,6 +104,10 @@ public class PlayerController : MonoBehaviour
         {
             isCrouching = !isCrouching;
             isSprinting = false;
+        }
+        if(Input.GetKeyDown(KeyCode.E)) 
+        {
+            Debug.Log("Interact");
         }
 
 
