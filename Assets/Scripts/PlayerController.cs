@@ -12,14 +12,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float crouchSpeed = .2f;
     [SerializeField] private float sprintSpeed = 3f;
     [SerializeField] private float maxSpeed = 1f;
+    [SerializeField] private float baseVisibility = 1f;
 
     [SerializeField] private State playerState;
     public bool isCrouching;
     public bool isSprinting;
     [SerializeField] private float fov =180;
     //[SerializeField] FieldOfView fov;
-    [SerializeField] GameObject Light;
+    [SerializeField] GameObject FOVLight;
 
+    [SerializeField] private LayerMask litLayer;
     public event Action OnDeath;
 
     Rigidbody2D rb;
@@ -30,11 +32,12 @@ public class PlayerController : MonoBehaviour
         playerState = State.Alive;
         
         rb= GetComponent<Rigidbody2D>();
+        FOVLight = GameObject.FindGameObjectWithTag("FOV");
 
 
     }
 
-    private void PlayerController_OnDeath()
+    public void PlayerDied()
     {
         playerState = State.Dead;
         OnDeath?.Invoke();
@@ -51,6 +54,19 @@ public class PlayerController : MonoBehaviour
             {
                 transform.eulerAngles = new Vector3 (0,0,0);
             }
+            if(rb.velocity.magnitude > 0.1)
+            {
+                GetComponent<PlayerSounds>().PlayFootstepSound(isSprinting);
+            }
+            else if(rb.velocity.magnitude < 0.1)
+            {
+                GetComponent<PlayerSounds>().StopSound();
+            }
+        }
+        else if(playerState == State.Dead)
+        {
+            rb.velocity = Vector2.zero;
+            GetComponent<PlayerSounds>().StopSound();
         }
 
 
@@ -60,14 +76,11 @@ public class PlayerController : MonoBehaviour
     private void HandleAim()
     {
         Vector3 aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position ).normalized;
-        //fov.SetOrigin(transform.position);
-        //fov.SetAimDirection(aimDir);
-
        
             
             float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
            
-            Light.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
+            FOVLight.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
         
     }
 
@@ -80,15 +93,19 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(horizontal, vertical, 0f);
         movement = Vector3.ClampMagnitude(movement, 1f);
 
-        rb.AddForce(movement * moveSpeed);
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        if (!isSprinting)
+        {
+            rb.AddForce(movement * moveSpeed);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
 
-        if (isSprinting)
+
+        }
+        else if (isSprinting)
         {
             rb.AddForce(movement * moveSpeed*sprintSpeed);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed*sprintSpeed);
         }
-        if (isCrouching)
+         else if (isCrouching)
         {
             
             rb.AddForce(movement * moveSpeed * crouchSpeed);
@@ -113,8 +130,27 @@ public class PlayerController : MonoBehaviour
 
 
     }
-    
 
+    public void ChangeFOVStatus(bool status)
+    {
+        FOVLight.SetActive(status);
+    }
 
+    public float GetVisibility()
+    {
+        float visibility = baseVisibility;
 
+        // Check if the player is in a lit area
+        bool isLit = Physics2D.OverlapCircle(transform.position, 5 , litLayer);
+        if (isLit)
+        {
+            visibility =1f;
+        }
+        else
+        {
+            visibility = 0.5f;
+        }
+
+        return Mathf.Clamp01(visibility);
+    }
 }

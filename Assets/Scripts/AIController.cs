@@ -10,73 +10,147 @@ using UnityEngine.UI;
 public class AIController : MonoBehaviour, IController
 {
     [SerializeField] private NavMeshAgent navAgent;
+    [SerializeField] private AlienSounds alienSounds;
     [SerializeField]private float moveRadius = 15f;
     [SerializeField]private float viewRadius = 10f;
-    [SerializeField]private float viewAngle = 120f;
-    [SerializeField]private float speed = 3f;
+    [SerializeField]private float viewAngle = 360f;
+    [SerializeField]private float walkingSpeed = 3f;
+    [SerializeField]private float PlayerVisible = 0f;
 
-    [SerializeField]private Transform player;
-    private NavMeshAgent agent;
-    [SerializeField] private bool isPlayerVisible = false;
+    [SerializeField]private GameObject playerRef;
+    [SerializeField] private bool canSeePlayer = false;
     [SerializeField] private bool moveRandomLocation = false;
-    [SerializeField] private Mask playerMask;
+    [SerializeField] private bool lookForTargets = true;
+    [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private LayerMask obstacleLayer;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        playerRef = GameObject.FindGameObjectWithTag("Player");
 
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.updateRotation = false;
         navAgent.updateUpAxis = false;
+        navAgent.speed = walkingSpeed;
+
+        alienSounds = GetComponent<AlienSounds>();
+
+        StartCoroutine(FOVCheck());
 
     }
 
     private void Update()
     {
-        if (IsPlayerInSight())
+        See();
+        Attack();
+        Move();
+        
+
+
+    }
+    private void See()
+    {
+        if (canSeePlayer)
         {
-            isPlayerVisible = true;
-            agent.SetDestination(player.position);
+            canSeePlayer = true;
+            PlayerVisible += playerRef.GetComponent<PlayerController>().GetVisibility();
+            if(PlayerVisible >= 1f)
+            {
+                alienSounds.PlayPlayerSpottedSound();
+                navAgent.SetDestination(playerRef.transform.position);
+            }
+            
         }
         else
         {
-            isPlayerVisible = false;
+            canSeePlayer = false;
+            PlayerVisible -= Time.deltaTime / 2;
+            PlayerVisible = Mathf.Clamp01(PlayerVisible);
+            alienSounds.StopAllSound();
+        }
+    }
+    private void Move()
+    {
+        if (!navAgent.pathPending && navAgent.remainingDistance > 1f)
+        {
+
+            float distance = Vector3.Distance(playerRef.transform.position, transform.position);
+            float maxDistance = 10;
+
+            if (distance > maxDistance)
+            {
+
+                alienSounds.ChangeWalkingSound(0f);
+            }
+            else
+            {
+
+                alienSounds.ChangeWalkingSound(1f - (distance / maxDistance));
+            }
+            
+
         }
 
-        if (moveRandomLocation && !navAgent.pathPending && navAgent.remainingDistance < 0.5f)
+        if (moveRandomLocation && !navAgent.pathPending && navAgent.remainingDistance < 0.5f && !canSeePlayer)
         {
-            // Calculate a random point within the move radius
+            if(!alienSounds.IsPlaying()) alienSounds.PlayStopSound();
+
             Vector2 randomPoint = (UnityEngine.Random.insideUnitCircle * moveRadius) + (Vector2)transform.position;
 
             // Set the destination of the NavMeshAgent to the random point
             navAgent.SetDestination(randomPoint);
         }
     }
-    private bool IsPlayerInSight()
+    private IEnumerator FOVCheck()
     {
-        Vector3 directionToPlayer = player.position - transform.position;
-        if (directionToPlayer.magnitude > viewRadius) return false;
+        WaitForSeconds wait = new WaitForSeconds(0.2f);
 
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        if (angleToPlayer > viewAngle / 2f) return false;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, viewRadius );
-        if (hit.collider != null && hit.collider.CompareTag("Player")) return false;
+        while (lookForTargets)
+        {
+            yield return wait;
+            FOV();
+        }
+
         
-        if (hit.collider.gameObject.CompareTag("Player"))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
-    public bool IsPlayerVisible()
+    private void FOV()
     {
-        return isPlayerVisible;
+        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetLayer);
+
+        if (rangeCheck.Length > 0)
+        {
+            Transform target = rangeCheck[0].transform;
+            Vector2 directionToTarget = (target.position - transform.position).normalized;
+
+            if(Vector2.Angle(transform.up, directionToTarget) < viewAngle / 2)
+            {
+                float distanceToTarget = Vector2.Distance(transform.position, target.position);
+                if(!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleLayer))
+                {
+                    PlayerVisible += target.GetComponent<PlayerController>().GetVisibility(); 
+                    if(PlayerVisible >= 1f)
+                    {
+                        canSeePlayer = true;
+                        return;
+                    }
+                    
+                }
+            }
+        }
+        canSeePlayer = false;
+        return;
     }
 
+    private void Attack()
+    {
+        if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f)
+        {
+
+            if(!alienSounds.IsPlaying()) alienSounds.PlayAttackSound();
+            //playerRef.GetComponent<PlayerController>().PlayerDied();
+        }
+    }
 }
