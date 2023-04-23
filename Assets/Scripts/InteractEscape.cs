@@ -3,24 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InteractObject : MonoBehaviour
+public class InteractEscape : MonoBehaviour
 {
     [SerializeField] private string interactText = "Press E to interact";
     [SerializeField] private string message = "";
     [SerializeField] private bool canInteract = false;
-    
+    [SerializeField] private bool onboard = false;
+
+    [SerializeField] private Transform targetPos;
+
+    private GameObject player;
 
 
-    
 
-    // Update is called once per frame
+
     void Update()
     {
 
-        if(canInteract && Input.GetKey(KeyCode.E))
+        if (canInteract && Input.GetKey(KeyCode.E))
         {
-            UIController.Instance.ShowMessage(message);
-            //messageLabel.text = message;
+            player.transform.position = transform.position;
+            player.GetComponent<SpriteRenderer>().sortingOrder = -2;
+
+
+            
+        }
+        if (onboard)
+        {
+            Vector2.MoveTowards(transform.position, targetPos.position, 4 * Time.deltaTime);
+            UIController.Instance.ShowGameOver(true);
         }
     }
 
@@ -30,6 +41,7 @@ public class InteractObject : MonoBehaviour
         {
             canInteract = true;
             UIController.Instance.ShowMessage(interactText);
+            player = other.gameObject;
         }
     }
 
@@ -39,7 +51,7 @@ public class InteractObject : MonoBehaviour
         {
             canInteract = false;
             UIController.Instance.HideMessage();
-
+            player = null;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float fov =180;
     //[SerializeField] FieldOfView fov;
     [SerializeField] GameObject FOVLight;
+    [SerializeField] GameObject aroundPlayerLight;
 
     [SerializeField] private LayerMask litLayer;
     public event Action OnDeath;
@@ -29,10 +31,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerState = State.Alive;
+        playerState = State.Sleeping;
         
         rb= GetComponent<Rigidbody2D>();
         FOVLight = GameObject.FindGameObjectWithTag("FOV");
+
+        FOVLight.SetActive(false);
+        aroundPlayerLight.SetActive(false);
+
 
 
     }
@@ -40,12 +46,26 @@ public class PlayerController : MonoBehaviour
     public void PlayerDied()
     {
         playerState = State.Dead;
-        OnDeath?.Invoke();
+        UIController.Instance.ShowGameOver(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(playerState == State.Sleeping && Input.GetKeyDown(KeyCode.E))
+        {
+            
+                playerState = State.Alive;
+                UIController.Instance.HideGameOver();
+            FOVLight.SetActive(true);
+            aroundPlayerLight.SetActive(true);
+            
+        }
+        if(playerState == State.Dead && Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
         if (playerState == State.Alive)
         {
             HandleInput();

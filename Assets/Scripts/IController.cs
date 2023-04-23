@@ -9,5 +9,6 @@ public interface IController
 public enum State
 {
     Alive,
-    Dead
+    Dead,
+    Sleeping
 }

@@ -9,6 +9,9 @@
             <ui:TextField picking-mode="Ignore" label="Input code" value="filler text" text="filler text" style="color: rgb(156, 156, 156);" />
             <ui:Button text="Self destruct" display-tooltip-when-elided="true" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
         </ui:VisualElement>
+        <ui:VisualElement style="top: -200px; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66);">
+            <ui:Label text="PRESS E TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" />
+        </ui:VisualElement>
         <ui:VisualElement name="Message" style="position: relative; top: -20px; left: auto; display: flex;">
             <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." display-tooltip-when-elided="true" name="message-lable" style="position: relative; height: 56px; top: auto; left: auto; width: 553px; white-space: normal; color: rgb(255, 255, 255);" />
         </ui:VisualElement>

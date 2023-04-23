@@ -1,11 +1,7 @@
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
-using UnityEditor.U2D.Path;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 public class AIController : MonoBehaviour, IController
 {
@@ -149,8 +145,11 @@ public class AIController : MonoBehaviour, IController
         if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f)
         {
 
-            if(!alienSounds.IsPlaying()) alienSounds.PlayAttackSound();
-            //playerRef.GetComponent<PlayerController>().PlayerDied();
+            if (!alienSounds.IsPlaying())
+            {
+                alienSounds.PlayAttackSound();
+                playerRef.GetComponent<PlayerController>().PlayerDied();
+            }
         }
     }
 }
