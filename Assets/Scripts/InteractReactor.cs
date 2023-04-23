@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-using UnityEditor.UIElements;
-using UnityEngine.UIElements;
+
 
 public class InteractReactor : MonoBehaviour
 {
