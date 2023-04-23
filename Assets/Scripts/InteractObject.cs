@@ -7,7 +7,11 @@ public class InteractObject : MonoBehaviour
 {
     [SerializeField] private string interactText = "Press E to interact";
     [SerializeField] private string message = "";
+    [SerializeField] private string questInfo = "";
+
     [SerializeField] private bool canInteract = false;
+    [SerializeField] private bool Saves = false;
+
     
 
 
@@ -20,6 +24,10 @@ public class InteractObject : MonoBehaviour
         if(canInteract && Input.GetKey(KeyCode.E))
         {
             UIController.Instance.ShowMessage(message);
+            if (Saves)
+            {
+                UIController.Instance.SaveToMemory(questInfo);
+            }
             //messageLabel.text = message;
         }
     }

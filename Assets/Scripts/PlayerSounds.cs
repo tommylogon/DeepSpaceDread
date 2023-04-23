@@ -10,7 +10,7 @@ public class PlayerSounds : MonoBehaviour
 
     private AudioSource audioSource;
     private float walkSpeed = 1.0f;
-    private float runSpeed = 2.0f;
+    private float runSpeed = 1.3f;
     private float jumpVolume = 1.0f;
     private float landVolume = 1.0f;
 

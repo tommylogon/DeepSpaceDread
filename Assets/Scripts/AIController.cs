@@ -17,6 +17,7 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private bool canSeePlayer = false;
     [SerializeField] private bool moveRandomLocation = false;
     [SerializeField] private bool lookForTargets = true;
+    [SerializeField] private bool alienHasScreamed;
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private LayerMask obstacleLayer;
 
@@ -48,19 +49,25 @@ public class AIController : MonoBehaviour, IController
     }
     private void See()
     {
-        if (canSeePlayer)
+        if (canSeePlayer || playerRef.GetComponent<PlayerController>().CanHearPlayerRunning() )
         {
             canSeePlayer = true;
             PlayerVisible += playerRef.GetComponent<PlayerController>().GetVisibility();
-            if(PlayerVisible >= 1f)
+
+            if (!alienHasScreamed)
             {
+                alienHasScreamed = true;
                 alienSounds.PlayPlayerSpottedSound();
-                navAgent.SetDestination(playerRef.transform.position);
             }
+             
+                navAgent.SetDestination(playerRef.transform.position);
+            
+            
             
         }
         else
         {
+            alienHasScreamed = false;
             canSeePlayer = false;
             PlayerVisible -= Time.deltaTime / 2;
             PlayerVisible = Mathf.Clamp01(PlayerVisible);

@@ -1,15 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement style="height: 82px; flex-grow: 1; align-items: center; justify-content: flex-end; position: relative;">
-        <ui:Label text="01:00:000" display-tooltip-when-elided="true" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: -400px; position: relative; left: auto; display: none;" />
-        <ui:VisualElement name="Code" style="height: 68px; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: absolute; top: 29px; left: 11px;">
-            <ui:Label text="Code" display-tooltip-when-elided="true" style="align-items: flex-start;" />
+        <ui:Label text="01:00:000" display-tooltip-when-elided="true" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: -400px; position: relative; left: auto; display: flex; white-space: normal;" />
+        <ui:VisualElement name="MemoryPanel" style="height: 68px; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: absolute; top: 29px; left: 11px;">
+            <ui:Label text="Code" display-tooltip-when-elided="true" name="MemoryText" style="align-items: flex-start; color: rgb(255, 255, 255);" />
         </ui:VisualElement>
-        <ui:VisualElement name="Reactor-input" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: -100px; left: auto; display: none;">
+        <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: -100px; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64);">
             <ui:Label text="Reactor Status: Online. Please enter reactor code to continue.&quot;" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); white-space: normal;" />
-            <ui:TextField picking-mode="Ignore" label="Input code" value="filler text" text="filler text" style="color: rgb(156, 156, 156);" />
-            <ui:Button text="Self destruct" display-tooltip-when-elided="true" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
+            <ui:TextField picking-mode="Ignore" label="Input code" value="filler text" text="filler text" name="ReactorInputTextField" style="color: rgb(156, 156, 156);" />
+            <ui:Button text="Self destruct" display-tooltip-when-elided="true" name="ReactorButton" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
         </ui:VisualElement>
-        <ui:VisualElement style="top: -200px; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66);">
+        <ui:VisualElement name="GameStatePanel" style="top: -200px; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66);">
             <ui:Label text="PRESS E TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" />
         </ui:VisualElement>
         <ui:VisualElement name="Message" style="position: relative; top: -20px; left: auto; display: flex;">

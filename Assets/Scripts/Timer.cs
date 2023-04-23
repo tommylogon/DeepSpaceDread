@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using System;
 
 public class Timer : MonoBehaviour
@@ -10,9 +7,9 @@ public class Timer : MonoBehaviour
 
     public event EventHandler OnTimeOut;
 
-    [SerializeField] private float initialTime = 60f;
+    public event Action<string> OnTimeChanged;
 
-    [SerializeField] private TextMeshProUGUI timerText = null;
+    [SerializeField] private float initialTime = 60f;
 
     private static float timeLeft = 0f;
     private static bool isTimeOut = false;
@@ -28,7 +25,7 @@ public class Timer : MonoBehaviour
     {
 
 
-        isPaused=false; 
+        isPaused=true; 
         isTimeOut=false;
         timeLeft = instance.initialTime;
 
@@ -42,10 +39,13 @@ public class Timer : MonoBehaviour
         {
             return;
         }
-        timeLeft -= Time.deltaTime;
+        else
+        {
+            timeLeft -= Time.deltaTime;
+            OnTimeChanged?.Invoke(FormatTime(timeLeft));
+        }
+       
         ;
-
-        timerText.text = FormatTime();
 
 
         if (timeLeft <= 0)
@@ -79,7 +79,6 @@ public class Timer : MonoBehaviour
     public void AddTime(float timeToAdd) 
     { 
         timeLeft += timeToAdd;
-        timerText.text = FormatTime();
     }
     public void RemoveTime(float timeToRemove) { timeLeft -= timeToRemove; }
 

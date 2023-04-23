@@ -173,4 +173,13 @@ public class PlayerController : MonoBehaviour
 
         return Mathf.Clamp01(visibility);
     }
+
+    public bool CanHearPlayerRunning()
+    {
+        if(isSprinting && rb.velocity.magnitude > 0.5)
+        {
+            return true;
+        }
+        return false;
+    }
 }

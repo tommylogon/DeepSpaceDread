@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class InteractEscape : MonoBehaviour
@@ -24,14 +25,20 @@ public class InteractEscape : MonoBehaviour
         {
             player.transform.position = transform.position;
             player.GetComponent<SpriteRenderer>().sortingOrder = -2;
-
+            onboard = true;
 
             
         }
         if (onboard)
         {
-            Vector2.MoveTowards(transform.position, targetPos.position, 4 * Time.deltaTime);
+            player.transform.position = transform.position;
+            transform.position = Vector2.MoveTowards(transform.position, targetPos.position, 4 * Time.deltaTime);
             UIController.Instance.ShowGameOver(true);
+            Timer.instance.PauseTimer(true);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene("SampleScene");
+            }
         }
     }
 
