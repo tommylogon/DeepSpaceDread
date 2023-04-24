@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InteractObject : MonoBehaviour
+public class InteractObject : Interactable
 {
-    [SerializeField] private string interactText = "Press E to interact";
-    [SerializeField] private string message = "";
+    
     [SerializeField] private string questInfo = "";
-
-    [SerializeField] private bool canInteract = false;
-    [SerializeField] private bool Saves = false;
+    [SerializeField] private bool saves = false;
+    [SerializeField] private Door doorToUnlock;
 
     
 
@@ -18,36 +16,20 @@ public class InteractObject : MonoBehaviour
     
 
     // Update is called once per frame
-    void Update()
+    public override void Interact()
     {
-
-        if(canInteract && Input.GetKey(KeyCode.E))
+        if (canInteract)
         {
             UIController.Instance.ShowMessage(message);
-            if (Saves)
+            if (saves)
             {
                 UIController.Instance.SaveToMemory(questInfo);
             }
-            //messageLabel.text = message;
+            if(doorToUnlock != null)
+            {
+                doorToUnlock.SetDoorToLocked(false);
+            }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = true;
-            UIController.Instance.ShowMessage(interactText);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = false;
-            UIController.Instance.HideMessage();
-
-        }
-    }
 }

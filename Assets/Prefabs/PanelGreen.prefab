@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4112830690545275881}
   - component: {fileID: 8621998990126145999}
+  - component: {fileID: 3628474984903740842}
+  - component: {fileID: 2999531891820578604}
   m_Layer: 0
   m_Name: PanelGreen
   m_TagString: Untagged
@@ -24,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013976128505031622}
-  m_LocalRotation: {x: -0, y: -0, z: 0.59970015, w: 0.8002248}
+  m_LocalRotation: {x: 0, y: 0, z: 0.59970117, w: 0.80022407}
   m_LocalPosition: {x: -5.49, y: 13.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -73,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1233808848, guid: 7cf2e4b651c88474d8054f249293541f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -85,6 +87,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3628474984903740842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013976128505031622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bddb6201d7aba724d953e6ae9df60887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: Press E to interact
+  canInteract: 0
+  message: 
+  questInfo: 
+  saves: 0
+--- !u!114 &2999531891820578604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013976128505031622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.6045274, y: -0.20094427, z: 0}
+  - {x: -0.6256251, y: 0.21878906, z: 0}
+  - {x: 0.6441985, y: 0.22452854, z: 0}
+  - {x: 0.63372874, y: -0.2271668, z: 0}
+  m_ShapePathHash: 1266238016
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -145450
+  m_LocalBounds:
+    m_Center: {x: 0.009286702, y: -0.0013191402, z: 0}
+    m_Extent: {x: 0.6349118, y: 0.22584766, z: 0}
 --- !u!1 &5810809575273802915
 GameObject:
   m_ObjectHideFlags: 0

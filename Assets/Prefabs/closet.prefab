@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8eb5289791702404faa90640f00274a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea24e357a937fb4597c2d1a0e6effcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactText: 'Locker: Press E to hide'
+  canInteract: 0
   hiddenLayer:
     serializedVersion: 2
     m_Bits: 1024

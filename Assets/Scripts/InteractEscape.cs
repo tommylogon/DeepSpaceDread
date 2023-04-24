@@ -4,31 +4,29 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
-public class InteractEscape : MonoBehaviour
+public class InteractEscape : Interactable
 {
-    [SerializeField] private string interactText = "Press E to interact";
-    [SerializeField] private string message = "";
-    [SerializeField] private bool canInteract = false;
+   
+   
     [SerializeField] private bool onboard = false;
 
     [SerializeField] private Transform targetPos;
 
-    private GameObject player;
 
 
-
-
-    void Update()
+    public override void Interact()
     {
-
-        if (canInteract && Input.GetKey(KeyCode.E))
+        if (canInteract)
         {
             player.transform.position = transform.position;
             player.GetComponent<SpriteRenderer>().sortingOrder = -2;
             onboard = true;
-
-            
         }
+    }
+
+    void Update()
+    {
+
         if (onboard)
         {
             player.transform.position = transform.position;
@@ -39,26 +37,6 @@ public class InteractEscape : MonoBehaviour
             {
                 SceneManager.LoadScene("SampleScene");
             }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = true;
-            UIController.Instance.ShowMessage(interactText);
-            player = other.gameObject;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = false;
-            UIController.Instance.HideMessage();
-            player = null;
         }
     }
 }

@@ -2,15 +2,11 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 
-public class InteractReactor : MonoBehaviour
+public class InteractReactor : Interactable
 {
     public GameObject[] objectsToDeactivate;
     public Light2D[] lightsToChange;
     public AudioSource[] audioSources;
-
-    [SerializeField] private string interactText = "Press E to interact";
-    [SerializeField] private string message = "";
-    [SerializeField] private bool canInteract = false;
 
     public string code = "1234";
 
@@ -19,35 +15,14 @@ public class InteractReactor : MonoBehaviour
     {
         UIController.Instance.OnReactorButton_Clicked += CheckCode;
     }
-
-    // Update is called once per frame
-    void Update()
+    public override void Interact()
     {
-        if(canInteract && Input.GetKeyDown(KeyCode.E))
+        if (canInteract)
         {
             UIController.Instance.ShowReactorInput();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = true;
-            UIController.Instance.ShowMessage(interactText);
-            
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            canInteract = false;
-            UIController.Instance.HideMessage();
-            
-        }
-    }
 
     public void CheckCode(string code)
     {

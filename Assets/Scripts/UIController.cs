@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
 {
     public static UIController Instance;
     private Label messageLabel;
+    private Label interactoinLabel;
     private Label gameOver;
     private Label timerLabel;
     private Label memoryText;
@@ -28,6 +29,7 @@ public class UIController : MonoBehaviour
         var root = GetComponent<UIDocument>().rootVisualElement;
         typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
         messageLabel = root.Q<Label>("message-lable");
+        interactoinLabel = root.Q<Label>("InteractionLable");
         gameOver = root.Q<Label>("StartOrGameOver");
         gameStatePanel = root.Q<VisualElement>("GameStatePanel");
         reactorInputPanel = root.Q<VisualElement>("ReactorInputPanel");
@@ -111,6 +113,17 @@ public class UIController : MonoBehaviour
     public void SaveToMemory(string text)
     {
         memoryText.text = text;
+    }
+
+    public void ShowInteraction(string text)
+    {
+        interactoinLabel.visible = true;
+        interactoinLabel.text = text;
+    }
+
+    public void HideInteraction()
+    {
+        interactoinLabel.visible= false;
     }
 
 }

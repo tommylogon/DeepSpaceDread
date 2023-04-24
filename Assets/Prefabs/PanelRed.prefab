@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2042506957304908796}
   - component: {fileID: 1981111759770562118}
   - component: {fileID: 8283387252347508440}
+  - component: {fileID: 2205999478819039764}
   m_Layer: 0
   m_Name: PanelRed
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1384983133, guid: 6e4c1f0db37efa84bb5bfd42e9ae231d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,19 +104,39 @@ MonoBehaviour:
   m_HasRenderer: 1
   m_UseRendererSilhouette: 1
   m_CastsShadows: 1
-  m_SelfShadows: 0
+  m_SelfShadows: 1
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -0.8000002, y: -0.8000002, z: 0}
-  - {x: -0.8000002, y: 0.80000114, z: 0}
-  - {x: 0.7999997, y: 0.80000114, z: 0}
-  - {x: 0.7999997, y: -0.8000002, z: 0}
-  m_ShapePathHash: 0
+  - {x: -0.66048545, y: -0.26072022, z: 0}
+  - {x: -0.67389977, y: 0.25535533, z: 0}
+  - {x: 0.6551187, y: 0.26340416, z: 0}
+  - {x: 0.6631657, y: -0.25803772, z: 0}
+  m_ShapePathHash: -1880410872
   m_Mesh: {fileID: 0}
-  m_InstanceId: -20130
+  m_InstanceId: -1588
   m_LocalBounds:
-    m_Center: {x: -0.00000023841858, y: 0.00000047683716, z: 0}
-    m_Extent: {x: 0.79999995, y: 0.80000067, z: 0}
+    m_Center: {x: -0.0053670406, y: 0.0013419688, z: 0}
+    m_Extent: {x: 0.6685327, y: 0.2620622, z: 0}
+--- !u!114 &2205999478819039764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2956455921112794817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bddb6201d7aba724d953e6ae9df60887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: Press E to interact
+  canInteract: 0
+  message: Warning! This is crew member Kelly. I managed to make it to the escape
+    pod, but the creature is still on board. It's fast, and it's dangerous. But,
+    I have noticed that it has trouble seeing in the dark. Try to use that to your
+    advantage if you encounter it. Please, be careful out there. Good luck.
+  questInfo: 
+  saves: 0
 --- !u!1 &8083552560113358692
 GameObject:
   m_ObjectHideFlags: 0
