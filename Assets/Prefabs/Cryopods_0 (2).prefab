@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 629504580063888927}
   - component: {fileID: 7291560410146384608}
+  - component: {fileID: 2227211974540168509}
   m_Layer: 0
   m_Name: Light 2D (2)
   m_TagString: Untagged
@@ -111,6 +112,22 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!58 &2227211974540168509
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692550316932735603}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1739967326392801416
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +230,9 @@ MonoBehaviour:
   interactText: Press E to interact
   message: A empty cryopod for the emergency crew
   canInteract: 0
+  questInfo: 
+  saves: 0
+  doorToUnlock: {fileID: 0}
 --- !u!61 &664444199
 BoxCollider2D:
   m_ObjectHideFlags: 0

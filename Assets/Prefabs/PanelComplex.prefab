@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2366922604042025748}
   - component: {fileID: 2366922604042025747}
-  m_Layer: 0
+  - component: {fileID: 394217299}
+  m_Layer: 7
   m_Name: Light 2D (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2366922604042025749}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -111,6 +112,22 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!58 &394217299
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366922604042025749}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3.33
 --- !u!1 &2366922604140103965
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,7 +140,7 @@ GameObject:
   - component: {fileID: 2366922604140103964}
   - component: {fileID: 2366922604140103961}
   - component: {fileID: 2366922604140103962}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PanelComplex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +154,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2366922604140103965}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.0037738, y: 14.533986, z: 0.63318336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -236,6 +253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddb6201d7aba724d953e6ae9df60887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Press E to interact
-  message: 
+  interactText: Press E or button X to interact
+  message: Attention all personnel. The station is currently in lockdown mode. Power
+    levels are at [x]% and life support systems are [operational/non-operational].
+    Please remain in your designated areas until further notice. All attempts to
+    restore the system are ongoing. Thank you for your cooperation.
   canInteract: 0
+  questInfo: 
+  saves: 0
+  doorToUnlock: {fileID: 0}

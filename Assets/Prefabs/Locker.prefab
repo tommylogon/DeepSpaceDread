@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5027062020554551146}
   - component: {fileID: 5027062020554551145}
   m_Layer: 0
-  m_Name: closet
+  m_Name: Locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Locker: Press E to hide'
+  message: 
   canInteract: 0
   hiddenLayer:
     serializedVersion: 2
@@ -140,9 +141,10 @@ GameObject:
   m_Component:
   - component: {fileID: 547213304540299332}
   - component: {fileID: 1711674319649864475}
+  - component: {fileID: 3640571800302167099}
   m_Layer: 0
   m_Name: Light 2D
-  m_TagString: Untagged
+  m_TagString: IgnoreRaycast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -241,3 +243,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!58 &3640571800302167099
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5914786072213603217}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5

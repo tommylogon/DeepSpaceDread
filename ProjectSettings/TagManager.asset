@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FOV
   - UIDocument
+  - IgnoreRaycast
   layers:
   - Default
   - TransparentFX

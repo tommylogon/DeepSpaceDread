@@ -2,7 +2,9 @@ using CodeMonkey.Utils;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 5f;
     [SerializeField] private float maxSpeed = 1f;
     [SerializeField] private float baseVisibility = 1f;
+    [SerializeField] private float visibility;
+    [SerializeField] private float detectionRadius = 5;
 
     private Vector3 lastMousePosition;
 
@@ -24,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject aroundPlayerLight;
 
     [SerializeField] private LayerMask litLayer;
+    [SerializeField] private LayerMask wallLayer;
+
     
 
     Rigidbody2D rb;
@@ -94,8 +100,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        
+
+        UpdateVisibilityAndLight();
         if (playerState == State.Alive)
         {
             Move(move.ReadValue<Vector2>());
@@ -189,14 +195,58 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
-    public float GetVisibility()
+    private void UpdateVisibilityAndLight()
     {
-        float visibility = baseVisibility;
+        visibility = baseVisibility;
 
         // Check if the player is in a lit area
-        bool isLit = Physics2D.OverlapCircle(transform.position, 5, litLayer);
-        if (isLit)
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectionRadius, litLayer);
+
+        foreach (Collider2D collider in colliders)
+        {
+            Light2D light2D = collider.GetComponent<Light2D>();
+            if (light2D != null)
+            {
+                Vector2 directionToLight = (collider.transform.position - transform.position).normalized;
+                float distanceToLight = Vector2.Distance(transform.position, collider.transform.position);
+
+                if (collider.CompareTag("IgnoreRaycast"))
+                {
+                    // Ignore raycast and enable/disable light based on distance
+                    if (distanceToLight <= detectionRadius && !light2D.enabled)
+                    {
+                        light2D.enabled = true;
+                    }
+                    else if (distanceToLight > detectionRadius && light2D.enabled)
+                    {
+                        light2D.enabled = false;
+                    }
+                }
+                else
+                {
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToLight, distanceToLight, wallLayer);
+
+                    if (hit.collider == null)
+                    {
+                        // No wall is blocking the light
+                        if (distanceToLight <= detectionRadius && !light2D.enabled)
+                        {
+                            light2D.enabled = true;
+                        }
+                    }
+                    else
+                    {
+                        // A wall is blocking the light
+                        if (light2D.enabled)
+                        {
+                            light2D.enabled = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (colliders.Length > 0)
         {
             visibility = 1f;
         }
@@ -204,6 +254,11 @@ public class PlayerController : MonoBehaviour
         {
             visibility = flashlightOn ? 0.5f : 0.2f;
         }
+    }
+
+    public float GetVisibility()
+    {
+        
 
         return Mathf.Clamp01(visibility);
     }
