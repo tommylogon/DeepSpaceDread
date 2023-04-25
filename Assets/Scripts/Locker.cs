@@ -12,7 +12,13 @@ public class Locker : Interactable
 
     private bool playerInsideLocker = false;
 
-  
+    private void Update()
+    {
+        if(playerInsideLocker)
+        {
+            player.transform.position = transform.position;
+        }
+    }
     public override void Interact()
     {
         base.Interact();

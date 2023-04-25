@@ -99,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.02689594, y: 0.120324135}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -110,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.59375, y: 0.96875}
+  m_Size: {x: 0.41821826, y: 0.72810173}
   m_EdgeRadius: 0
 --- !u!114 &1208678084
 MonoBehaviour:
@@ -127,3 +127,6 @@ MonoBehaviour:
   interactText: Press E to interact
   message: A dead body. it is torn and broken
   canInteract: 0
+  questInfo: 
+  saves: 0
+  doorToUnlock: {fileID: 0}

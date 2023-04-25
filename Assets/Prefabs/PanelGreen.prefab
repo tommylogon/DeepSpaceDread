@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8621998990126145999}
   - component: {fileID: 3628474984903740842}
   - component: {fileID: 2999531891820578604}
+  - component: {fileID: -6631770664309068090}
   m_Layer: 0
   m_Name: PanelGreen
   m_TagString: Untagged
@@ -100,10 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: Press E to interact
-  canInteract: 0
   message: 
+  canInteract: 0
   questInfo: 
   saves: 0
+  doorToUnlock: {fileID: 0}
 --- !u!114 &2999531891820578604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,10 +132,36 @@ MonoBehaviour:
   - {x: 0.63372874, y: -0.2271668, z: 0}
   m_ShapePathHash: 1266238016
   m_Mesh: {fileID: 0}
-  m_InstanceId: -145450
+  m_InstanceId: 44120
   m_LocalBounds:
     m_Center: {x: 0.009286702, y: -0.0013191402, z: 0}
     m_Extent: {x: 0.6349118, y: 0.22584766, z: 0}
+--- !u!61 &-6631770664309068090
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013976128505031622}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.35, y: 0.55}
+    newSize: {x: 1.35, y: 0.55}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.35, y: 0.55}
+  m_EdgeRadius: 0
 --- !u!1 &5810809575273802915
 GameObject:
   m_ObjectHideFlags: 0

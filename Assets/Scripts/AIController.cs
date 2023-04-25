@@ -7,19 +7,25 @@ public class AIController : MonoBehaviour, IController
 {
     [SerializeField] private NavMeshAgent navAgent;
     [SerializeField] private AlienSounds alienSounds;
-    [SerializeField]private float moveRadius = 15f;
-    [SerializeField]private float viewRadius = 10f;
-    [SerializeField]private float viewAngle = 360f;
-    [SerializeField]private float walkingSpeed = 3f;
-    [SerializeField]private float PlayerVisible = 0f;
+    [SerializeField] private float moveRadius = 15f;
+    [SerializeField] private float viewRadius = 10f;
+    [SerializeField] private float viewAngle = 360f;
+    [SerializeField] private float walkingSpeed = 3f;
+    [SerializeField] private float PlayerVisible = 0f;
+    [SerializeField] private float hunger = 0f;
+    [SerializeField] private float hungerRate = 0.1f;
+    [SerializeField] private float hungerThreshold = 0.8f;
 
-    [SerializeField]private GameObject playerRef;
+    [SerializeField] private GameObject playerRef;
     [SerializeField] private bool canSeePlayer = false;
     [SerializeField] private bool moveRandomLocation = false;
     [SerializeField] private bool lookForTargets = true;
     [SerializeField] private bool alienHasScreamed;
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private LayerMask corpseLayer;
+    [SerializeField] private float eatingTime = 5f;
+    private bool isEating = false;
 
     // Start is called before the first frame update
     void Start()
@@ -40,16 +46,34 @@ public class AIController : MonoBehaviour, IController
 
     private void Update()
     {
+        if(isEating) { return; 
+        }
+
+        hunger += hungerRate * Time.deltaTime;
+        hunger = Mathf.Clamp01(hunger);
+
+
         See();
         Attack();
+        if (hunger >= hungerThreshold)
+        {
+            EatCorpse();
+        }
         Move();
+        RotateSprite();
         
 
 
     }
+
+    private void RotateSprite()
+    {
+        float angle = Mathf.Atan2(navAgent.velocity.y, navAgent.velocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
     private void See()
     {
-        if (canSeePlayer || playerRef.GetComponent<PlayerController>().CanHearPlayerRunning() )
+        if (canSeePlayer && PlayerVisible >= 1 || playerRef.GetComponent<PlayerController>().CanHearPlayerRunning() )
         {
             canSeePlayer = true;
             PlayerVisible += playerRef.GetComponent<PlayerController>().GetVisibility();
@@ -155,8 +179,37 @@ public class AIController : MonoBehaviour, IController
             if (!alienSounds.IsPlaying())
             {
                 alienSounds.PlayAttackSound();
-                playerRef.GetComponent<PlayerController>().PlayerDied();
+                
+            }
+            playerRef.GetComponent<PlayerController>().PlayerDied();
+        }
+    }
+    private void EatCorpse()
+    {
+        Collider2D[] corpsesInRange = Physics2D.OverlapCircleAll(transform.position, 1f, corpseLayer);
+
+        if (corpsesInRange.Length > 0)
+        {
+            InteractObject corpse = corpsesInRange[0].GetComponent<InteractObject>();
+            if (corpse != null)
+            {
+                StartCoroutine(StartEating(corpse));
             }
         }
+    }
+
+    private IEnumerator StartEating(InteractObject corpse)
+    {
+        isEating = true;
+        navAgent.isStopped = true;
+        alienSounds.PlayEatingSound();
+
+        yield return new WaitForSeconds(eatingTime);
+
+        hunger = 0f;
+
+        isEating = false;
+        navAgent.isStopped = false;
+        alienSounds.StopEatingSound();
     }
 }

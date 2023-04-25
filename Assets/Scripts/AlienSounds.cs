@@ -11,34 +11,26 @@ public class AlienSounds : MonoBehaviour
     [SerializeField] private AudioClip attackSound;
 
     [SerializeField] private bool soundIsPlaying;
-    [SerializeField] private bool walkingSoundIsPlaying;
 
     [SerializeField] private AudioSource audioSourceWalking;
     [SerializeField] private AudioSource audioSourceAction;
 
-
     public void PlayPlayerSpottedSound()
     {
-        if(!audioSourceAction.isPlaying)
+        if (!audioSourceAction.isPlaying)
         {
+            soundIsPlaying = true;
             audioSourceAction.PlayOneShot(playerSpottedSound);
-
         }
-        
-           
     }
 
     public void ChangeWalkingSound(float volumeModifier)
     {
-
         audioSourceWalking.volume = Mathf.Clamp01(volumeModifier);
-            if (!audioSourceWalking.isPlaying)
-            {
-
-               // audioSourceWalking.Play();
-            }
-        
-        
+        if (!audioSourceWalking.isPlaying)
+        {
+            audioSourceWalking.Play();
+        }
     }
 
     public void StopAllSound()
@@ -51,10 +43,15 @@ public class AlienSounds : MonoBehaviour
     {
         if (!soundIsPlaying)
         {
-
+            soundIsPlaying = true;
             audioSourceAction.PlayOneShot(eatingSound);
         }
-        
+    }
+
+    public void StopEatingSound()
+    {
+        audioSourceAction.Stop();
+        soundIsPlaying = false;
     }
 
     public void PlayAttackSound()
@@ -64,10 +61,8 @@ public class AlienSounds : MonoBehaviour
             soundIsPlaying = true;
             audioSourceAction.PlayOneShot(attackSound);
         }
-        
-        
-
     }
+
     public void PlayStopSound()
     {
         if (!soundIsPlaying)
@@ -75,7 +70,6 @@ public class AlienSounds : MonoBehaviour
             soundIsPlaying = true;
             audioSourceAction.PlayOneShot(stoppingSound);
         }
-        
     }
 
     public bool IsPlaying() { return soundIsPlaying; }

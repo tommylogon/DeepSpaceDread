@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private bool godMode;
-    [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float crouchSpeed = .2f;
-    [SerializeField] private float sprintSpeed = 3f;
+    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float sprintSpeed = 5f;
     [SerializeField] private float maxSpeed = 1f;
     [SerializeField] private float baseVisibility = 1f;
 
     [SerializeField] private State playerState;
+    [SerializeField] private Animator animator;
     public bool isCrouching;
     public bool isSprinting;
     [SerializeField] private float fov =180;
@@ -42,19 +42,15 @@ public class PlayerController : MonoBehaviour
     {
         controls = new PlayerControls();
         
-       // controls.Player.Move.performed += ctx => Move(ctx.ReadValue<Vector2>());
-       // controls.Player.Aim.performed += ctx => Aim(ctx.ReadValue<Vector2>());
         controls.Player.Interact.performed += _ => Interact();
         controls.Player.Interact.performed += _ => WakeUp();
         controls.Player.Restart.performed += _ => RestartScene();
-        controls.Player.Run.performed += _ => ToggleSprinting();
-        //controls.Player.Crouch.performed += _ => ToggleCrouching();
+        controls.Player.Run.performed += _ => ToggleSprinting();    
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         playerState = State.Sleeping;
@@ -87,6 +83,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerDied()
     {
         playerState = State.Dead;
+        animator.SetBool("Dead", true);
         UIController.Instance.ShowGameOver(false);
 
     }
@@ -115,9 +112,10 @@ public class PlayerController : MonoBehaviour
     {
         if (playerState == State.Sleeping)
         {
+            animator.SetBool("Sleeping", false);
             playerState = State.Alive;
             UIController.Instance.HideGameOver();
-            FOVLight.SetActive(true);
+            ToggleFlashlight();
             aroundPlayerLight.SetActive(true);
         }
 
@@ -149,42 +147,13 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new Vector3(direction.x, direction.y, 0f);
         movement = Vector3.ClampMagnitude(movement, 1f);
 
-        float currentSpeed = isCrouching ? crouchSpeed : (isSprinting ? sprintSpeed : moveSpeed);
+        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
         rb.AddForce(movement * currentSpeed);
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
         if(transform.rotation.z != 0)
         {
             transform.rotation = originalRotation;
         }
-
-    }
-    private void HandleInput()
-    {
-
-        
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetAxis("LeftTrigger") > 0.1f)
-        {
-            ToggleSprinting();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            ToggleCrouching();
-        }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetButtonDown("A_Button"))
-        {
-            Interact();
-        }
-        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("X_Button")) // Left mouse click or X button
-        {
-            ThrowObject();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F) || Input.GetButtonDown("Y_Button")) // F key or Y button
-        {
-            ToggleFlashlight();
-        }
-
-
 
     }
 
@@ -241,11 +210,7 @@ public class PlayerController : MonoBehaviour
         isCrouching = false;
     }
 
-    private void ToggleCrouching()
-    {
-        isCrouching = !isCrouching;
-        isSprinting = false;
-    }
+
 
     private void HandleMovementSounds()
     {

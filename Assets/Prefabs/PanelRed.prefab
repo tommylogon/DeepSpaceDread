@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1981111759770562118}
   - component: {fileID: 8283387252347508440}
   - component: {fileID: 2205999478819039764}
+  - component: {fileID: 3618195550042743781}
   m_Layer: 0
   m_Name: PanelRed
   m_TagString: Untagged
@@ -113,7 +114,7 @@ MonoBehaviour:
   - {x: 0.6631657, y: -0.25803772, z: 0}
   m_ShapePathHash: -1880410872
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1588
+  m_InstanceId: 44166
   m_LocalBounds:
     m_Center: {x: -0.0053670406, y: 0.0013419688, z: 0}
     m_Extent: {x: 0.6685327, y: 0.2620622, z: 0}
@@ -130,13 +131,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: Press E to interact
-  canInteract: 0
   message: Warning! This is crew member Kelly. I managed to make it to the escape
     pod, but the creature is still on board. It's fast, and it's dangerous. But,
     I have noticed that it has trouble seeing in the dark. Try to use that to your
     advantage if you encounter it. Please, be careful out there. Good luck.
+  canInteract: 0
   questInfo: 
   saves: 0
+  doorToUnlock: {fileID: 0}
+--- !u!61 &3618195550042743781
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2956455921112794817}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.35, y: 0.55}
+    newSize: {x: 1.35, y: 0.55}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.35, y: 0.55}
+  m_EdgeRadius: 0
 --- !u!1 &8083552560113358692
 GameObject:
   m_ObjectHideFlags: 0
