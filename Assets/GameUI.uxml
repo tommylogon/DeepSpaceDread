@@ -1,20 +1,31 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement style="height: 82px; flex-grow: 1; align-items: center; justify-content: flex-end; position: relative;">
-        <ui:Label text="01:00:000" display-tooltip-when-elided="true" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: -400px; position: relative; left: auto; display: flex; white-space: normal;" />
-        <ui:VisualElement name="MemoryPanel" style="height: 68px; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: absolute; top: 29px; left: 11px;">
-            <ui:Label display-tooltip-when-elided="true" name="MemoryText" style="align-items: flex-start; color: rgb(255, 255, 255); height: 61px; width: 203px; white-space: normal;" />
+    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
+    <ui:VisualElement name="Screen" style="height: 100%; flex-grow: 1; align-items: stretch; justify-content: space-between; position: relative; width: 100%; flex-direction: row;">
+        <ui:VisualElement name="Left">
+            <ui:VisualElement name="MemoryPanel" style="height: 68px; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: relative; top: 29px; left: auto;">
+                <ui:Label display-tooltip-when-elided="true" name="MemoryText" class="Text" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: -100px; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64);">
-            <ui:Label text="Reactor Status: Online. Please enter reactor code to continue.&quot;" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); white-space: normal;" />
-            <ui:TextField picking-mode="Ignore" label="Input code" value="filler text" text="filler text" name="ReactorInputTextField" style="color: rgb(156, 156, 156);" />
-            <ui:Button text="Self destruct" display-tooltip-when-elided="true" name="ReactorButton" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
+        <ui:VisualElement name="Center" style="-unity-text-align: upper-center;">
+            <ui:Label text="01:00:000" display-tooltip-when-elided="true" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: auto; position: relative; left: auto; display: flex; white-space: normal;" />
+            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: 162px; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
+                <ui:Button text="CONTROLS" display-tooltip-when-elided="true" name="ControlsButton" class="Button" />
+                <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="Button" />
+                <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" class="Button" />
+            </ui:VisualElement>
+            <ui:VisualElement name="GameStatePanel" style="top: auto; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66); display: flex;">
+                <ui:Label text="PRESS E or X-BUTTON TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" style="height: 58px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64);">
+                <ui:Label text="Reactor Status: Online. Please enter reactor code to continue.&quot;" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); white-space: normal;" />
+                <ui:TextField picking-mode="Ignore" label="Input code" value="filler text" text="filler text" name="ReactorInputTextField" style="color: rgb(156, 156, 156); -unity-background-image-tint-color: rgba(255, 255, 255, 255);" />
+                <ui:Button text="Self destruct" display-tooltip-when-elided="true" name="ReactorButton" class="Button" style="border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Message" style="position: relative; top: auto; left: auto; display: flex; height: 121px; justify-content: flex-end; flex-grow: 1;">
+                <ui:Label text="Press x to interact" display-tooltip-when-elided="true" name="InteractionLable" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255);" />
+                <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." display-tooltip-when-elided="true" name="message-lable" class="Text" style="position: relative; height: 93px; top: auto; left: auto; width: 553px; white-space: normal; color: rgb(255, 255, 255); -unity-text-align: upper-left;" />
+            </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="GameStatePanel" style="top: -200px; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66);">
-            <ui:Label text="PRESS E or X TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" style="height: 58px;" />
-        </ui:VisualElement>
-        <ui:VisualElement name="Message" style="position: relative; top: -20px; left: auto; display: flex; height: 121px;">
-            <ui:Label text="Press x to interact" display-tooltip-when-elided="true" name="InteractionLable" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255);" />
-            <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." display-tooltip-when-elided="true" name="message-lable" style="position: relative; height: 56px; top: auto; left: auto; width: 553px; white-space: normal; color: rgb(255, 255, 255);" />
-        </ui:VisualElement>
+        <ui:VisualElement name="Right" />
     </ui:VisualElement>
 </ui:UXML>

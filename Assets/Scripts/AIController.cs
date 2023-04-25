@@ -15,8 +15,16 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float hunger = 0f;
     [SerializeField] private float hungerRate = 0.1f;
     [SerializeField] private float hungerThreshold = 0.8f;
+     private float screamDelay = 0f;
+    [SerializeField] private float corpseSearchRadius = 5f; 
+    [SerializeField] private float flipInterval = 2f;
+
 
     [SerializeField] private GameObject playerRef;
+    [SerializeField] private GameObject enemyIndicatorPrefab;
+    [SerializeField] private GameObject enemyIndicator;
+    [SerializeField] private GameObject alienPrefab;
+
     [SerializeField] private bool canSeePlayer = false;
     [SerializeField] private bool moveRandomLocation = false;
     [SerializeField] private bool lookForTargets = true;
@@ -25,7 +33,10 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask corpseLayer;
     [SerializeField] private float eatingTime = 5f;
+    public float rotationOffset = 135f;
     private bool isEating = false;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,15 +53,24 @@ public class AIController : MonoBehaviour, IController
 
         StartCoroutine(FOVCheck());
 
+        enemyIndicator=  Instantiate(enemyIndicatorPrefab);
+        enemyIndicator.GetComponent<EnemyIndicator>().SetEnemy(gameObject);
+        enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
+
+
+        StartCoroutine(FlipSprite());
+
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(isEating) { return; 
+        if(isEating) 
+        { 
+            return; 
         }
 
         hunger += hungerRate * Time.deltaTime;
-        hunger = Mathf.Clamp01(hunger);
+        hunger = Mathf.Clamp(hunger,0,hungerThreshold);
 
 
         See();
@@ -61,7 +81,7 @@ public class AIController : MonoBehaviour, IController
         }
         Move();
         RotateSprite();
-        
+
 
 
     }
@@ -69,8 +89,22 @@ public class AIController : MonoBehaviour, IController
     private void RotateSprite()
     {
         float angle = Mathf.Atan2(navAgent.velocity.y, navAgent.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-rotationOffset));
+
     }
+
+    private IEnumerator FlipSprite()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(flipInterval);
+            Vector3 currentScale = transform.localScale;
+            currentScale.x *= -1; // Flip the sprite along the Y-axis
+            transform.localScale = currentScale;
+        }
+    }
+
+
     private void See()
     {
         if (canSeePlayer && PlayerVisible >= 1 || playerRef.GetComponent<PlayerController>().CanHearPlayerRunning() )
@@ -91,11 +125,16 @@ public class AIController : MonoBehaviour, IController
         }
         else
         {
-            alienHasScreamed = false;
+            screamDelay += Time.deltaTime;
+            if(screamDelay > 3f)
+            {
+                alienHasScreamed = false;
+            }
+            
             canSeePlayer = false;
             PlayerVisible -= Time.deltaTime / 2;
             PlayerVisible = Mathf.Clamp01(PlayerVisible);
-            alienSounds.StopAllSound();
+            
         }
     }
     private void Move()
@@ -122,11 +161,7 @@ public class AIController : MonoBehaviour, IController
 
         if (moveRandomLocation && !navAgent.pathPending && navAgent.remainingDistance < 0.5f && !canSeePlayer)
         {
-            if(!alienSounds.IsPlaying()) alienSounds.PlayStopSound();
-
-            Vector2 randomPoint = (UnityEngine.Random.insideUnitCircle * moveRadius) + (Vector2)transform.position;
-
-            // Set the destination of the NavMeshAgent to the random point
+            Vector2 randomPoint = (Random.insideUnitCircle * moveRadius) + (Vector2)transform.position;
             navAgent.SetDestination(randomPoint);
         }
     }
@@ -186,16 +221,39 @@ public class AIController : MonoBehaviour, IController
     }
     private void EatCorpse()
     {
-        Collider2D[] corpsesInRange = Physics2D.OverlapCircleAll(transform.position, 1f, corpseLayer);
+        GameObject corpse = FindClosestCorpse();
 
-        if (corpsesInRange.Length > 0)
+        if (corpse != null)
         {
-            InteractObject corpse = corpsesInRange[0].GetComponent<InteractObject>();
-            if (corpse != null)
+            navAgent.SetDestination(corpse.transform.position);
+
+            if (Vector2.Distance(transform.position, corpse.transform.position) <= 1f)
             {
-                StartCoroutine(StartEating(corpse));
+                InteractObject interactableCorpse = corpse.GetComponent<InteractObject>();
+                if (interactableCorpse != null)
+                {
+                    StartCoroutine(StartEating(interactableCorpse));
+                }
             }
         }
+    }
+    private GameObject FindClosestCorpse()
+    {
+        Collider2D[] corpsesInRange = Physics2D.OverlapCircleAll(transform.position, corpseSearchRadius, corpseLayer);
+        GameObject closestCorpse = null;
+        float minDistance = Mathf.Infinity;
+
+        foreach (Collider2D corpseCollider in corpsesInRange)
+        {
+            float distance = Vector2.Distance(transform.position, corpseCollider.transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestCorpse = corpseCollider.gameObject;
+            }
+        }
+
+        return closestCorpse;
     }
 
     private IEnumerator StartEating(InteractObject corpse)
@@ -211,5 +269,12 @@ public class AIController : MonoBehaviour, IController
         isEating = false;
         navAgent.isStopped = false;
         alienSounds.StopEatingSound();
+        if(corpse != null)
+        {
+            Instantiate(alienPrefab, corpse.gameObject.transform.position, Quaternion.identity);
+            Destroy(corpse.gameObject);
+            alienSounds.PlayAlienEmergeSound();
+        }
+        
     }
 }

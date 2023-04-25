@@ -10,6 +10,9 @@ public class Interactable : MonoBehaviour, IInteractable
 
     protected GameObject player;
 
+    // Declare a dictionary to store coroutines for each instance
+    private static Dictionary<Interactable, Coroutine> hideMessageCoroutines = new Dictionary<Interactable, Coroutine>();
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -26,19 +29,12 @@ public class Interactable : MonoBehaviour, IInteractable
         {
             canInteract = false;
             UIController.Instance.HideInteraction();
-            StartCoroutine(HideMessageAfterDelay(5));
+            UIController.Instance.HideMessageAfterDelay(5f);
             player = null;
         }
     }
 
-    private IEnumerator HideMessageAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (canInteract)
-        {
-            UIController.Instance.HideMessage();
-        }
-    }
+   
 
 public virtual void Interact()
     {

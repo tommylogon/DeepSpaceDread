@@ -17,12 +17,12 @@ public class PlayerController : MonoBehaviour
     public bool isCrouching;
     public bool isSprinting;
     [SerializeField] private float fov =180;
-    //[SerializeField] FieldOfView fov;
-    [SerializeField] GameObject FOVLight;
+    
+    [SerializeField] GameObject FlashLight;
     [SerializeField] GameObject aroundPlayerLight;
 
     [SerializeField] private LayerMask litLayer;
-    public event Action OnDeath;
+    
 
     Rigidbody2D rb;
 
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
         controls.Player.Run.performed += _ => ToggleSprinting();    
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
+        controls.Player.Escape.performed += _ => UIController.Instance.ToggleMenu();
 
     }
 
@@ -56,9 +57,9 @@ public class PlayerController : MonoBehaviour
         playerState = State.Sleeping;
         
         rb= GetComponent<Rigidbody2D>();
-        FOVLight = GameObject.FindGameObjectWithTag("FOV");
+        FlashLight = GameObject.FindGameObjectWithTag("FOV");
 
-        FOVLight.SetActive(false);
+        FlashLight.SetActive(false);
         aroundPlayerLight.SetActive(false);
 
         originalRotation = transform.rotation;
@@ -89,7 +90,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         
         
@@ -137,35 +138,44 @@ public class PlayerController : MonoBehaviour
         }
 
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
-        FOVLight.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
+        FlashLight.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
     }
 
 
     private void Move(Vector2 direction)
     {
-        
-        Vector3 movement = new Vector3(direction.x, direction.y, 0f);
-        movement = Vector3.ClampMagnitude(movement, 1f);
+        if(direction.x != 0 || direction.y != 0) 
+        {
+            Vector3 movement = new Vector3(direction.x, direction.y, 0f);
+            movement = Vector3.ClampMagnitude(movement, 1f);
 
-        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
-        rb.AddForce(movement * currentSpeed);
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
-        if(transform.rotation.z != 0)
+            float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+            rb.AddForce(movement * currentSpeed);
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
+           
+        }
+        if (transform.rotation.z != 0)
         {
             transform.rotation = originalRotation;
         }
+
+
 
     }
 
     public void ChangeFOVStatus(bool status)
     {
-        FOVLight.SetActive(status);
+        FlashLight.SetActive(status);
     }
 
     private void ToggleFlashlight()
     {
-        flashlightOn = !flashlightOn;
-        FOVLight.SetActive(flashlightOn);
+        if(playerState == State.Alive)
+        {
+            flashlightOn = !flashlightOn;
+            FlashLight.SetActive(flashlightOn);
+        }
+        
     }
 
     public float GetVisibility()
@@ -259,7 +269,7 @@ public class PlayerController : MonoBehaviour
 
     private void Interact()
     {
-        if (interactableObject != null)
+        if (interactableObject != null && playerState == State.Alive)
         {
             interactableObject.Interact();
         }

@@ -89,6 +89,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""ffa0ac93-bd5c-4d0e-802f-cf27fed4c6fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -322,6 +331,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c642c86-dec5-4b7e-8905-3c7d42eda4c7"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58b9825d-a554-4568-9633-2e9dcc17806f"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -337,6 +368,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_ToggleFlashlight = m_Player.FindAction("ToggleFlashlight", throwIfNotFound: true);
         m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +437,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_ToggleFlashlight;
     private readonly InputAction m_Player_Restart;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -416,6 +449,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @ToggleFlashlight => m_Wrapper.m_Player_ToggleFlashlight;
         public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -446,6 +480,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Restart.started += instance.OnRestart;
             @Restart.performed += instance.OnRestart;
             @Restart.canceled += instance.OnRestart;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -471,6 +508,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Restart.started -= instance.OnRestart;
             @Restart.performed -= instance.OnRestart;
             @Restart.canceled -= instance.OnRestart;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -497,5 +537,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnThrow(InputAction.CallbackContext context);
         void OnToggleFlashlight(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

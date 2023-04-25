@@ -1,0 +1,29 @@
+.Button {
+    background-color: rgba(125, 125, 125, 0.6);
+    font-size: 14px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border-left-color: rgb(94, 93, 93);
+    border-right-color: rgb(94, 93, 93);
+    border-top-color: rgb(94, 93, 93);
+    border-bottom-color: rgb(94, 93, 93);
+}
+
+.Text {
+    align-items: flex-start;
+    color: rgb(255, 255, 255);
+    height: 61px;
+    width: 203px;
+    white-space: normal;
+}
+
+.Button:active {
+    background-color: rgba(132, 132, 132, 0.6);
+    font-size: 18px;
+    -unity-text-outline-color: rgb(55, 55, 55);
+    color: rgb(255, 255, 255);
+    border-left-color: rgb(94, 93, 93);
+    border-right-color: rgb(94, 93, 93);
+    border-top-color: rgb(94, 93, 93);
+    border-bottom-color: rgb(94, 93, 93);
+}

@@ -9,6 +9,7 @@ public class AlienSounds : MonoBehaviour
     [SerializeField] private AudioClip stoppingSound;
     [SerializeField] private AudioClip eatingSound;
     [SerializeField] private AudioClip attackSound;
+    [SerializeField] private AudioClip alienEmergeSound;
 
     [SerializeField] private bool soundIsPlaying;
 
@@ -60,6 +61,15 @@ public class AlienSounds : MonoBehaviour
         {
             soundIsPlaying = true;
             audioSourceAction.PlayOneShot(attackSound);
+        }
+    }
+
+    public void PlayAlienEmergeSound()
+    {
+        if (!soundIsPlaying)
+        {
+            soundIsPlaying = true;
+            audioSourceAction.PlayOneShot(alienEmergeSound);
         }
     }
 
