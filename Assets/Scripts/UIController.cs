@@ -133,9 +133,9 @@ public class UIController : MonoBehaviour
 
         if (!type)
         {
-            gameOver.text = "GAME OVER \r\n PRESS R TO TRY AGAIN";
+            gameOver.text = "GAME OVER \r\n PRESS R OR BUTTON B TO TRY AGAIN";
         }
-        else { gameOver.text = "YOU SURVIVED \r\n PRESS R to RETRY."; }
+        else { gameOver.text = "YOU SURVIVED \r\n PRESS R OR BUTTON B TO RETRY."; }
             
        
 

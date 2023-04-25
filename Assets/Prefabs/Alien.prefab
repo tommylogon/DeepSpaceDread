@@ -117,7 +117,7 @@ MonoBehaviour:
   PlayerVisible: 0
   hunger: 0
   hungerRate: 0.1
-  hungerThreshold: 2
+  hungerThreshold: 5
   corpseSearchRadius: 5
   flipInterval: 0.2
   playerRef: {fileID: 0}

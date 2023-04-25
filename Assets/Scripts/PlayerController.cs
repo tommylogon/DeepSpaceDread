@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxSpeed = 1f;
     [SerializeField] private float baseVisibility = 1f;
 
+    private Vector3 lastMousePosition;
+
     [SerializeField] private State playerState;
     [SerializeField] private Animator animator;
     public bool isCrouching;
@@ -122,19 +124,29 @@ public class PlayerController : MonoBehaviour
 
        
     }
-    private void Aim(Vector2 input)
+    private void Aim(Vector2 controllerInput)
     {
         Vector3 aimDir;
 
-        if (input != Vector2.zero) // Check if the input is from the controller joystick
+        if (controllerInput != Vector2.zero) 
         {
-            aimDir = new Vector3(input.x, input.y).normalized;
+            aimDir = new Vector3(controllerInput.x, controllerInput.y).normalized;
         }
-        else // If not, use the mouse position as the aim direction
+        else 
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.localPosition.z));
-            aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
-            
+
+            if (mouseWorldPosition != lastMousePosition)
+            {
+                aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
+                lastMousePosition = mouseWorldPosition;
+
+            }
+            else
+            {
+                return;
+            }
+
         }
 
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
