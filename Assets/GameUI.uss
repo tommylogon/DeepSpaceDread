@@ -9,14 +9,6 @@
     border-bottom-color: rgb(94, 93, 93);
 }
 
-.Text {
-    align-items: flex-start;
-    color: rgb(255, 255, 255);
-    height: 61px;
-    width: 203px;
-    white-space: normal;
-}
-
 .Button:active {
     background-color: rgba(132, 132, 132, 0.6);
     font-size: 18px;
@@ -26,4 +18,13 @@
     border-right-color: rgb(94, 93, 93);
     border-top-color: rgb(94, 93, 93);
     border-bottom-color: rgb(94, 93, 93);
+}
+
+.Text {
+    align-items: flex-start;
+    color: rgb(255, 255, 255);
+    height: 61px;
+    width: 203px;
+    white-space: normal;
+    font-size: 20px;
 }
