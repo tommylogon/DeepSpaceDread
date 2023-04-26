@@ -9,6 +9,10 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private bool godMode;
+    private bool lastInputFromController;
+    public bool isCrouching;
+    public bool isSprinting;
+
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float sprintSpeed = 5f;
     [SerializeField] private float maxSpeed = 1f;
@@ -16,13 +20,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float visibility;
     [SerializeField] private float detectionRadius = 5;
 
-    private Vector3 lastMousePosition;
+    [SerializeField] private float fov = 180;
+
 
     [SerializeField] private State playerState;
     [SerializeField] private Animator animator;
-    public bool isCrouching;
-    public bool isSprinting;
-    [SerializeField] private float fov =180;
     
     [SerializeField] GameObject FlashLight;
     [SerializeField] GameObject aroundPlayerLight;
@@ -134,30 +136,34 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 aimDir;
 
-        if (controllerInput != Vector2.zero) 
+        if (controllerInput != Vector2.zero)
         {
+            lastInputFromController = true;
             aimDir = new Vector3(controllerInput.x, controllerInput.y).normalized;
         }
-        else 
+        else
         {
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.localPosition.z));
-
-            if (mouseWorldPosition != lastMousePosition)
+            if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
             {
-                aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
-                lastMousePosition = mouseWorldPosition;
+                lastInputFromController = false;
+            }
 
+            if (!lastInputFromController)
+            {
+                Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.localPosition.z));
+                aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
+                
             }
             else
             {
                 return;
             }
-
         }
 
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
         FlashLight.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
     }
+    
 
 
     private void Move(Vector2 direction)
