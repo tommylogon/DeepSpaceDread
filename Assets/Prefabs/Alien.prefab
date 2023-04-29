@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4539755520557003869}
   - component: {fileID: 4539755520557003868}
   - component: {fileID: 4539755520557003871}
+  - component: {fileID: 103776605}
   m_Layer: 13
   m_Name: Alien
   m_TagString: Untagged
@@ -85,12 +86,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e7d7353b932aaf64dab61ad617cf606d, type: 3}
+  m_Sprite: {fileID: 706572229, guid: 454122d6d47c53844abde735a9e15d90, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.93203205, y: 0.878}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -108,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37c64c84395d9343aa4530169cfaaf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navAgent: {fileID: 0}
+  navAgent: {fileID: 4539755520557003867}
   alienSounds: {fileID: 0}
   moveRadius: 15
   viewRadius: 10
@@ -118,7 +119,7 @@ MonoBehaviour:
   hunger: 0
   hungerRate: 0.1
   hungerThreshold: 5
-  corpseSearchRadius: 5
+  corpseSearchRadius: 2
   flipInterval: 0.2
   playerRef: {fileID: 0}
   enemyIndicatorPrefab: {fileID: 7104511416550968326, guid: 84fbf5f29efb37f468957e3de07edef0, type: 3}
@@ -138,7 +139,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   eatingTime: 5
-  rotationOffset: 90
+  rotationOffset: -90
+  minDistanceFromNoise: 3
+  maxDistanceFromNoise: 9
 --- !u!195 &4539755520557003867
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -148,7 +151,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 4539755520557003942}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.16
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -157,8 +160,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
+  m_Height: 0.42
+  m_BaseOffset: 0.14
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!82 &4539755520557003869
@@ -285,6 +288,7 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: 8b6716998470ae144b22e41519ca495c, type: 3}
   alienEmergeSound: {fileID: 8300000, guid: e839a157f43b8d343a6e371926f492e8, type: 3}
   soundIsPlaying: 0
+  walkingIsActive: 0
   audioSourceWalking: {fileID: 4539755520557003869}
   audioSourceAction: {fileID: 4539755520557003871}
 --- !u!82 &4539755520557003871
@@ -401,6 +405,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &103776605
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539755520557003942}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8659e0a5ca9abb44fb7c1dc1d5f6234d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3313547290691904141
 PrefabInstance:
   m_ObjectHideFlags: 0

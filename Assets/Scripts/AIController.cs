@@ -1,5 +1,6 @@
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,8 +16,8 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float hunger = 0f;
     [SerializeField] private float hungerRate = 0.1f;
     [SerializeField] private float hungerThreshold = 0.8f;
-     private float screamDelay = 0f;
-    [SerializeField] private float corpseSearchRadius = 5f; 
+    private float screamDelay = 0f;
+    [SerializeField] private float corpseSearchRadius = 5f;
     [SerializeField] private float flipInterval = 2f;
 
 
@@ -35,6 +36,8 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float eatingTime = 5f;
     public float rotationOffset = 135f;
     private bool isEating = false;
+    [SerializeField] private float minDistanceFromNoise;
+    [SerializeField] private float maxDistanceFromNoise;
 
 
 
@@ -53,10 +56,10 @@ public class AIController : MonoBehaviour, IController
 
         StartCoroutine(FOVCheck());
 
-        enemyIndicator=  Instantiate(enemyIndicatorPrefab);
+        enemyIndicator = Instantiate(enemyIndicatorPrefab);
         enemyIndicator.GetComponent<EnemyIndicator>().SetEnemy(gameObject);
         enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
-
+        playerRef.GetComponent<PlayerController>().OnNoiseGenerated += HearNoise; ;
 
         StartCoroutine(FlipSprite());
 
@@ -64,13 +67,13 @@ public class AIController : MonoBehaviour, IController
 
     private void FixedUpdate()
     {
-        if(isEating) 
-        { 
-            return; 
+        if (isEating)
+        {
+            return;
         }
 
         hunger += hungerRate * Time.deltaTime;
-        hunger = Mathf.Clamp(hunger,0,hungerThreshold);
+        hunger = Mathf.Clamp(hunger, 0, hungerThreshold);
 
 
         See();
@@ -86,10 +89,20 @@ public class AIController : MonoBehaviour, IController
 
     }
 
+    private void OnDestroy()
+    {
+        if (playerRef != null)
+        {
+            playerRef.GetComponent<PlayerController>().OnNoiseGenerated -= HearNoise;
+        }
+
+    }
+
+
     private void RotateSprite()
     {
         float angle = Mathf.Atan2(navAgent.velocity.y, navAgent.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-rotationOffset));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - rotationOffset));
 
     }
 
@@ -104,65 +117,84 @@ public class AIController : MonoBehaviour, IController
         }
     }
 
-
+    private void AlienScream()
+    {
+        screamDelay += Time.deltaTime;
+        if (screamDelay > 3f)
+        {
+            alienHasScreamed = false;
+           
+        }
+        if (!alienHasScreamed)
+        {
+            alienHasScreamed = true;
+            screamDelay = 0;
+            alienSounds.PlayPlayerSpottedSound();
+        }
+    }
     private void See()
     {
-        if (canSeePlayer && PlayerVisible >= 1 || playerRef.GetComponent<PlayerController>().CanHearPlayerRunning() )
+        if (canSeePlayer && PlayerVisible >= 1 && playerRef.GetComponent<PlayerController>().CheckIfPlayerIsAlive())
         {
             canSeePlayer = true;
             PlayerVisible += playerRef.GetComponent<PlayerController>().GetVisibility();
 
-            if (!alienHasScreamed)
-            {
-                alienHasScreamed = true;
-                alienSounds.PlayPlayerSpottedSound();
-            }
-             
-                navAgent.SetDestination(playerRef.transform.position);
-            
-            
-            
+            AlienScream();
+
+
+            navAgent.SetDestination(playerRef.transform.position);
+
+
+
         }
         else
         {
-            screamDelay += Time.deltaTime;
-            if(screamDelay > 3f)
-            {
-                alienHasScreamed = false;
-            }
-            
+
+
             canSeePlayer = false;
             PlayerVisible -= Time.deltaTime / 2;
             PlayerVisible = Mathf.Clamp01(PlayerVisible);
-            
+
         }
     }
+
+
+    public void HearNoise(Vector2 noiseOrigin, float noiseRadius)
+    {
+        if(canSeePlayer && PlayerVisible >= 1) { return; }
+
+        float distanceToPlayer = Vector2.Distance(noiseOrigin, transform.position);
+        if (distanceToPlayer <= noiseRadius)
+        {
+            float distanceFromNoise = Random.Range(minDistanceFromNoise, maxDistanceFromNoise);
+            float angle = Random.Range(0, 360);
+            Vector2 randomOffset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distanceFromNoise;
+            Vector2 targetPosition = noiseOrigin + randomOffset;
+            navAgent.SetDestination(targetPosition);
+            AlienScream();
+        }
+    }
+
     private void Move()
     {
         if (!navAgent.pathPending && navAgent.remainingDistance > 1f)
         {
-
-            float distance = Vector3.Distance(playerRef.transform.position, transform.position);
-            float maxDistance = 10;
-
-            if (distance > maxDistance)
-            {
-
-                alienSounds.ChangeWalkingSound(0f);
-            }
-            else
-            {
-
-                alienSounds.ChangeWalkingSound(1f - (distance / maxDistance));
-            }
-            
-
+            SetVolumeByDistance();
         }
 
         if (moveRandomLocation && !navAgent.pathPending && navAgent.remainingDistance < 0.5f && !canSeePlayer)
         {
             Vector2 randomPoint = (Random.insideUnitCircle * moveRadius) + (Vector2)transform.position;
             navAgent.SetDestination(randomPoint);
+        }
+
+        if (navAgent.velocity.magnitude > 0.1)
+        {
+            alienSounds.StartWalkingSound();
+        }
+        else
+        {
+            alienSounds.StopWalingSound();
         }
     }
     private IEnumerator FOVCheck()
@@ -175,7 +207,7 @@ public class AIController : MonoBehaviour, IController
             FOV();
         }
 
-        
+
     }
 
     private void FOV()
@@ -187,18 +219,18 @@ public class AIController : MonoBehaviour, IController
             Transform target = rangeCheck[0].transform;
             Vector2 directionToTarget = (target.position - transform.position).normalized;
 
-            if(Vector2.Angle(transform.up, directionToTarget) < viewAngle / 2)
+            if (Vector2.Angle(transform.up, directionToTarget) < viewAngle / 2)
             {
                 float distanceToTarget = Vector2.Distance(transform.position, target.position);
-                if(!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleLayer))
+                if (!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleLayer))
                 {
-                    PlayerVisible += target.GetComponent<PlayerController>().GetVisibility(); 
-                    if(PlayerVisible >= 1f)
+                    PlayerVisible += target.GetComponent<PlayerController>().GetVisibility();
+                    if (PlayerVisible >= 1f)
                     {
                         canSeePlayer = true;
                         return;
                     }
-                    
+
                 }
             }
         }
@@ -208,15 +240,16 @@ public class AIController : MonoBehaviour, IController
 
     private void Attack()
     {
-        if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f)
+        if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f && playerRef.GetComponent<PlayerController>().CheckIfPlayerIsAlive())
         {
 
             if (!alienSounds.IsPlaying())
             {
                 alienSounds.PlayAttackSound();
-                
+
             }
             playerRef.GetComponent<PlayerController>().PlayerDied();
+
         }
     }
     private void EatCorpse()
@@ -269,12 +302,30 @@ public class AIController : MonoBehaviour, IController
         isEating = false;
         navAgent.isStopped = false;
         alienSounds.StopEatingSound();
-        if(corpse != null)
+        if (corpse != null)
         {
             Instantiate(alienPrefab, corpse.gameObject.transform.position, Quaternion.identity);
             Destroy(corpse.gameObject);
             alienSounds.PlayAlienEmergeSound();
         }
-        
+
+    }
+
+    private void SetVolumeByDistance()
+    {
+        float distance = Vector3.Distance(playerRef.transform.position, transform.position);
+        float maxDistance = 10;
+        if (distance > maxDistance)
+        {
+
+            alienSounds.ChangeWalkingVolume(0f);
+            alienSounds.ChangeActionVolume(0f);
+        }
+        else
+        {
+
+            alienSounds.ChangeWalkingVolume(1f - (distance / maxDistance));
+            alienSounds.ChangeActionVolume(1f - (distance / maxDistance));
+        }
     }
 }

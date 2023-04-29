@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class AlienSounds : MonoBehaviour
     [SerializeField] private AudioClip alienEmergeSound;
 
     [SerializeField] private bool soundIsPlaying;
+    [SerializeField] private bool walkingIsActive;
 
     [SerializeField] private AudioSource audioSourceWalking;
     [SerializeField] private AudioSource audioSourceAction;
@@ -21,14 +23,21 @@ public class AlienSounds : MonoBehaviour
         if (!audioSourceAction.isPlaying)
         {
             soundIsPlaying = true;
+            
             audioSourceAction.PlayOneShot(playerSpottedSound);
         }
     }
 
-    public void ChangeWalkingSound(float volumeModifier)
+    public void ChangeActionVolume(float volume)
+    {
+        audioSourceAction.volume = Mathf.Clamp01(volume);
+
+    }
+
+    public void ChangeWalkingVolume(float volumeModifier)
     {
         audioSourceWalking.volume = Mathf.Clamp01(volumeModifier);
-        if (!audioSourceWalking.isPlaying)
+        if (walkingIsActive && !audioSourceWalking.isPlaying)
         {
             audioSourceWalking.Play();
         }
@@ -83,4 +92,19 @@ public class AlienSounds : MonoBehaviour
     }
 
     public bool IsPlaying() { return soundIsPlaying; }
+
+    internal void StartWalkingSound()
+    {
+        if (!walkingIsActive)
+        {
+            walkingIsActive = true;
+            audioSourceWalking.Play();
+        }
+    }
+
+    internal void StopWalingSound()
+    {
+        walkingIsActive = false;
+        audioSourceWalking.Stop();
+    }
 }

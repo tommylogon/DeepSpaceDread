@@ -1,5 +1,5 @@
 using CodeMonkey.Utils;
-using System;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private bool lastInputFromController;
     public bool isCrouching;
     public bool isSprinting;
+    private bool flashlightOn;
+    public bool spriteCanRotate = false;
 
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float sprintSpeed = 5f;
@@ -19,26 +21,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float baseVisibility = 1f;
     [SerializeField] private float visibility;
     [SerializeField] private float detectionRadius = 5;
+    [SerializeField] private float throwForce = 5f;
+    public float hearingChance = 0.5f;
 
     [SerializeField] private float fov = 180;
 
 
     [SerializeField] private State playerState;
     [SerializeField] private Animator animator;
-    
+
     [SerializeField] GameObject FlashLight;
     [SerializeField] GameObject aroundPlayerLight;
 
     [SerializeField] private LayerMask litLayer;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private LayerMask alienLayer;
 
-    
+    public delegate void NoiseGeneratedEventHandler(Vector2 noiseOrigin, float noiseRadius);
+    public event NoiseGeneratedEventHandler OnNoiseGenerated;
 
     Rigidbody2D rb;
 
     [SerializeField] private GameObject throwableObjectPrefab;
-    [SerializeField] private float throwForce = 5f;
-    private bool flashlightOn;
+
+
 
     public PlayerControls controls;
     public InputAction move;
@@ -51,11 +57,11 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
-        
+
         controls.Player.Interact.performed += _ => Interact();
         controls.Player.Interact.performed += _ => WakeUp();
         controls.Player.Restart.performed += _ => RestartScene();
-        controls.Player.Run.performed += _ => ToggleSprinting();    
+        controls.Player.Run.performed += _ => ToggleSprinting();
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
         controls.Player.Escape.performed += _ => UIController.Instance.ToggleMenu();
@@ -65,8 +71,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerState = State.Sleeping;
-        
-        rb= GetComponent<Rigidbody2D>();
+
+        rb = GetComponent<Rigidbody2D>();
         FlashLight = GameObject.FindGameObjectWithTag("FOV");
 
         FlashLight.SetActive(false);
@@ -81,7 +87,7 @@ public class PlayerController : MonoBehaviour
         controls.Enable();
         move = controls.Player.Move;
         aim = controls.Player.Aim;
-        
+
     }
 
     private void OnDisable()
@@ -130,7 +136,7 @@ public class PlayerController : MonoBehaviour
             aroundPlayerLight.SetActive(true);
         }
 
-       
+
     }
     private void Aim(Vector2 controllerInput)
     {
@@ -152,7 +158,7 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.localPosition.z));
                 aimDir = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
-                
+
             }
             else
             {
@@ -163,12 +169,12 @@ public class PlayerController : MonoBehaviour
         float angle = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
         FlashLight.gameObject.transform.rotation = Quaternion.AngleAxis(UtilsClass.GetAngleFromVector(aimDir) - fov / 2, Vector3.forward);
     }
-    
+
 
 
     private void Move(Vector2 direction)
     {
-        if(direction.x != 0 || direction.y != 0) 
+        if (direction.x != 0 || direction.y != 0)
         {
             Vector3 movement = new Vector3(direction.x, direction.y, 0f);
             movement = Vector3.ClampMagnitude(movement, 1f);
@@ -176,9 +182,14 @@ public class PlayerController : MonoBehaviour
             float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
             rb.AddForce(movement * currentSpeed);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
-           
+            if (CanHearPlayerRunning())
+            {
+                float noiseRadius = 20;
+                GenerateNoise(transform.position, noiseRadius);
+            }
+
         }
-        if (transform.rotation.z != 0)
+        if (!spriteCanRotate && transform.rotation.z != 0)
         {
             transform.rotation = originalRotation;
         }
@@ -187,19 +198,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void ChangeFOVStatus(bool status)
+    public void ChangeFlashlighStatus(bool status)
     {
+        flashlightOn = status;
         FlashLight.SetActive(status);
     }
 
     private void ToggleFlashlight()
     {
-        if(playerState == State.Alive)
+        if (playerState == State.Alive)
         {
             flashlightOn = !flashlightOn;
             FlashLight.SetActive(flashlightOn);
         }
-        
+
     }
     private void UpdateVisibilityAndLight()
     {
@@ -264,14 +276,14 @@ public class PlayerController : MonoBehaviour
 
     public float GetVisibility()
     {
-        
+
 
         return Mathf.Clamp01(visibility);
     }
 
-    public bool CanHearPlayerRunning()
+    private bool CanHearPlayerRunning()
     {
-        if(isSprinting && rb.velocity.magnitude > 0.5)
+        if (isSprinting && rb.velocity.magnitude > 0.5)
         {
             return true;
         }
@@ -284,7 +296,7 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("SampleScene");
         }
-        
+
     }
 
     private void ToggleSprinting()
@@ -346,5 +358,30 @@ public class PlayerController : MonoBehaviour
         {
             interactableObject.Interact();
         }
+    }
+
+    public void GenerateNoise(Vector2 noiseOrigin, float noiseRadius)
+    {
+        // Perform a random number check to determine the chance of the player being heard
+        float randomChance = Random.Range(0f, 1f);
+        if (randomChance <= hearingChance)
+        {
+            OnNoiseGenerated?.Invoke(noiseOrigin, noiseRadius);
+        }
+    }
+
+    public bool CheckIfPlayerIsAlive()
+    {
+        if (playerState == State.Alive)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+
+
     }
 }

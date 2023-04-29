@@ -10,21 +10,30 @@ public class UIController : MonoBehaviour
 
     private Label messageLabel;
     private Label interactoinLabel;
-    private Label gameOver;
+    private Label gameOverLable;
     private Label timerLabel;
-    private Label memoryText;
+    private Label memoryLable;
+    private Label codeLable;
 
     private VisualElement gameStatePanel;
     private VisualElement reactorInputPanel;
     private VisualElement menuPanel;
     private VisualElement controlsPanel;
     private VisualElement settingsPanel;
+    public VisualElement LockStatus;
+    public VisualElement unlockedStatus;
+    public VisualElement CodeDisplay;
+    public VisualElement Keypad;
+    public VisualElement ReactorControls;
 
-    private TextField reactorInputText;
 
     private TypewriterEffect typewriterEffect;
 
-    public event Action<string> OnReactorButton_Clicked;
+    public event Action<string> OnReactorOKButton_Clicked;
+    public event Action OnPullControlRodsButton_Clicked;
+    public event Action OnShutDownReactorButton_Clicked;
+    public event Action OnStabilizeButton_Clicked;
+
 
     private Coroutine hideMessageCoroutine;
 
@@ -40,35 +49,61 @@ public class UIController : MonoBehaviour
         typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
         messageLabel = root.Q<Label>("message-lable");
         interactoinLabel = root.Q<Label>("InteractionLable");
-        memoryText = root.Q<Label>("MemoryText");
-        gameOver = root.Q<Label>("StartOrGameOver");
+        memoryLable = root.Q<Label>("MemoryText");
+        gameOverLable = root.Q<Label>("StartOrGameOver");
 
         gameStatePanel = root.Q<VisualElement>("GameStatePanel");
         reactorInputPanel = root.Q<VisualElement>("ReactorInputPanel");
-        reactorInputText = root.Q<TextField>("ReactorInputTextField");
+
+        CodeDisplay = root.Q<VisualElement>("CodeDisplay");
+        Keypad = root.Q<VisualElement>("Keypad");
+        ReactorControls = root.Q<VisualElement>("ReactorControls");
+
+        codeLable = root.Q<Label>("CodeLabel");
+        
         menuPanel = root.Q<VisualElement>("MenuPanel");
         controlsPanel = root.Q<VisualElement>("ControlsPanel");
         settingsPanel = root.Q<VisualElement>("SettingsPanel");
 
         Button exitButton = root.Q<Button>("ExitButton");
-        Button reactorButton = root.Q<Button>("ReactorButton");
+        Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
+        Button ShutDownReactorButton = root.Q<Button>("ShutDownReactorButton");
+        Button StabilizeButton = root.Q<Button>("StabilizeButton");
         Button controlsButton = root.Q<Button>("ControlsButton");
         Button settingsButton = root.Q<Button>("SettingsButton");
 
+        LockStatus = root.Q<VisualElement>("LockStatus");
+        unlockedStatus = root.Q<VisualElement>("UnlockedStatus");
 
         timerLabel = GetComponent<UIDocument>().rootVisualElement.Q<Label>("Countdown");
 
         messageLabel.visible = false;
-        reactorInputPanel.visible = false;
+        reactorInputPanel.style.display = DisplayStyle.None;
         timerLabel.visible = false;
+
+        ReactorControls.style.display = DisplayStyle.None;
         ToggleMenu();
 
         controlsButton.clicked += () => { ShowControlsPanel(); };
         settingsButton.clicked += () => { ShowSettingsPanel(); };
-        reactorButton.clicked += ReactorButton_Clicked;
+        PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
+        ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
+        StabilizeButton.clicked += StabilizeButton_Clicked;
         exitButton.clicked += ExitButton_Clicked;
         Timer.instance.OnTimeChanged += UpdateTimer;
-        
+
+        for (int i = 0; i <= 9; i++)
+        {
+            Button button = root.Q<Button>($"Button{i}");
+            RegisterKeypadButton(button);
+        }
+
+        Button OKButton = root.Q<Button>("OKButton");
+        RegisterOKButton(OKButton);
+
+        Button XButton = root.Q<Button>("XButton");
+        RegisterXButton(XButton);
+
     }
 
     
@@ -86,12 +121,7 @@ public class UIController : MonoBehaviour
     {
         timerLabel.text = time;
     }
-    public void ReactorButton_Clicked()
-    {
-        Debug.Log("Clicked button");
-        Debug.Log(GetTextInput());
-        OnReactorButton_Clicked?.Invoke(GetTextInput());
-    }
+  
 
     public void ShowMessage(string message)
     {
@@ -133,9 +163,9 @@ public class UIController : MonoBehaviour
 
         if (!type)
         {
-            gameOver.text = "GAME OVER \r\n PRESS R OR BUTTON B TO TRY AGAIN";
+            gameOverLable.text = "GAME OVER \r\n PRESS R OR BUTTON B TO TRY AGAIN";
         }
-        else { gameOver.text = "YOU SURVIVED \r\n PRESS R OR BUTTON B TO RETRY."; }
+        else { gameOverLable.text = "YOU SURVIVED \r\n PRESS R OR BUTTON B TO RETRY."; }
             
        
 
@@ -145,20 +175,43 @@ public class UIController : MonoBehaviour
         gameStatePanel.visible = false;
     }
 
-    public void ShowReactorInput()
+    public void ShowReactorPanel()
     {
-        reactorInputPanel.visible = true;
+        codeLable.text = "";
+        reactorInputPanel.style.display = DisplayStyle.Flex;
     }
 
-    public void HideReactorInput()
+    public void HideReactorPanel()
     {
-        reactorInputPanel.visible = false;
+        reactorInputPanel.style.display =DisplayStyle.None;
+    }
+
+    public void ShowReactorLogin()
+    {
+        codeLable.text = "";
+        CodeDisplay.style.display = DisplayStyle.Flex;
+    }
+
+    public void HideReactorLogin()
+    {
+        CodeDisplay.style.display = DisplayStyle.None;
+        Keypad.style.display = DisplayStyle.None;
+    }
+
+    public void ShowReactorControlls()
+    {
+        
+        ReactorControls.style.display = DisplayStyle.Flex;
+    }
+
+    public void HideReactorControlls()
+    {
+        ReactorControls.style.display = DisplayStyle.None;
     }
 
     public string GetTextInput()
     {
-        return reactorInputText.text;
-        
+        return codeLable.text;
     }
 
     public void ShowTimer()
@@ -175,7 +228,7 @@ public class UIController : MonoBehaviour
         }
 
         
-        memoryText.text = string.Join("\n", memoryList);
+        memoryLable.text = string.Join("\n", memoryList);
     }
 
     public void ShowInteraction(string text)
@@ -212,5 +265,54 @@ public class UIController : MonoBehaviour
     {
         settingsPanel.visible = false;
     }
+
+    private void RegisterKeypadButton(Button button)
+    {
+        button.clicked += () =>
+        {
+            codeLable.text += button.text;
+        };
+    }
+    public void RegisterOKButton(Button button)
+    {
+        button.clicked += () =>
+        {
+            OnReactorOKButton_Clicked?.Invoke(codeLable.text);
+        };
+    }
+
+    public void RegisterXButton(Button button)
+    {
+        button.clicked += () =>
+        {
+            string currentText = codeLable.text;
+            if (currentText.Length > 0)
+            {
+
+                codeLable.text = currentText.Substring(0, currentText.Length - 1);
+            }
+        };
+    }
+
+    public void PullControlRodsButton_Clicked()
+    {
+        OnPullControlRodsButton_Clicked?.Invoke();
+    }
+    public void ShutDownReactorButton_Clicked()
+    {
+        OnShutDownReactorButton_Clicked?.Invoke();
+    }
+    public void StabilizeButton_Clicked()
+    {
+        OnStabilizeButton_Clicked?.Invoke();
+    }
+
+    public void ShowUnlockedStatus()
+    {
+        LockStatus.style.display = DisplayStyle.None;
+        unlockedStatus.style.display = DisplayStyle.Flex;
+
+    }
+
 
 }

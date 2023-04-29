@@ -29,7 +29,7 @@ public class Interactable : MonoBehaviour, IInteractable
         {
             canInteract = false;
             UIController.Instance.HideInteraction();
-            UIController.Instance.HideMessageAfterDelay(5f);
+            UIController.Instance.HideMessageAfterDelay(10f);
             player = null;
         }
     }
