@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f451c34368055b4e860d8cba8d73d0f, type: 3}
+  m_Name: MessageDatabase
+  m_EditorClassIdentifier: 
+  messages:
+  - key: BodyIntro
+    message: You're all alone now, and something's out there. It can hear your every
+      move, so be careful and stay hidden. The escape pod is locked down tight, but
+      there's still hope. Trigger the self-destruct to override the lockdown and
+      make your escape. He has a note with a keycode
+  - key: BodyLockerHint1
+    message: A mangled body lying on the ground. A note beside it warns of approaching
+      footsteps and advises hiding in lockers for safety.
+  - key: BodyLockerHint2
+    message: A mangled body lying on the ground. A note beside it warns of approaching
+      footsteps and advises hiding in lockers for safety.
+  - key: BodyDefault
+    message: A dead body. it is torn and broken
+  - key: BodyReactor
+    message: The mangled corpse of a crew member lies before you. Her limbs are twisted
+      at unnatural angles and her body is covered in deep gashes. As you approach,
+      you notice a message on her recording device. It reads "Entered the wrong code...
+      damn it all."
+  - key: BodyNest
+    message: A dead body. it is torn and broken. Guess this is the nest
+  - key: BodyGym
+    message: I tried to fight it off with a bench press weight, but it didn't even
+      make a scratch. It's like trying to fight a tank with a toothpick. Stay away
+      from it, and stay safe.
+  - key: BodyCarl
+    message: A lifeless body, likely Carl from the distinct scent of cannabis.
+  - key: BodyOverseer
+    message: I never should have taken this contract. I thought it would be exciting,
+      pushing the boundaries of science and discovery. But now, with this creature
+      loose on the station, I regret ever setting foot on this damn place. I should
+      have listened to my instincts and stayed far away. Now, we're all paying the
+      price.
+  - key: BodyLuke
+    message: A lifeless body, likely Luke  from the distinct scent of cannabis.
+  - key: InteractLocker
+    message: Am i safe here?
+  - key: InteractCryopod
+    message: A empty cryopod for the emergency crew
+  - key: InteractCryopodPlayer
+    message: This is your cryopod, it does not seem to have enough power to reactivate.
+  - key: InteractDoorCryopod
+    message: Its locked, and my keycode does not work. maybe there is a keycode somewhere?
+  - key: InteractPanelCryopod
+    message: Attention all personnel, this is an emergency broadcast from the station's
+      warning system. A dangerous creature is on the loose and has already caused
+      multiple casualties. We advise all personnel to make their way to the nearest
+      escape pods immediately.

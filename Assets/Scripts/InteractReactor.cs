@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -190,5 +191,10 @@ public class InteractReactor : Interactable
 
         reactorLight.color = endColor;
         reactorLight.intensity = endIntensity;
+    }
+
+    internal void SetReactorCode(string code)
+    {
+        reactorCode = code; 
     }
 }

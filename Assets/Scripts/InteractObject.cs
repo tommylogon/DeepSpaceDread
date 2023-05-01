@@ -11,7 +11,7 @@ public class InteractObject : Interactable
     [SerializeField] private Door doorToUnlock;
 
     
-    private void Start()
+     void Start()
     {
         if (doorToUnlock != null)
         {
