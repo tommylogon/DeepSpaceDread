@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
-    [SerializeField] protected string interactText = "Press E to interact";
-    [SerializeField] internal string message = "";
-    [SerializeField] protected bool canInteract = false;
+    [SerializeField] public string interactText = "Press E to interact";
+    [SerializeField] public string message = "";
+    [SerializeField] public bool canInteract = false;
+    [SerializeField] public float noiseRadius;
 
     protected GameObject player;
 
-    // Declare a dictionary to store coroutines for each instance
-    private static Dictionary<Interactable, Coroutine> hideMessageCoroutines = new Dictionary<Interactable, Coroutine>();
+    protected AudioSource soundSource;
+
+    public AudioClip interactionClip;
+
+
+    private void Start()
+    {
+        soundSource = GetComponent<AudioSource>();
+       //
+    }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -38,5 +47,10 @@ public class Interactable : MonoBehaviour, IInteractable
 
 public virtual void Interact()
     {
+        if (interactionClip != null)
+        {
+            soundSource.PlayOneShot(interactionClip);
+            player.GetComponent<PlayerController>().GenerateNoise(transform.position, noiseRadius, 1);
+        }
     }
 }

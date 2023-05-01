@@ -9,16 +9,11 @@ public class Locker : Interactable
 
     // Set this in the Inspector to the layer you want to hide the player on
     public LayerMask hiddenLayer;
-    public float noiseRadius = 10f;
+    
     private bool playerInsideLocker = false;
 
-    private AudioSource lockerSound;
+    
 
-    private void Start()
-    {
-        
-        lockerSound = GetComponent<AudioSource>();
-    }
     private void Update()
     {
         if(playerInsideLocker)
@@ -38,6 +33,7 @@ public class Locker : Interactable
             player.GetComponent<PlayerController>().ChangeFlashlighStatus(false);
 
             playerInsideLocker = true;
+            player.GetComponent<PlayerController>().IsInsideLocker = true;
         }
         else
         {
@@ -47,8 +43,9 @@ public class Locker : Interactable
             player.GetComponent<PlayerController>().ChangeFlashlighStatus(true);
 
             playerInsideLocker = false;
+            player.GetComponent<PlayerController>().IsInsideLocker = false;
         }
-        player.GetComponent<PlayerController>().GenerateNoise(transform.position, noiseRadius);
-        lockerSound.Play();
+        
+        
     }
 }

@@ -3,7 +3,7 @@
     <ui:VisualElement name="Screen" style="height: 100%; flex-grow: 1; align-items: stretch; justify-content: space-between; position: relative; width: 100%; flex-direction: row;">
         <ui:VisualElement name="Left" style="width: 10%; flex-grow: 1;">
             <ui:VisualElement name="MemoryPanel" style="height: auto; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: relative; top: 30px; left: auto;">
-                <ui:Label display-tooltip-when-elided="true" name="MemoryText" text="as this text growsas this text growsas this text growsas this text grows" class="Text" style="height: auto;" />
+                <ui:Label display-tooltip-when-elided="true" name="MemoryText" class="Text" style="height: auto;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Center" style="-unity-text-align: upper-center; width: auto; align-items: center; flex-grow: 1; justify-content: space-between;">
@@ -41,10 +41,11 @@
                     <ui:Button text="OK" display-tooltip-when-elided="true" name="OKButton" class="NumberButton" />
                 </ui:VisualElement>
                 <ui:VisualElement name="ReactorControls" style="flex-direction: column; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
-                    <ui:Button text="Pull Control Rods" display-tooltip-when-elided="true" name="PullControlRodsButton" class="Button" />
+                    <ui:Button text="Remove Control Rods" display-tooltip-when-elided="true" name="PullControlRodsButton" class="Button" />
                     <ui:Button text="Shut Down Reactor" display-tooltip-when-elided="true" name="ShutDownReactorButton" class="Button" />
                     <ui:Button text="Stabilize" display-tooltip-when-elided="true" name="StabilizeButton" class="Button" />
                 </ui:VisualElement>
+                <ui:Button text="Close Panel" display-tooltip-when-elided="true" name="ClosePanelButton" class="Button" />
             </ui:VisualElement>
             <ui:VisualElement name="Message" style="position: relative; top: auto; left: auto; display: flex; height: auto; justify-content: flex-end; flex-grow: 0; align-items: flex-start; -unity-text-align: lower-center; flex-direction: column;">
                 <ui:Label text="Press x to interact" display-tooltip-when-elided="true" name="InteractionLable" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />

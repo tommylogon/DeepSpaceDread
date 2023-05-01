@@ -1,5 +1,5 @@
 using CodeMonkey.Utils;
-
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool isSprinting;
     private bool flashlightOn;
     public bool spriteCanRotate = false;
+    public bool IsInsideLocker;
 
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float sprintSpeed = 5f;
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float visibility;
     [SerializeField] private float detectionRadius = 5;
     [SerializeField] private float throwForce = 5f;
-    public float hearingChance = 0.5f;
+    
 
     [SerializeField] private float fov = 180;
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] GameObject FlashLight;
     [SerializeField] GameObject aroundPlayerLight;
+    private Transform mainCameraTransform;
 
     [SerializeField] private LayerMask litLayer;
     [SerializeField] private LayerMask wallLayer;
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
 
-    [SerializeField] private GameObject throwableObjectPrefab;
+    [SerializeField] private GameObject throwableObjectInventory;
 
 
 
@@ -56,16 +58,25 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        mainCameraTransform = Camera.main.transform;
         controls = new PlayerControls();
 
-        controls.Player.Interact.performed += _ => Interact();
-        controls.Player.Interact.performed += _ => WakeUp();
-        controls.Player.Restart.performed += _ => RestartScene();
-        controls.Player.Run.performed += _ => ToggleSprinting();
-        controls.Player.Throw.performed += _ => ThrowObject();
-        controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
-        controls.Player.Escape.performed += _ => UIController.Instance.ToggleMenu();
+       
 
+    }
+
+    private void EscapeKeyPressed()
+    {
+        if (!UIController.Instance.IsReactorShowing())
+        {
+            UIController.Instance.ToggleMenu();
+        }
+        else
+        {
+            UIController.Instance.HideReactorPanel();
+        }
+        
+        
     }
 
     void Start()
@@ -88,12 +99,30 @@ public class PlayerController : MonoBehaviour
         move = controls.Player.Move;
         aim = controls.Player.Aim;
 
+        controls.Player.Interact.performed += _ => Interact();
+        controls.Player.Interact.performed += _ => WakeUp();
+        controls.Player.Restart.performed += _ => RestartScene();
+        controls.Player.Run.started += _ => SetSprinting(true);
+        controls.Player.Run.canceled += _ => SetSprinting(false);
+        controls.Player.Throw.performed += _ => ThrowObject();
+        controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
+        controls.Player.Escape.performed += _ => EscapeKeyPressed();
+
     }
 
     private void OnDisable()
     {
         controls.Disable();
         move.Disable();
+
+        controls.Player.Interact.performed -= _ => Interact();
+        controls.Player.Interact.performed -= _ => WakeUp();
+        controls.Player.Restart.performed -= _ => RestartScene();
+        controls.Player.Run.started -= _ => SetSprinting(true);
+        controls.Player.Run.canceled -= _ => SetSprinting(false);
+        controls.Player.Throw.performed -= _ => ThrowObject();
+        controls.Player.ToggleFlashlight.performed -= _ => ToggleFlashlight();
+        controls.Player.Escape.performed -= _ => EscapeKeyPressed();
 
     }
 
@@ -176,7 +205,15 @@ public class PlayerController : MonoBehaviour
     {
         if (direction.x != 0 || direction.y != 0)
         {
-            Vector3 movement = new Vector3(direction.x, direction.y, 0f);
+            Vector3 cameraUp = mainCameraTransform.up;
+            cameraUp.z = 0;
+            cameraUp.Normalize();
+            Vector3 cameraRight = mainCameraTransform.right;
+            cameraRight.z = 0;
+            cameraRight.Normalize();
+
+            // Calculate movement direction based on input and camera rotation
+            Vector3 movement = (cameraUp * direction.y + cameraRight * direction.x);
             movement = Vector3.ClampMagnitude(movement, 1f);
 
             float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
@@ -185,7 +222,7 @@ public class PlayerController : MonoBehaviour
             if (CanHearPlayerRunning())
             {
                 float noiseRadius = 20;
-                GenerateNoise(transform.position, noiseRadius);
+                GenerateNoise(transform.position, noiseRadius,.2f);
             }
 
         }
@@ -299,10 +336,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void ToggleSprinting()
+    private void SetSprinting(bool sprinting)
     {
-        isSprinting = !isSprinting;
-        isCrouching = false;
+        isSprinting = sprinting;
     }
 
 
@@ -327,12 +363,13 @@ public class PlayerController : MonoBehaviour
 
     private void ThrowObject()
     {
-        if (throwableObjectPrefab)
+        if (throwableObjectInventory && !IsInsideLocker)
         {
-            GameObject throwableObject = Instantiate(throwableObjectPrefab, transform.position, Quaternion.identity);
-            Rigidbody2D throwableRb = throwableObject.GetComponent<Rigidbody2D>();
+            throwableObjectInventory.transform.position = transform.position;
             Vector2 throwDirection = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
-            throwableRb.AddForce(throwDirection * throwForce, ForceMode2D.Impulse);
+            throwableObjectInventory.GetComponent<ThrowableObject>().Throw(throwDirection, throwForce, transform.position);
+
+            throwableObjectInventory = null;
         }
     }
 
@@ -360,9 +397,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GenerateNoise(Vector2 noiseOrigin, float noiseRadius)
+    public void GenerateNoise(Vector2 noiseOrigin, float noiseRadius, float hearingChance)
     {
-        // Perform a random number check to determine the chance of the player being heard
         float randomChance = Random.Range(0f, 1f);
         if (randomChance <= hearingChance)
         {
@@ -383,5 +419,20 @@ public class PlayerController : MonoBehaviour
 
 
 
+    }
+
+    public void AddToInventory(GameObject pickupItem)
+    {
+        if(pickupItem != null)
+        {
+            if(throwableObjectInventory != null)
+            {
+                throwableObjectInventory.SetActive(true);
+                
+                
+            }
+            throwableObjectInventory = pickupItem;
+
+        }
     }
 }

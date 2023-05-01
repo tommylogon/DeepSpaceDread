@@ -45,7 +45,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         Instance = this;
-        var root = GetComponent<UIDocument>().rootVisualElement;
+        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
         typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
         messageLabel = root.Q<Label>("message-lable");
         interactoinLabel = root.Q<Label>("InteractionLable");
@@ -65,12 +65,7 @@ public class UIController : MonoBehaviour
         controlsPanel = root.Q<VisualElement>("ControlsPanel");
         settingsPanel = root.Q<VisualElement>("SettingsPanel");
 
-        Button exitButton = root.Q<Button>("ExitButton");
-        Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
-        Button ShutDownReactorButton = root.Q<Button>("ShutDownReactorButton");
-        Button StabilizeButton = root.Q<Button>("StabilizeButton");
-        Button controlsButton = root.Q<Button>("ControlsButton");
-        Button settingsButton = root.Q<Button>("SettingsButton");
+       
 
         LockStatus = root.Q<VisualElement>("LockStatus");
         unlockedStatus = root.Q<VisualElement>("UnlockedStatus");
@@ -84,13 +79,28 @@ public class UIController : MonoBehaviour
         ReactorControls.style.display = DisplayStyle.None;
         ToggleMenu();
 
+       
+        Timer.instance.OnTimeChanged += UpdateTimer;
+
+        RegusterButtons(root);
+        
+
+    }
+
+    public void RegusterButtons(VisualElement root)
+    {
+        Button exitButton = root.Q<Button>("ExitButton");
+        Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
+        Button ShutDownReactorButton = root.Q<Button>("ShutDownReactorButton");
+        Button StabilizeButton = root.Q<Button>("StabilizeButton");
+        Button controlsButton = root.Q<Button>("ControlsButton");
+        Button settingsButton = root.Q<Button>("SettingsButton");
         controlsButton.clicked += () => { ShowControlsPanel(); };
         settingsButton.clicked += () => { ShowSettingsPanel(); };
         PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
         ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
         StabilizeButton.clicked += StabilizeButton_Clicked;
         exitButton.clicked += ExitButton_Clicked;
-        Timer.instance.OnTimeChanged += UpdateTimer;
 
         for (int i = 0; i <= 9; i++)
         {
@@ -104,9 +114,9 @@ public class UIController : MonoBehaviour
         Button XButton = root.Q<Button>("XButton");
         RegisterXButton(XButton);
 
+        Button closePanelButton = root.Q<Button>("ClosePanelButton");
+        closePanelButton.clicked += ClosePanelButton_Clicked;
     }
-
-    
 
     private void ExitButton_Clicked()
     {
@@ -313,6 +323,13 @@ public class UIController : MonoBehaviour
         unlockedStatus.style.display = DisplayStyle.Flex;
 
     }
+    private void ClosePanelButton_Clicked()
+    {
+        HideReactorPanel();
+    }
 
-
+    internal bool IsReactorShowing()
+    {
+        return reactorInputPanel.style.display != DisplayStyle.None;
+    }
 }

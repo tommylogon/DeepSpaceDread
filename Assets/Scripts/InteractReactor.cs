@@ -5,13 +5,23 @@ using UnityEngine.Rendering.Universal;
 
 public class InteractReactor : Interactable
 {
+    public enum ReactorState
+    {
+        Unstable, 
+        PullControlRods,
+        ShutDownReactor,
+        Stabilize
+    }
+
     public string[] messages;
     public Door[] doorToUnlock;
     public FlickerLight[] EnviromentalLights;
     public Light2D[] WarningLights;
     public AudioSource[] audioSources;
 
-    public string reactorCode = "1234";
+    public ReactorState reactorState = ReactorState.Unstable;
+
+    public string reactorCode = "421369";
 
     private bool unlocked = false;
 
@@ -76,6 +86,7 @@ public class InteractReactor : Interactable
                 }
                 
             }
+            reactorState = ReactorState.PullControlRods;
             UIController.Instance.HideReactorPanel();
             UIController.Instance.ShowMessage(messages[0]);
             Timer.instance.PauseTimer(false);
@@ -116,6 +127,7 @@ public class InteractReactor : Interactable
 
             UIController.Instance.HideReactorPanel();
             UIController.Instance.ShowMessage(messages[1]);
+            reactorState = ReactorState.ShutDownReactor;
         }
 
     }
@@ -145,7 +157,7 @@ public class InteractReactor : Interactable
 
                 }
             }
-
+            reactorState = ReactorState.Stabilize;
             UIController.Instance.HideReactorPanel();
             UIController.Instance.ShowMessage(messages[2]);
         }
@@ -169,6 +181,7 @@ public class InteractReactor : Interactable
 
         while (elapsedTime < duration)
         {
+            yield return new WaitForSeconds(1);
             reactorLight.color = Color.Lerp(reactorLight.color, endColor, elapsedTime / duration);
             reactorLight.intensity = Mathf.Lerp(reactorLight.intensity, endIntensity, elapsedTime / duration);
             elapsedTime += Time.deltaTime;

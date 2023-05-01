@@ -17,9 +17,9 @@ TagManager:
   - Player
   - Lights
   - Object
-  - Mask
+  - ThrowableObject
   - BehindMask
-  - Black
+  - 
   - Corpse
   - Enemy
   - 

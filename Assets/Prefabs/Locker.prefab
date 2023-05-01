@@ -101,12 +101,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Locker: Press E to hide'
-  message: 
+  message: Am i safe here?
   canInteract: 0
+  noiseRadius: 10
+  interactionClip: {fileID: 8300000, guid: f3424f9f674241846acd97983399c743, type: 3}
   hiddenLayer:
     serializedVersion: 2
     m_Bits: 1024
-  noiseRadius: 10
 --- !u!61 &5027062020554551145
 BoxCollider2D:
   m_ObjectHideFlags: 0

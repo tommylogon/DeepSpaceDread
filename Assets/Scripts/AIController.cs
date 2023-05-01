@@ -81,6 +81,7 @@ public class AIController : MonoBehaviour, IController
         if (hunger >= hungerThreshold)
         {
             EatCorpse();
+            hungerThreshold *= 2;
         }
         Move();
         RotateSprite();
