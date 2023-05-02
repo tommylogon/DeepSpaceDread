@@ -365,6 +365,8 @@ public class PlayerController : MonoBehaviour
     {
         if (throwableObjectInventory && !IsInsideLocker)
         {
+
+
             throwableObjectInventory.transform.position = transform.position;
             Vector2 throwDirection = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
             throwableObjectInventory.GetComponent<ThrowableObject>().Throw(throwDirection, throwForce, transform.position);

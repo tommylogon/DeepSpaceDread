@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThrowableBottle : ThrowableObject
 {
-    [SerializeField] private GameObject brokenBottlePrefab;
+    [SerializeField] private GameObject[] brokenBottlePrefab;
 
     public override void HandleImpact(Collision2D collision)
     {
@@ -18,7 +18,11 @@ public class ThrowableBottle : ThrowableObject
         // Instantiate broken bottle prefab
         if(brokenBottlePrefab != null)
         {
-            GameObject brokenBottle = Instantiate(brokenBottlePrefab, transform.position, Quaternion.identity);
+            for(int i = 0; i < brokenBottlePrefab.Length; i++)
+            {
+                GameObject brokenBottle = Instantiate(brokenBottlePrefab[i], transform.position, Quaternion.identity);
+            }
+            
         }
         else
         {
