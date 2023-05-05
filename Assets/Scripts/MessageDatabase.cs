@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MessageDatabase", menuName = "Messages/Message Database", order = 1)]
@@ -11,6 +12,8 @@ public class MessageDatabase : ScriptableObject
         public string key;
         [TextArea(3, 10)]
         public string message;
+
+        public Tag tag;
     }
 
     public List<MessageEntry> messages;
@@ -26,5 +29,17 @@ public class MessageDatabase : ScriptableObject
         }
 
         return "Message not found";
+    }
+    public enum Tag
+    {
+        General,
+        Tutorial,
+        Combat,
+        UI,
+        Body,
+        Door,
+        Panel,
+        Special
+        // Add more tags as needed
     }
 }
