@@ -135,7 +135,11 @@ MonoBehaviour:
     pod, but the creature is still on board. It's fast, and it's dangerous. But,
     I have noticed that it has trouble seeing in the dark. Try to use that to your
     advantage if you encounter it. Please, be careful out there. Good luck.
+  messageKey: 
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
+  noiseRadius: 0
+  interactionClip: {fileID: 0}
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}

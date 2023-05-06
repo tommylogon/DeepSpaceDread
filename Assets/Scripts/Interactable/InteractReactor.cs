@@ -14,7 +14,8 @@ public class InteractReactor : Interactable
         Stabilize
     }
 
-    public string[] messages;
+    
+
     public Door[] doorToUnlock;
     public FlickerLight[] EnviromentalLights;
     public Light2D[] WarningLights;
@@ -31,6 +32,7 @@ public class InteractReactor : Interactable
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         reactorLight = GetComponentInChildren<Light2D>();
         UIController.Instance.OnReactorOKButton_Clicked += CheckCode;
         UIController.Instance.OnPullControlRodsButton_Clicked += PullControlRods;

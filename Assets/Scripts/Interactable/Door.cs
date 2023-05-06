@@ -13,7 +13,11 @@ public class Door : Interactable
     {
         if (locked)
         {
-            UIController.Instance.ShowMessage(message);
+            if(messages.Count > 0 && messages[0] != "")
+            {
+
+            }
+            UIController.Instance.ShowMessage(messages[0]);
             return;
         }
 

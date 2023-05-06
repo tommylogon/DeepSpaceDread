@@ -5,7 +5,9 @@ using UnityEngine;
 public class Interactable : MonoBehaviour, IInteractable
 {
     [SerializeField] public string interactText = "Press E to interact";
-    [SerializeField] public string message = "";
+    public List<string> messages;
+    public List<string> messageKeys;
+    public MessageDatabase messageDatabase;
     [SerializeField] public bool canInteract = false;
     [SerializeField] public float noiseRadius;
 
@@ -16,10 +18,14 @@ public class Interactable : MonoBehaviour, IInteractable
     public AudioClip interactionClip;
 
 
-    private void Start()
+    protected void Start()
     {
         soundSource = GetComponent<AudioSource>();
-       //
+        if (messageDatabase != null && messageKeys.Count > 0)
+        {
+            messages = messageDatabase.GetMessages(messageKeys);
+        }
+
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

@@ -215,6 +215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactText: 'Wrench: Press E to pickup'
   message: I should be able to make some noise with this.
+  messageKey: 
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
   noiseRadius: 2
   interactionClip: {fileID: 8300000, guid: faa9367e24a0f1643ae91feefecf16f3, type: 3}

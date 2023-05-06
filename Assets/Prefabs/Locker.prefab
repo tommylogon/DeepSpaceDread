@@ -101,7 +101,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Locker: Press E to hide'
-  message: Am i safe here?
+  messageKeys:
+  - InteractLocker1
+  - InteractLocker2
+  - InteractLocker3
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
   noiseRadius: 10
   interactionClip: {fileID: 8300000, guid: f3424f9f674241846acd97983399c743, type: 3}

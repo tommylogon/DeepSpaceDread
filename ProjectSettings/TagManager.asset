@@ -16,13 +16,13 @@ TagManager:
   - UI
   - Player
   - Lights
-  - Object
+  - Borders
   - ThrowableObject
   - BehindMask
   - 
   - Corpse
   - Enemy
-  - 
+  - Walls
   - 
   - 
   - 

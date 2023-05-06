@@ -30,6 +30,18 @@ public class MessageDatabase : ScriptableObject
 
         return "Message not found";
     }
+
+    public List<string> GetMessages(List<string> keys)
+    {
+        List<string> retrievedMessages = new List<string>();
+        foreach (string key in keys)
+        {
+            retrievedMessages.Add(GetMessage(key));
+        }
+
+        return retrievedMessages;
+    }
+
     public enum Tag
     {
         General,

@@ -13,6 +13,7 @@ public class InteractObject : Interactable
     
      void Start()
     {
+        base.Start();
         if (doorToUnlock != null)
         {
             doorToUnlock.SetDoorToLocked(true);
@@ -27,7 +28,23 @@ public class InteractObject : Interactable
     {
         if (canInteract)
         {
-            UIController.Instance.ShowMessage(message);
+            string randomMessage = "";
+            if (messages.Count > 0 && messages[0] != "")
+            {
+                randomMessage = messages[0];
+                if (messages.Count > 1)
+                {
+                    randomMessage = messages[Random.Range(0, messages.Count)];
+                }
+            }
+            else
+            {
+                randomMessage = "NOT ASSIGNED, SHAME";
+            }
+            
+            
+            UIController.Instance.ShowMessage(randomMessage);
+
             if (saves)
             {
                 UIController.Instance.SaveToMemory(questInfo);

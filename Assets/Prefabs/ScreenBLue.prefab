@@ -258,7 +258,11 @@ MonoBehaviour:
     team: the reactor code for today is 42-13-69. Please make sure to keep this code
     in a safe and easily accessible location. Remember, a well-maintained reactor
     is a happy reactor!'
+  messageKey: 
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
+  noiseRadius: 0
+  interactionClip: {fileID: 0}
   questInfo: 'Reactor code: 42-13-69'
   saves: 1
   doorToUnlock: {fileID: 0}

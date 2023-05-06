@@ -10,7 +10,7 @@ public class InteractOffice : InteractObject
         
         GenerateRandomCode();
         SetReactorCode();
-        message = message.Replace("{code}", code);
+        messages[0] = messages[0].Replace("{code}", code);
     }
 
     // Update is called once per frame

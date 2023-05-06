@@ -258,7 +258,11 @@ MonoBehaviour:
     levels are at [x]% and life support systems are [operational/non-operational].
     Please remain in your designated areas until further notice. All attempts to
     restore the system are ongoing. Thank you for your cooperation.
+  messageKey: 
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
+  noiseRadius: 0
+  interactionClip: {fileID: 0}
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}

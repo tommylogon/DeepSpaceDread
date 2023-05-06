@@ -19,7 +19,7 @@ MonoBehaviour:
       there's still hope. Trigger the self-destruct to override the lockdown and
       make your escape. He has a note with a keycode
     tag: 4
-  - key: BodyLockerHint1
+  - key: BodyLockerHint
     message: A mangled body lying on the ground. A note beside it warns of approaching
       footsteps and advises hiding in lockers for safety.
     tag: 4
@@ -57,8 +57,8 @@ MonoBehaviour:
   - key: BodyLuke
     message: A lifeless body, likely Luke  from the distinct scent of cannabis.
     tag: 4
-  - key: InteractLocker
-    message: Am i safe here?
+  - key: InteractLocker1
+    message: I can barely breathe in here, but at least I'm hidden for now.
     tag: 7
   - key: InteractCryopod
     message: A empty cryopod for the emergency crew
@@ -179,4 +179,18 @@ MonoBehaviour:
       team: the reactor code for today is {code}. Please make sure to keep this code
       in a safe and easily accessible location. Remember, a well-maintained reactor
       is a happy reactor!'
+    tag: 7
+  - key: InteractReactorStatus
+    message: 'Reactor status: nominal. Energy output stable at 95%. Fuel reserves
+      at 70%. No abnormalities detected in the cooling system. '
+    tag: 7
+  - key: InteractToilet
+    message: Really?
+    tag: 7
+  - key: InteractLocker2
+    message: The cramped space and lingering smell of sweat make me uneasy.
+    tag: 7
+  - key: Interactlocker3
+    message: 'Scratched into the locker''s wall, I spot an ominous message: ''They''re
+      always watching.'
     tag: 7

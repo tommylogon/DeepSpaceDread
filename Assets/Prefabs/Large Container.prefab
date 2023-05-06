@@ -56,16 +56,16 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  m_ShapePathHash: 0
+  - {x: -0.49750566, y: -0.69207096, z: 0}
+  - {x: -0.5024948, y: -0.24084663, z: 0}
+  - {x: 0.5, y: -0.24833012, z: 0}
+  - {x: 0.5024948, y: -0.67461014, z: 0}
+  m_ShapePathHash: 1431024677
   m_Mesh: {fileID: 0}
-  m_InstanceId: -21042
+  m_InstanceId: 87614
   m_LocalBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.5, y: 0.5, z: 0}
+    m_Center: {x: 0, y: -0.4664588, z: 0}
+    m_Extent: {x: 0.5024948, y: 0.22561216, z: 0}
 --- !u!114 &-6453634391811930899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5041449585782245724, guid: 06198dd6ebea8ea4ab455abe2ab6f56d, type: 3}
       propertyPath: m_InstanceId
-      value: -18198
+      value: -177490
       objectReference: {fileID: 0}
     - target: {fileID: 5196446809913173772, guid: 06198dd6ebea8ea4ab455abe2ab6f56d, type: 3}
       propertyPath: m_Name
@@ -191,7 +191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5041449585782245724, guid: 06198dd6ebea8ea4ab455abe2ab6f56d, type: 3}
       propertyPath: m_InstanceId
-      value: -18276
+      value: -177500
       objectReference: {fileID: 0}
     - target: {fileID: 5196446809913173772, guid: 06198dd6ebea8ea4ab455abe2ab6f56d, type: 3}
       propertyPath: m_Name

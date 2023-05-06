@@ -8,8 +8,6 @@ using UnityEngine.UIElements;
 public class InteractEscape : Interactable
 {
 
-    public string[] messages;
-
     [SerializeField] private bool onboard = false;
 
     [SerializeField] private Transform targetPos;
