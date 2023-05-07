@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThrowableChildCollider : MonoBehaviour
 {
     private ThrowableObject throwableObject;
+    public int lightLayer;
 
     private void Awake()
     {
@@ -15,7 +16,14 @@ public class ThrowableChildCollider : MonoBehaviour
     {
         if (throwableObject != null)
         {
-            throwableObject.HandleChildCollision(collision);
+            throwableObject.HandleChildCollision(collision.collider);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (throwableObject != null && collider.gameObject.layer != lightLayer)
+        {
+            throwableObject.HandleChildCollision(collider);
         }
     }
 }

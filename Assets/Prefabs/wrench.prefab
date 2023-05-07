@@ -214,14 +214,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Wrench: Press E to pickup'
-  message: I should be able to make some noise with this.
-  messageKey: 
+  messages: []
+  messageKeys:
+  - Wrench
   messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   canInteract: 0
   noiseRadius: 2
   interactionClip: {fileID: 8300000, guid: faa9367e24a0f1643ae91feefecf16f3, type: 3}
   impactSound: {fileID: 8300000, guid: c3ec4984a353f7f438889a1f59f9390a, type: 3}
   impactSoundRadius: 15
+  targetState: 8
+  spriteRenderer: {fileID: 6045873114781848340}
 --- !u!50 &6045873114781848342
 Rigidbody2D:
   serializedVersion: 4
@@ -235,7 +238,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.2
+  m_LinearDrag: 0.4
   m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -314,3 +317,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e303dc2ea4b01c4fab217ac9971c314, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightLayer: 7

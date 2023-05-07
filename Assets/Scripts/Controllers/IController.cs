@@ -10,5 +10,11 @@ public enum State
 {
     Alive,
     Dead,
-    Sleeping
+    Sleeping,
+    Idle,
+    Chacing,
+    Hunting, 
+    Attacking,
+    Fleeing,
+    Stunned
 }

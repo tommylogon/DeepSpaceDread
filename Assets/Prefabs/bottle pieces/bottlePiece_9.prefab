@@ -10,8 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4204997068423920435}
   - component: {fileID: 7183420614700422023}
+  - component: {fileID: 7231631124475149433}
+  - component: {fileID: 5244343148767630080}
   m_Layer: 0
-  m_Name: bottle_9
+  m_Name: bottlePiece_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +86,57 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &7231631124475149433
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3101033651223607814}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &5244343148767630080
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3101033651223607814}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.032, y: 0.056}
+    newSize: {x: 0.032, y: 0.056}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.0037297364, y: 0.027907494}
+      - {x: -0.015907494, y: 0.012014221}
+      - {x: -0.015907494, y: -0.010893365}
+      - {x: 0.0037073055, y: -0.027720574}
+      - {x: 0.011633126, y: -0.023539666}
+      - {x: 0.015553474, y: -0.019465446}
+      - {x: 0.016092507, y: 0.0036463942}
+      - {x: -0.0002702633, y: 0.028}

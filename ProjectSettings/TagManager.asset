@@ -7,6 +7,7 @@ TagManager:
   - FOV
   - UIDocument
   - IgnoreRaycast
+  - Enemy
   layers:
   - Default
   - TransparentFX

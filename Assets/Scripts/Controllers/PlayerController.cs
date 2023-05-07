@@ -8,6 +8,8 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Fields and Properties
+
     [SerializeField] private bool godMode;
     private bool lastInputFromController;
     public bool isCrouching;
@@ -23,16 +25,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float visibility;
     [SerializeField] private float detectionRadius = 5;
     [SerializeField] private float throwForce = 5f;
-    
 
     [SerializeField] private float fov = 180;
-
 
     [SerializeField] private State playerState;
     [SerializeField] private Animator animator;
 
     [SerializeField] GameObject FlashLight;
     [SerializeField] GameObject aroundPlayerLight;
+    [SerializeField] private Transform holdingPoint;
+
     private Transform mainCameraTransform;
 
     [SerializeField] private LayerMask litLayer;
@@ -46,8 +48,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject throwableObjectInventory;
 
-
-
     public PlayerControls controls;
     public InputAction move;
     public InputAction aim;
@@ -56,33 +56,19 @@ public class PlayerController : MonoBehaviour
 
     private IInteractable interactableObject;
 
+    #endregion
+
+    #region MonoBehaviour Methods
+
     private void Awake()
     {
         mainCameraTransform = Camera.main.transform;
         controls = new PlayerControls();
-
-       
-
-    }
-
-    private void EscapeKeyPressed()
-    {
-        if (!UIController.Instance.IsReactorShowing())
-        {
-            UIController.Instance.ToggleMenu();
-        }
-        else
-        {
-            UIController.Instance.HideReactorPanel();
-        }
-        
-        
     }
 
     void Start()
     {
         playerState = State.Sleeping;
-
         rb = GetComponent<Rigidbody2D>();
         FlashLight = GameObject.FindGameObjectWithTag("FOV");
 
@@ -90,7 +76,6 @@ public class PlayerController : MonoBehaviour
         aroundPlayerLight.SetActive(false);
 
         originalRotation = transform.rotation;
-
     }
 
     private void OnEnable()
@@ -107,7 +92,6 @@ public class PlayerController : MonoBehaviour
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
         controls.Player.Escape.performed += _ => EscapeKeyPressed();
-
     }
 
     private void OnDisable()
@@ -123,26 +107,16 @@ public class PlayerController : MonoBehaviour
         controls.Player.Throw.performed -= _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed -= _ => ToggleFlashlight();
         controls.Player.Escape.performed -= _ => EscapeKeyPressed();
-
-    }
-
-    public void PlayerDied()
-    {
-        playerState = State.Dead;
-        animator.SetBool("Dead", true);
-        UIController.Instance.ShowGameOver(false);
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
         UpdateVisibilityAndLight();
+
         if (playerState == State.Alive)
         {
             Move(move.ReadValue<Vector2>());
-            //HandleInput();
             Aim(aim.ReadValue<Vector2>());
             HandleMovementSounds();
         }
@@ -150,10 +124,45 @@ public class PlayerController : MonoBehaviour
         {
             StopMovingAndPlayingSounds();
         }
+        if (throwableObjectInventory != null)
+        {
+            throwableObjectInventory.transform.position = holdingPoint.position;
+            throwableObjectInventory.transform.rotation = holdingPoint.rotation;
+        }
+    }
+
+    #endregion
+    #region Custom Methods
+
+    private void EscapeKeyPressed()
+    {
+        if (!UIController.Instance.IsReactorShowing())
+        {
+            UIController.Instance.ToggleMenu();
+        }
+        else
+        {
+            UIController.Instance.HideReactorPanel();
+        }
+        
+        
+    }
 
 
+
+    public void PlayerDied()
+    {
+        if (godMode)
+        {
+            return; // Don't do anything if godMode is enabled
+        }
+        playerState = State.Dead;
+        animator.SetBool("Dead", true);
+        UIController.Instance.ShowGameOver(false);
 
     }
+
+
     private void WakeUp()
     {
         if (playerState == State.Sleeping)
@@ -366,6 +375,8 @@ public class PlayerController : MonoBehaviour
         if (throwableObjectInventory && !IsInsideLocker)
         {
 
+            // Unparent the object
+            throwableObjectInventory.transform.SetParent(null);
 
             throwableObjectInventory.transform.position = transform.position;
             Vector2 throwDirection = (UtilsClass.GetMouseWorldPosition() - transform.position).normalized;
@@ -437,4 +448,9 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+    public Transform GetHoldingPoint()
+    {
+        return holdingPoint;
+    }
+    #endregion
 }

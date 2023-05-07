@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 4539755520557003868}
   - component: {fileID: 4539755520557003871}
   - component: {fileID: 103776605}
+  - component: {fileID: 6663513405830273814}
   m_Layer: 13
   m_Name: Alien
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,13 +115,15 @@ MonoBehaviour:
   moveRadius: 15
   viewRadius: 10
   viewAngle: 360
+  stunDuration: 2
   walkingSpeed: 5.5
-  PlayerVisible: 0
+  fleeDistance: 5
   hunger: 0
   hungerRate: 0.1
   hungerThreshold: 5
   corpseSearchRadius: 2
   flipInterval: 0.2
+  currentState: 3
   playerRef: {fileID: 0}
   enemyIndicatorPrefab: {fileID: 7104511416550968326, guid: 84fbf5f29efb37f468957e3de07edef0, type: 3}
   enemyIndicator: {fileID: 0}
@@ -426,6 +429,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &6663513405830273814
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4539755520557003942}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.25
 --- !u!1001 &3313547290691904141
 PrefabInstance:
   m_ObjectHideFlags: 0

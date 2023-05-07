@@ -10,10 +10,11 @@ public class InteractObject : Interactable
     [SerializeField] private bool saves = false;
     [SerializeField] private Door doorToUnlock;
 
-    
-     void Start()
+
+    protected override void Start()
     {
         base.Start();
+        
         if (doorToUnlock != null)
         {
             doorToUnlock.SetDoorToLocked(true);

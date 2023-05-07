@@ -18,7 +18,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public AudioClip interactionClip;
 
 
-    protected void Start()
+    protected virtual void Start()
     {
         soundSource = GetComponent<AudioSource>();
         if (messageDatabase != null && messageKeys.Count > 0)

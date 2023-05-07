@@ -11,15 +11,18 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float moveRadius = 15f;
     [SerializeField] private float viewRadius = 10f;
     [SerializeField] private float viewAngle = 360f;
+    [SerializeField] private float stunDuration = 2f;
     [SerializeField] private float walkingSpeed = 3f;
-    [SerializeField] private float PlayerVisible = 0f;
+    [SerializeField] private float fleeDistance = 5f;
+    private float stunEndTime;
+    public float PlayerVisible { get; private set; }
     [SerializeField] private float hunger = 0f;
     [SerializeField] private float hungerRate = 0.1f;
     [SerializeField] private float hungerThreshold = 0.8f;
     private float screamDelay = 0f;
     [SerializeField] private float corpseSearchRadius = 5f;
     [SerializeField] private float flipInterval = 2f;
-
+    [SerializeField] private State currentState = State.Idle;
 
     [SerializeField] private GameObject playerRef;
     [SerializeField] private GameObject enemyIndicatorPrefab;
@@ -40,12 +43,16 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float maxDistanceFromNoise;
 
 
+    void Awake()
+    {
+        playerRef = GameObject.FindGameObjectWithTag("Player");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
 
-        playerRef = GameObject.FindGameObjectWithTag("Player");
+        
 
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.updateRotation = false;
@@ -76,14 +83,14 @@ public class AIController : MonoBehaviour, IController
         hunger = Mathf.Clamp(hunger, 0, hungerThreshold);
 
 
-        See();
-        Attack();
+        UpdateSight();
+        UpdateAttack();
         if (hunger >= hungerThreshold)
         {
             EatCorpse();
             hungerThreshold *= 2;
         }
-        Move();
+        UpdateMove();
         RotateSprite();
 
 
@@ -133,7 +140,7 @@ public class AIController : MonoBehaviour, IController
             alienSounds.PlayPlayerSpottedSound();
         }
     }
-    private void See()
+    private void UpdateSight()
     {
         if (canSeePlayer && PlayerVisible >= 1 && playerRef.GetComponent<PlayerController>().CheckIfPlayerIsAlive())
         {
@@ -176,8 +183,18 @@ public class AIController : MonoBehaviour, IController
         }
     }
 
-    private void Move()
+    private void UpdateMove()
     {
+        if (IsStunned())
+        {
+            if (Time.time >= stunEndTime)
+            {
+                currentState = State.Idle;
+                navAgent.isStopped = false;
+            }
+            return;
+        }
+
         if (!navAgent.pathPending && navAgent.remainingDistance > 1f)
         {
             SetVolumeByDistance();
@@ -195,7 +212,7 @@ public class AIController : MonoBehaviour, IController
         }
         else
         {
-            alienSounds.StopWalingSound();
+            alienSounds.StopWalkingSound();
         }
     }
     private IEnumerator FOVCheck()
@@ -239,7 +256,7 @@ public class AIController : MonoBehaviour, IController
         return;
     }
 
-    private void Attack()
+    private void UpdateAttack()
     {
         if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f && playerRef.GetComponent<PlayerController>().CheckIfPlayerIsAlive())
         {
@@ -328,5 +345,41 @@ public class AIController : MonoBehaviour, IController
             alienSounds.ChangeWalkingVolume(1f - (distance / maxDistance));
             alienSounds.ChangeActionVolume(1f - (distance / maxDistance));
         }
+    }
+
+    private bool IsStunned()
+    {
+        return currentState == State.Stunned;
+    }
+
+    private void StunEnemy()
+    {
+        currentState = State.Stunned;
+        stunEndTime = Time.time + stunDuration;
+        navAgent.isStopped = true;
+    }
+
+    public void HandleThrowableObjectHit(Collider2D collider, State targetState)
+    {
+        if (collider.gameObject.CompareTag("Enemy") && collider.gameObject == gameObject)
+        {
+            if (targetState == State.Fleeing)
+            {
+                Flee();
+            }
+            else if(targetState == State.Stunned)
+            {
+                StunEnemy();
+            }
+        }
+    }
+    private void Flee()
+    {
+        currentState = State.Fleeing;
+
+        Vector2 fleeDirection = (transform.position - playerRef.transform.position).normalized;
+        Vector2 fleeTarget = (Vector2)transform.position + fleeDirection * fleeDistance;
+
+        navAgent.SetDestination(fleeTarget);
     }
 }

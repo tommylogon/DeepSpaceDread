@@ -102,7 +102,7 @@ public class AlienSounds : MonoBehaviour
         }
     }
 
-    internal void StopWalingSound()
+    internal void StopWalkingSound()
     {
         walkingIsActive = false;
         audioSourceWalking.Stop();

@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Locker: Press E to hide'
+  messages: []
   messageKeys:
   - InteractLocker1
   - InteractLocker2
@@ -245,7 +246,7 @@ GameObject:
   - component: {fileID: 547213304540299332}
   - component: {fileID: 1711674319649864475}
   - component: {fileID: 3640571800302167099}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: IgnoreRaycast
   m_Icon: {fileID: 0}

@@ -30,7 +30,7 @@ public class InteractReactor : Interactable
     private Light2D reactorLight;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         base.Start();
         reactorLight = GetComponentInChildren<Light2D>();

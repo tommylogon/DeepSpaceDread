@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ThrowableObject : Interactable
 {
@@ -11,13 +13,32 @@ public class ThrowableObject : Interactable
 
    [SerializeField] private float impactSoundRadius;
 
+    
+
+    public State targetState;
+
+    public SpriteRenderer spriteRenderer;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public virtual void HandleImpact(Collision2D collision)
+    public virtual void HandleImpact(Collider2D collider)
     {
+        if (collider.gameObject.CompareTag("Enemy"))
+        {
+            AIController aiController;
+            if (collider.gameObject.TryGetComponent<AIController>(out aiController))
+            {
+                aiController.HandleThrowableObjectHit(collider, targetState);
+            }
+            Vector2 bounceDirection = (transform.position - collider.transform.position).normalized;
+            float bounceForce = 2f; 
+            rb.AddForce(bounceDirection * bounceForce, ForceMode2D.Impulse);
+
+        }
         if (soundSource != null && impactSound != null)
         {
             soundSource.PlayOneShot(impactSound);
@@ -25,20 +46,27 @@ public class ThrowableObject : Interactable
 
         if(player == null)
         {
-            player = player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Player");
         }
+
+        
         player.GetComponent<PlayerController>().GenerateNoise(transform.position, impactSoundRadius,1f);
     }
 
-    public override void Interact()
+    public override void Interact() 
     {
         
         base.Interact();
-        // Handle object pickup and add to player's inventory
+       
         player.GetComponent<PlayerController>().AddToInventory(gameObject);
-        
-        gameObject.SetActive(false);
-    }
+
+        transform.SetParent(player.GetComponent<PlayerController>().GetHoldingPoint());
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        spriteRenderer.sortingOrder = 4;
+
+    
+       }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -48,7 +76,7 @@ public class ThrowableObject : Interactable
         }
         else
         {
-            HandleImpact(collision);
+            HandleImpact(collision.collider);
         }
     }
 
@@ -59,19 +87,25 @@ public class ThrowableObject : Interactable
                
         rb.AddForce(throwDirection * throwForce, ForceMode2D.Impulse);
         rb.AddTorque(Random.Range(-10f, 10f), ForceMode2D.Impulse);
+        spriteRenderer.sortingOrder = 0;
     }
 
-    public void HandleChildCollision(Collision2D collision)
+    public void HandleChildCollision(Collider2D collider)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collider.gameObject.CompareTag("Player"))
         {
-            Physics2D.IgnoreCollision(collision.collider, GetComponent<Collider2D>());
+            Physics2D.IgnoreCollision(collider, GetComponent<Collider2D>());
         }
         else
         {
-            HandleImpact(collision);
+            HandleImpact(collider);
+
+            
+           
+
         }
     }
+
 }
 
 
