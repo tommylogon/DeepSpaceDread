@@ -88,7 +88,7 @@ public class AIController : MonoBehaviour, IController
         if (hunger >= hungerThreshold)
         {
             EatCorpse();
-            hungerThreshold *= 2;
+           
         }
         UpdateMove();
         RotateSprite();
@@ -283,7 +283,9 @@ public class AIController : MonoBehaviour, IController
                 InteractObject interactableCorpse = corpse.GetComponent<InteractObject>();
                 if (interactableCorpse != null)
                 {
+
                     StartCoroutine(StartEating(interactableCorpse));
+                    hungerThreshold *= 2;
                 }
             }
         }

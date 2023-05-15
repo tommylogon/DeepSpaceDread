@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class InteractObject : Interactable
 {
     
-    [SerializeField] private string questInfo = "";
+    [SerializeField] protected string questInfo = "";
     [SerializeField] private bool saves = false;
     [SerializeField] private Door doorToUnlock;
 
