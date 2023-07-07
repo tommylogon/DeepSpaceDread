@@ -40,15 +40,33 @@
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    background-color: rgba(79, 79, 79, 255);
-    -unity-text-outline-color: rgba(0, 0, 0, 255);
-    border-left-color: rgba(144, 144, 144, 255);
-    border-right-color: rgba(144, 144, 144, 255);
-    border-top-color: rgba(144, 144, 144, 255);
-    border-bottom-color: rgba(144, 144, 144, 255);
-    color: rgba(255, 255, 255, 255);
+    background-color: rgb(79, 79, 79);
+    -unity-text-outline-color: rgb(0, 0, 0);
+    border-left-color: rgb(144, 144, 144);
+    border-right-color: rgb(144, 144, 144);
+    border-top-color: rgb(144, 144, 144);
+    border-bottom-color: rgb(144, 144, 144);
+    color: rgb(255, 255, 255);
     border-top-left-radius: 2px;
     border-bottom-left-radius: 2px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
+}
+
+.VisualElementStyle {
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    visibility: visible;
+    flex-direction: column;
+}
+
+.LabelStyle {
+    color: rgb(255, 255, 255);
+    align-items: stretch;
+    -unity-text-align: upper-left;
+}
+
+.ButtonStyle {
+    display-tooltip-when-elided: true;
 }

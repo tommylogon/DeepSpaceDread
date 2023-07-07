@@ -1,0 +1,57 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
+    <ui:VisualElement name="Screen" style="height: 100%; flex-grow: 1; align-items: stretch; justify-content: space-between; position: relative; width: 100%; flex-direction: row;">
+        <ui:VisualElement name="Left" style="width: 10%; flex-grow: 1;">
+            <ui:VisualElement name="MemoryPanel" style="height: auto; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: relative; top: 30px; left: auto;">
+                <ui:Label display-tooltip-when-elided="true" name="MemoryText" class="Text" style="height: auto;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Center" style="-unity-text-align: upper-center; width: auto; align-items: center; flex-grow: 1; justify-content: space-between;">
+            <ui:Label text="01:00:000" display-tooltip-when-elided="true" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: auto; position: relative; left: auto; display: flex; white-space: normal;" />
+            <ui:VisualElement name="GameStatePanel" style="top: auto; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66); display: flex;">
+                <ui:Label text="PRESS E or X-BUTTON TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" style="height: 58px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: none; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
+                <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
+                <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
+                <ui:Button text="CONTROLS" display-tooltip-when-elided="true" name="ControlsButton" class="Button" />
+                <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="Button" />
+                <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" class="Button" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64); flex-direction: column;">
+                <ui:Label text="Reactor Status: Unstable. Emergency power active. Enter override code to stabilize." display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); white-space: normal; align-items: stretch; -unity-text-align: upper-left;" />
+                <ui:VisualElement name="UnlockedStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled@2x.png?fileID=2800000&amp;guid=6fb5cabb85ba3794682b16eba19440cb&amp;type=3#TrackLockButtonDisabled@2x&apos;); width: 32px; height: 32px; display: none;" />
+                <ui:VisualElement name="CodeDisplay" style="flex-direction: row; justify-content: flex-start; align-items: center;">
+                    <ui:Label text="Input code: " name="InputLabel" style="color: rgb(255, 255, 255);" />
+                    <ui:Label name="CodeLabel" style="color: rgb(255, 255, 255); width: 100px; background-color: rgba(0, 0, 0, 0.64); padding-left: 5px; padding-right: 5px;" />
+                    <ui:VisualElement name="LockStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonEnabled@2x.png?fileID=2800000&amp;guid=2c85066ea99cfbe4f90294bf295ce543&amp;type=3#d_TrackLockButtonEnabled@2x&apos;); width: 32px; height: 32px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Keypad" style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
+                    <ui:Button text="1" display-tooltip-when-elided="true" name="Button1" class="NumberButton" />
+                    <ui:Button text="2" display-tooltip-when-elided="true" name="Button2" class="NumberButton" />
+                    <ui:Button text="3" display-tooltip-when-elided="true" name="Button3" class="NumberButton" />
+                    <ui:Button text="4" display-tooltip-when-elided="true" name="Button4" class="NumberButton" />
+                    <ui:Button text="5" display-tooltip-when-elided="true" name="Button5" class="NumberButton" />
+                    <ui:Button text="6" display-tooltip-when-elided="true" name="Button6" class="NumberButton" />
+                    <ui:Button text="7" display-tooltip-when-elided="true" name="Button7" class="NumberButton" />
+                    <ui:Button text="8" display-tooltip-when-elided="true" name="Button8" class="NumberButton" />
+                    <ui:Button text="X" display-tooltip-when-elided="true" name="XButton" class="NumberButton" />
+                    <ui:Button text="9" display-tooltip-when-elided="true" name="Button9" class="NumberButton" />
+                    <ui:Button text="0" display-tooltip-when-elided="true" name="Button0" class="NumberButton" />
+                    <ui:Button text="OK" display-tooltip-when-elided="true" name="OKButton" class="NumberButton" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ReactorControls" style="flex-direction: column; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
+                    <ui:Button text="Remove Control Rods" display-tooltip-when-elided="true" name="PullControlRodsButton" class="Button" />
+                    <ui:Button text="Shut Down Reactor" display-tooltip-when-elided="true" name="ShutDownReactorButton" class="Button" />
+                    <ui:Button text="Stabilize" display-tooltip-when-elided="true" name="StabilizeButton" class="Button" />
+                </ui:VisualElement>
+                <ui:Button text="Close Panel" display-tooltip-when-elided="true" name="ClosePanelButton" class="Button" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Message" style="position: relative; top: auto; left: auto; display: flex; height: auto; justify-content: flex-end; flex-grow: 0; align-items: flex-start; -unity-text-align: lower-center; flex-direction: column;">
+                <ui:Label text="Press x to interact" display-tooltip-when-elided="true" name="InteractionLable" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />
+                <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." display-tooltip-when-elided="true" name="message-lable" class="Text" style="position: relative; height: auto; top: auto; left: auto; width: 646px; white-space: normal; color: rgb(255, 255, 255); -unity-text-align: lower-left; align-items: flex-start;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Right" style="width: 20%;" />
+    </ui:VisualElement>
+</ui:UXML>
