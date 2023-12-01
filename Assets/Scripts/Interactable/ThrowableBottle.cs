@@ -5,17 +5,37 @@ using UnityEngine;
 public class ThrowableBottle : ThrowableObject
 {
     [SerializeField] private GameObject[] brokenBottlePrefab;
+    [SerializeField] private bool isSetToDestroy = false;
+    private float timer;
 
+    private void Update()
+    {
+       if(isSetToDestroy)
+        {
+            if(GetComponent<SpriteRenderer>().enabled)
+            GetComponent<SpriteRenderer>().enabled = false;
+
+            if(timer > 4)
+            {
+                Destroy(gameObject);
+            }
+            timer += Time.deltaTime;
+        }
+    }
     public override void HandleImpact(Collider2D collider)
     {
-        base.HandleImpact(collider);
-        // Specific behavior for the bottle
-        BreakBottle();
-
-        if (collider.gameObject.CompareTag("Enemy"))
+        if (!isSetToDestroy)
         {
-            HandleChildCollision(collider);
+            base.HandleImpact(collider);
+            // Specific behavior for the bottle
+            BreakBottle();
+
+            if (collider.gameObject.CompareTag("Enemy"))
+            {
+                HandleChildCollision(collider);
+            }
         }
+        
     }
 
     private void BreakBottle()
@@ -45,6 +65,6 @@ public class ThrowableBottle : ThrowableObject
 
 
         // Destroy original bottle game object
-        Destroy(gameObject);
+        isSetToDestroy = true;
     }
 }
