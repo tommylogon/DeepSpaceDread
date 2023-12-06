@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
+    <Style src="project://database/Assets/UXML/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
     <ui:VisualElement name="Screen" style="height: 100%; flex-grow: 1; align-items: stretch; justify-content: space-between; position: relative; width: 100%; flex-direction: row;">
         <ui:VisualElement name="Left" style="width: 10%; flex-grow: 1;">
             <ui:VisualElement name="MemoryPanel" style="height: auto; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: relative; top: 30px; left: auto;">
@@ -11,8 +11,8 @@
             <ui:VisualElement name="GameStatePanel" style="top: auto; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66); display: flex;">
                 <ui:Label text="PRESS E or X-BUTTON TO WAKE UP" display-tooltip-when-elided="true" name="StartOrGameOver" style="height: 58px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: none; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
-                <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
+            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
+                <ui:Button text="RESUME" display-tooltip-when-elided="true" name="ResumeButton" class="Button" />
                 <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
                 <ui:Button text="CONTROLS" display-tooltip-when-elided="true" name="ControlsButton" class="Button" />
                 <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="Button" />

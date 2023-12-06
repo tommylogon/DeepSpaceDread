@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool flashlightOn;
     public bool spriteCanRotate = false;
     public bool IsInsideLocker;
+    public ParticleSystem deathEffect;
 
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float sprintSpeed = 5f;
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public event NoiseGeneratedEventHandler OnNoiseGenerated;
 
     Rigidbody2D rb;
+
 
     [SerializeField] private GameObject throwableObjectInventory;
 
@@ -159,6 +161,11 @@ public class PlayerController : MonoBehaviour
         playerState = State.Dead;
         animator.SetBool("Dead", true);
         UIController.Instance.ShowGameOver(false);
+
+        if (deathEffect != null)
+        {
+            deathEffect.Play();
+        }
 
     }
 
@@ -340,7 +347,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerState == State.Dead)
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("GameScene");
         }
 
     }
@@ -407,6 +414,11 @@ public class PlayerController : MonoBehaviour
         if (interactableObject != null && playerState == State.Alive)
         {
             interactableObject.Interact();
+        }
+        if(IsInsideLocker && interactableObject == null)
+        {
+            Collider2D lockerCollider = Physics2D.OverlapCircle(transform.position, 2);
+            OnTriggerEnter2D (lockerCollider);
         }
     }
 

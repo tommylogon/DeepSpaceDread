@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class UIController : MonoBehaviour
@@ -75,19 +76,19 @@ public class UIController : MonoBehaviour
         messageLabel.visible = false;
         reactorInputPanel.style.display = DisplayStyle.None;
         timerLabel.visible = false;
+        menuPanel.style.display = DisplayStyle.None;
 
         ReactorControls.style.display = DisplayStyle.None;
-        ToggleMenu();
-
+        
        
         Timer.instance.OnTimeChanged += UpdateTimer;
 
-        RegusterButtons(root);
+        RegisterButtons(root);
         
 
     }
 
-    public void RegusterButtons(VisualElement root)
+    public void RegisterButtons(VisualElement root)
     {
         Button exitButton = root.Q<Button>("ExitButton");
         Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
@@ -95,11 +96,17 @@ public class UIController : MonoBehaviour
         Button StabilizeButton = root.Q<Button>("StabilizeButton");
         Button controlsButton = root.Q<Button>("ControlsButton");
         Button settingsButton = root.Q<Button>("SettingsButton");
+        Button resumeButton = root.Q<Button>("ResumeButton");
+        Button restartButton = root.Q<Button>("RestartButton");
+
         controlsButton.clicked += () => { ShowControlsPanel(); };
         settingsButton.clicked += () => { ShowSettingsPanel(); };
         PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
         ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
         StabilizeButton.clicked += StabilizeButton_Clicked;
+
+        resumeButton.clicked += ToggleMenu;
+        restartButton.clicked += RestartButton_Clicked ;
         exitButton.clicked += ExitButton_Clicked;
 
         for (int i = 0; i <= 9; i++)
@@ -254,8 +261,9 @@ public class UIController : MonoBehaviour
 
     internal void ToggleMenu()
     {
-        menuPanel.visible = !menuPanel.visible;
+        menuPanel.style.display = menuPanel.style.display == DisplayStyle.Flex ? DisplayStyle.None : DisplayStyle.Flex;
     }
+
     public void ShowControlsPanel()
     {
         controlsPanel.visible = true;
@@ -331,5 +339,13 @@ public class UIController : MonoBehaviour
     internal bool IsReactorShowing()
     {
         return reactorInputPanel.style.display != DisplayStyle.None;
+    }
+    public void RestartButton_Clicked()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+    public void ResumeButton_Clicked()
+    {
+
     }
 }

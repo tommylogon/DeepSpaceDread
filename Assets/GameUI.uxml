@@ -1,28 +1,27 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
+    <Style src="project://database/Assets/UXML/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
     <ui:VisualElement name="Screen" style="height: 100%; flex-grow: 1; align-items: stretch; justify-content: space-between; position: relative; width: 100%; flex-direction: row;">
         <ui:VisualElement name="Left" style="width: 10%; flex-grow: 1;">
             <ui:VisualElement name="MemoryPanel" style="height: auto; width: 210px; flex-grow: 0; align-items: flex-start; background-color: rgb(55, 55, 55); display: flex; opacity: 0.69; flex-direction: row; position: relative; top: 30px; left: auto;">
-                <ui:Label  name="MemoryText" class="Text" style="height: auto;" />
+                <ui:Label name="MemoryText" class="Text" style="height: auto;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Center" style="-unity-text-align: upper-center; width: auto; align-items: center; flex-grow: 1; justify-content: space-between;">
-            <ui:Label text="01:00:000"  name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: auto; position: relative; left: auto; display: flex; white-space: normal;" />
+            <ui:Label text="01:00:000" name="Countdown" style="color: rgb(255, 0, 0); font-size: 70px; -unity-font-style: bold; -unity-font: initial; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1px; border-bottom-left-radius: 1px; border-top-right-radius: 1px; border-bottom-right-radius: 1px; -unity-text-outline-width: 2px; top: auto; position: relative; left: auto; display: flex; white-space: normal;" />
             <ui:VisualElement name="GameStatePanel" style="top: auto; color: rgb(255, 255, 255); font-size: 24px; background-color: rgba(43, 43, 43, 0.66); display: flex;">
-                <ui:Label text="PRESS E or X-BUTTON TO WAKE UP"  name="StartOrGameOver" style="height: 58px;" />
+                <ui:Label text="PRESS E or X-BUTTON TO WAKE UP" name="StartOrGameOver" style="height: 58px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: none; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
-                <ui:Button text="RESTART"  name="RestartButton" class="Button" />
-                <ui:Button text="RESTART"  name="RestartButton" class="Button" />
-                <ui:Button text="CONTROLS"  name="ControlsButton" class="Button" />
-                <ui:Button text="Settings"  name="SettingsButton" class="Button" />
-                <ui:Button text="Exit"  name="ExitButton" class="Button" />
+            <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
+                <ui:Button text="RESUME" name="ResumeButton" class="Button" />
+                <ui:Button text="RESTART" name="RestartButton" class="Button" />
+                <ui:Button text="CONTROLS" name="ControlsButton" class="Button" />
+                <ui:Button text="Settings" name="SettingsButton" class="Button" />
+                <ui:Button text="Exit" name="ExitButton" class="Button" />
             </ui:VisualElement>
-            <ui:VisualElement name="MainContent">
-			</ui:VisualElement>
+            <ui:VisualElement name="MainContent" />
             <ui:VisualElement name="Message" style="position: relative; top: auto; left: auto; display: flex; height: auto; justify-content: flex-end; flex-grow: 0; align-items: flex-start; -unity-text-align: lower-center; flex-direction: column;">
-                <ui:Label text="Press x to interact"  name="InteractionLable" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />
-                <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately."  name="message-lable" class="Text" style="position: relative; height: auto; top: auto; left: auto; width: 646px; white-space: normal; color: rgb(255, 255, 255); -unity-text-align: lower-left; align-items: flex-start;" />
+                <ui:Label text="Press x to interact" name="InteractionLable" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />
+                <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." name="message-lable" class="Text" style="position: relative; height: auto; top: auto; left: auto; width: 646px; white-space: normal; color: rgb(255, 255, 255); -unity-text-align: lower-left; align-items: flex-start;" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Right" style="width: 20%;" />
