@@ -8,8 +8,7 @@ public class TentacleMover : MonoBehaviour
 {
 
     public Transform tentacleTarget;
-    public Transform EffectorOrigin;
-    public Transform distanceParent; //check distance from parent in chain to avoid stretches
+
     public float moveDistance;
     public float raycastDistance = 0.2f;
     public LayerMask wallLayer;
@@ -18,6 +17,8 @@ public class TentacleMover : MonoBehaviour
     public bool canAttachToWall;
     public float moveSpeed;
     public float distance;
+    Vector3 newTargetPos;
+
     
 
     // Update is called once per frame
@@ -25,16 +26,20 @@ public class TentacleMover : MonoBehaviour
     {
         WallChecker();
         distance = Vector2.Distance(tentacleTarget.position, transform.position);
-        if (distance > moveDistance || isMoving)
+       
+        
+        if (distance > moveDistance  && !isMoving )
         {
             isMoving = true;   
+            newTargetPos = transform.position;
         }
         if(isMoving)
         {
             float t = Time.deltaTime * moveSpeed;
-            tentacleTarget.position = Vector3.Lerp(tentacleTarget.position, transform.position, t);
+            tentacleTarget.position = Vector3.Lerp(tentacleTarget.position, newTargetPos, t);
+            //tentacleTarget.position = transform.position;
         }
-        if(Vector2.Distance(tentacleTarget.position, transform.position) < 0.5)
+        if(Vector2.Distance(tentacleTarget.position, newTargetPos) < 0.1 && isMoving)
         {
             isMoving = false;
         }
@@ -89,11 +94,11 @@ public class TentacleMover : MonoBehaviour
             
             return;
         }
-        if(EffectorOrigin != null && attachedToWall)
-        {
-            transform.position = EffectorOrigin.transform.position;
-            attachedToWall = false;
-        }
+        //if(EffectorOrigin != null && attachedToWall)
+        //{
+        //    transform.position = EffectorOrigin.transform.position;
+        //    attachedToWall = false;
+        //}
             
     }
     private RaycastHit2D CastRay(Vector2 direction)
