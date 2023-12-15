@@ -1,23 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 public class TentacleMover : MonoBehaviour
 {
+
     public Transform tentacleTarget;
+    public Transform EffectorOrigin;
+    public Transform distanceParent; //check distance from parent in chain to avoid stretches
     public float moveDistance;
-    float raycastDistance = 5f;
-    public Vector3 direction = Vector3.up;
+    public float raycastDistance = 0.2f;
     public LayerMask wallLayer;
+    bool isMoving;
+    bool attachedToWall;
+    public bool canAttachToWall;
+    public float moveSpeed;
+    public float distance;
     
 
     // Update is called once per frame
     void Update()
     {
         WallChecker();
-        if(Vector2.Distance(tentacleTarget.position, transform.position) > moveDistance)
+        distance = Vector2.Distance(tentacleTarget.position, transform.position);
+        if (distance > moveDistance || isMoving)
         {
-            tentacleTarget.position = transform.position;
+            isMoving = true;   
+        }
+        if(isMoving)
+        {
+            float t = Time.deltaTime * moveSpeed;
+            tentacleTarget.position = Vector3.Lerp(tentacleTarget.position, transform.position, t);
+        }
+        if(Vector2.Distance(tentacleTarget.position, transform.position) < 0.5)
+        {
+            isMoving = false;
         }
         
     }
@@ -28,29 +47,58 @@ public class TentacleMover : MonoBehaviour
          // You can change this to Vector3.right, Vector3.left, or Vector3.down as needed
         
 
-        // Perform the raycast
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, raycastDistance, wallLayer);
 
-        if (hit.collider != null)
+        RaycastHit2D hitUp = CastRay(Vector2.up);
+        RaycastHit2D hitDown = CastRay(Vector2.down);
+        RaycastHit2D hitLeft = CastRay(Vector2.left);
+        RaycastHit2D hitRight = CastRay(Vector2.right);
+
+        // Store all hits in a list
+        List<RaycastHit2D> hits = new List<RaycastHit2D> { hitUp, hitDown, hitLeft, hitRight };
+
+        // Filter out the non-hits and find the closest hit
+        RaycastHit2D closestHit = hits.Where(hit => hit.collider != null)
+                                      .OrderBy(hit => hit.distance)
+                                      .FirstOrDefault();
+
+        if (closestHit.collider != null)
         {
-            Vector3 point = hit.point;
+            Vector3 point = closestHit.point;
 
-            // Adjust the position slightly away from the wall
-            // Check if the raycast is vertical (up or down)
-            if (direction == Vector3.up || direction == Vector3.down)
+            // Determine the direction of the hit relative to the tentacle's position
+            Vector3 hitDirection = point - transform.position;
+
+            // Adjust the position slightly away from the wall based on the hit direction
+            if (Mathf.Abs(hitDirection.x) > Mathf.Abs(hitDirection.y))
             {
-                // Adjust Y position
-                point.y += (direction == Vector3.up) ? -0.1f : 0.1f;
+                // The hit is more horizontal (left or right)
+                point.x += hitDirection.x > 0 ? -0.1f : 0.1f; // Adjust X position
             }
             else
             {
-                // For horizontal raycast (left or right), adjust X position
-                point.x += (direction == Vector3.right) ? 0.1f : -0.1f;
+                // The hit is more vertical (up or down)
+                point.y += hitDirection.y > 0 ? -0.1f : 0.1f; // Adjust Y position
             }
 
             // Update the GameObject's position
-            transform.position = point;
+            if (canAttachToWall)
+            {
+                transform.position = point;
+                attachedToWall = true;
+            }
+            
+            return;
         }
+        if(EffectorOrigin != null && attachedToWall)
+        {
+            transform.position = EffectorOrigin.transform.position;
+            attachedToWall = false;
+        }
+            
+    }
+    private RaycastHit2D CastRay(Vector2 direction)
+    {
+        return Physics2D.Raycast(transform.position, direction, raycastDistance, wallLayer);
     }
 
 }
