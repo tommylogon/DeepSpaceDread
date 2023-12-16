@@ -27,7 +27,7 @@ public class InteractObject : Interactable
     // Update is called once per frame
     public override void Interact()
     {
-        if (canInteract)
+        if (closeEnoughToInteract)
         {
             string randomMessage = "";
             if (messages.Count > 0 && messages[0] != "")

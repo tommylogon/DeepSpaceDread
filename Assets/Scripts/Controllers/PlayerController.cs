@@ -9,19 +9,17 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     #region Fields and Properties
+    
 
     [SerializeField] private bool godMode;
     private bool lastInputFromController;
-    public bool isCrouching;
-    public bool isSprinting;
+   
     private bool flashlightOn;
-    public bool spriteCanRotate = false;
+
     public bool IsInsideLocker;
     public ParticleSystem deathEffect;
 
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float sprintSpeed = 5f;
-    [SerializeField] private float maxSpeed = 1f;
+
     [SerializeField] private float baseVisibility = 1f;
     [SerializeField] private float visibility;
     [SerializeField] private float detectionRadius = 5;
@@ -51,10 +49,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject throwableObjectInventory;
 
     public PlayerControls controls;
+    private TDPlayerMovement playerMovement;
+    private Resource playerHealth;
+    
     public InputAction move;
     public InputAction aim;
 
-    private Quaternion originalRotation;
 
     private IInteractable interactableObject;
 
@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
     {
         mainCameraTransform = Camera.main.transform;
         controls = new PlayerControls();
+        playerMovement = GetComponent<TDPlayerMovement>();
+        playerHealth = GetComponent<Resource>();
     }
 
     void Start()
@@ -77,7 +79,7 @@ public class PlayerController : MonoBehaviour
         FlashLight.SetActive(false);
         aroundPlayerLight.SetActive(false);
 
-        originalRotation = transform.rotation;
+        
     }
 
     private void OnEnable()
@@ -89,11 +91,13 @@ public class PlayerController : MonoBehaviour
         controls.Player.Interact.performed += _ => Interact();
         controls.Player.Interact.performed += _ => WakeUp();
         controls.Player.Restart.performed += _ => RestartScene();
-        controls.Player.Run.started += _ => SetSprinting(true);
-        controls.Player.Run.canceled += _ => SetSprinting(false);
+        controls.Player.Run.started += _ => Sprint(true);
+        controls.Player.Run.canceled += _ => Sprint(false);
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
         controls.Player.Escape.performed += _ => EscapeKeyPressed();
+
+        playerHealth.OnEmpty += PlayerDied;
     }
 
     private void OnDisable()
@@ -104,11 +108,13 @@ public class PlayerController : MonoBehaviour
         controls.Player.Interact.performed -= _ => Interact();
         controls.Player.Interact.performed -= _ => WakeUp();
         controls.Player.Restart.performed -= _ => RestartScene();
-        controls.Player.Run.started -= _ => SetSprinting(true);
-        controls.Player.Run.canceled -= _ => SetSprinting(false);
+        controls.Player.Run.started -= _ => playerMovement.SetSprinting(true);
+        controls.Player.Run.canceled -= _ => playerMovement.SetSprinting(false);
         controls.Player.Throw.performed -= _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed -= _ => ToggleFlashlight();
         controls.Player.Escape.performed -= _ => EscapeKeyPressed();
+
+        playerHealth.OnEmpty -= PlayerDied;
     }
 
     // Update is called once per frame
@@ -118,7 +124,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerState == State.Alive)
         {
-            Move(move.ReadValue<Vector2>());
+            playerMovement.Move(move.ReadValue<Vector2>());
             Aim(aim.ReadValue<Vector2>());
             HandleMovementSounds();
         }
@@ -150,7 +156,10 @@ public class PlayerController : MonoBehaviour
         
     }
 
-
+    public void TakeDamage(int damage)
+    {
+        playerHealth.ReduceRecource(damage);
+    }
 
     public void PlayerDied()
     {
@@ -160,12 +169,15 @@ public class PlayerController : MonoBehaviour
         }
         playerState = State.Dead;
         animator.SetBool("Dead", true);
-        UIController.Instance.ShowGameOver(false);
-
+        
         if (deathEffect != null)
         {
             deathEffect.Play();
         }
+
+        UIController.Instance.ShowGameOver(false);
+
+        
 
     }
 
@@ -216,40 +228,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-    private void Move(Vector2 direction)
+    public void Sprint(bool sprinting)
     {
-        if (direction.x != 0 || direction.y != 0)
-        {
-            Vector3 cameraUp = mainCameraTransform.up;
-            cameraUp.z = 0;
-            cameraUp.Normalize();
-            Vector3 cameraRight = mainCameraTransform.right;
-            cameraRight.z = 0;
-            cameraRight.Normalize();
-
-            // Calculate movement direction based on input and camera rotation
-            Vector3 movement = (cameraUp * direction.y + cameraRight * direction.x);
-            movement = Vector3.ClampMagnitude(movement, 1f);
-
-            float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
-            rb.AddForce(movement * currentSpeed);
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
-            if (CanHearPlayerRunning())
-            {
-                float noiseRadius = 20;
-                GenerateNoise(transform.position, noiseRadius,.2f);
-            }
-
-        }
-        if (!spriteCanRotate && transform.rotation.z != 0)
-        {
-            transform.rotation = originalRotation;
-        }
-
-
-
+        playerMovement.SetSprinting(sprinting);
+        
+            animator.speed = sprinting ? 1.5f : 1;
     }
+
 
     public void ChangeFlashlighStatus(bool status)
     {
@@ -336,7 +321,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CanHearPlayerRunning()
     {
-        if (isSprinting && rb.velocity.magnitude > 0.5)
+        if (playerMovement.isSprinting && rb.velocity.magnitude > 0.5)
         {
             return true;
         }
@@ -352,10 +337,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void SetSprinting(bool sprinting)
-    {
-        isSprinting = sprinting;
-    }
+    
 
 
 
@@ -363,7 +345,7 @@ public class PlayerController : MonoBehaviour
     {
         if (rb.velocity.magnitude > 0.2)
         {
-            GetComponent<PlayerSounds>().PlayFootstepSound(isSprinting);
+            GetComponent<PlayerSounds>().PlayFootstepSound(playerMovement.isSprinting);
         }
         else if (rb.velocity.magnitude < 0.1)
         {

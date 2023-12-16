@@ -13,7 +13,6 @@ public class TentacleMover : MonoBehaviour
     public float raycastDistance = 0.2f;
     public LayerMask wallLayer;
     bool isMoving;
-    bool attachedToWall;
     public bool canAttachToWall;
     public float moveSpeed;
     public float distance;
@@ -89,7 +88,7 @@ public class TentacleMover : MonoBehaviour
             if (canAttachToWall)
             {
                 transform.position = point;
-                attachedToWall = true;
+              
             }
             
             return;

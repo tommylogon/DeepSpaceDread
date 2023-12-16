@@ -8,7 +8,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public List<string> messages;
     public List<string> messageKeys;
     public MessageDatabase messageDatabase;
-    [SerializeField] public bool canInteract = false;
+    [SerializeField] protected bool closeEnoughToInteract = false;
     [SerializeField] public float noiseRadius;
 
     protected GameObject player;
@@ -32,7 +32,7 @@ public class Interactable : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            canInteract = true;
+            closeEnoughToInteract = true;
             UIController.Instance.ShowInteraction(interactText);
             player = other.gameObject;
         }
@@ -42,7 +42,7 @@ public class Interactable : MonoBehaviour, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            canInteract = false;
+            closeEnoughToInteract = false;
             UIController.Instance.HideInteraction();
             UIController.Instance.HideMessageAfterDelay(10f);
             player = null;

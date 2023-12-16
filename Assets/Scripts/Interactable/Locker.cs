@@ -12,7 +12,13 @@ public class Locker : Interactable
     
     private bool playerInsideLocker = false;
 
-    
+    private Resource lockerHealth;
+
+    protected override void Start()
+    {
+        lockerHealth = GetComponent<Resource>();
+        base.Start();
+    }
 
     private void Update()
     {

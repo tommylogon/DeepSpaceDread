@@ -16,7 +16,7 @@ public class InteractEscape : Interactable
 
     public override void Interact()
     {
-        if (canInteract)
+        if (closeEnoughToInteract)
         {
             player.transform.position = transform.position;
             player.GetComponent<SpriteRenderer>().sortingOrder = -2;

@@ -21,7 +21,7 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float hungerThreshold = 0.8f;
     private float screamDelay = 0f;
     [SerializeField] private float corpseSearchRadius = 5f;
-    [SerializeField] private float flipInterval = 2f;
+
     [SerializeField] private State currentState = State.Idle;
 
     [SerializeField] private GameObject playerRef;
@@ -68,7 +68,7 @@ public class AIController : MonoBehaviour, IController
         enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
         playerRef.GetComponent<PlayerController>().OnNoiseGenerated += HearNoise; ;
 
-        StartCoroutine(FlipSprite());
+     
 
     }
 
@@ -84,7 +84,10 @@ public class AIController : MonoBehaviour, IController
 
 
         UpdateSight();
-        UpdateAttack();
+        if (UpdateAttack())
+        {
+            StunEnemy();
+        }
         if (hunger >= hungerThreshold)
         {
             EatCorpse();
@@ -114,16 +117,6 @@ public class AIController : MonoBehaviour, IController
 
     }
 
-    private IEnumerator FlipSprite()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(flipInterval);
-            Vector3 currentScale = transform.localScale;
-            currentScale.x *= -1; // Flip the sprite along the Y-axis
-            transform.localScale = currentScale;
-        }
-    }
 
     private void AlienScream()
     {
@@ -185,7 +178,7 @@ public class AIController : MonoBehaviour, IController
 
     private void UpdateMove()
     {
-        if (IsStunned())
+        if (currentState == State.Stunned)
         {
             if (Time.time >= stunEndTime)
             {
@@ -256,9 +249,10 @@ public class AIController : MonoBehaviour, IController
         return;
     }
 
-    private void UpdateAttack()
+    private bool UpdateAttack()
     {
-        if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f && playerRef.GetComponent<PlayerController>().CheckIfPlayerIsAlive())
+        PlayerController playCon = playerRef.GetComponent<PlayerController>();
+        if (canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f && playCon.CheckIfPlayerIsAlive())
         {
 
             if (!alienSounds.IsPlaying())
@@ -266,9 +260,12 @@ public class AIController : MonoBehaviour, IController
                 alienSounds.PlayAttackSound();
 
             }
-            playerRef.GetComponent<PlayerController>().PlayerDied();
+            playCon.TakeDamage(1);
+            return true;
 
         }
+
+        return false;
     }
     private void EatCorpse()
     {
@@ -349,10 +346,6 @@ public class AIController : MonoBehaviour, IController
         }
     }
 
-    private bool IsStunned()
-    {
-        return currentState == State.Stunned;
-    }
 
     private void StunEnemy()
     {

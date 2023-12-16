@@ -41,7 +41,7 @@ public class InteractReactor : Interactable
     }
     public override void Interact()
     {
-        if (canInteract)
+        if (closeEnoughToInteract)
         {
             UIController.Instance.ShowReactorPanel();
         }
@@ -124,9 +124,7 @@ public class InteractReactor : Interactable
                 }
             }
 
-            player.GetComponent<Rigidbody2D>().drag = 0;
-            player.GetComponent<PlayerController>().spriteCanRotate = true;
-            player.GetComponent<AudioSource>().enabled = false; ;
+            
 
             UIController.Instance.HideReactorPanel();
             UIController.Instance.ShowMessage(messages[1]);
