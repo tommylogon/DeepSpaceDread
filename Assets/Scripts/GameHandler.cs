@@ -10,9 +10,16 @@ public class GameHandler : MonoBehaviour
     public static GameHandler instance;
 
     [SerializeField] private  bool RunGame;
-   
+    public delegate void NoiseGeneratedEventHandler(Vector2 noiseOrigin, float noiseRadius);
+    public event NoiseGeneratedEventHandler OnNoiseGenerated;
 
-
+    public enum GameState
+    {
+        Menu,
+        Game, 
+        GameOver,
+        Finish
+    }
 
     private void Awake()
     {
@@ -37,10 +44,13 @@ public class GameHandler : MonoBehaviour
 
     }
 
-    private void Update()
+    public void GenerateNoise(Vector2 noiseOrigin, float noiseRadius, float hearingChance)
     {
-        
+        float randomChance = UnityEngine.Random.Range(0f, 1f);
+        if (randomChance <= hearingChance)
+        {
+            OnNoiseGenerated?.Invoke(noiseOrigin, noiseRadius);
+        }
     }
 
-    
 }

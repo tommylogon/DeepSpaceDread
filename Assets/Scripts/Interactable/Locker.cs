@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Locker : Interactable
 
@@ -10,19 +11,22 @@ public class Locker : Interactable
     // Set this in the Inspector to the layer you want to hide the player on
     public LayerMask hiddenLayer;
     
-    private bool playerInsideLocker = false;
+    private bool lockerIsOccupied = false;
 
     private Resource lockerHealth;
+
+    private Light2D lockerLight;
 
     protected override void Start()
     {
         lockerHealth = GetComponent<Resource>();
+        lockerLight = GetComponentInChildren<Light2D>();
         base.Start();
     }
 
     private void Update()
     {
-        if(playerInsideLocker)
+        if(lockerIsOccupied)
         {
             player.transform.position = transform.position;
         }
@@ -30,28 +34,40 @@ public class Locker : Interactable
     public override void Interact()
     {
         base.Interact();
-
-        if (!playerInsideLocker)
+        if(lockerHealth != null && lockerHealth.GetValue() > 0) 
         {
-            // Hide the player by setting its layer to the hidden layer
-            player.layer = (int)Mathf.Log(hiddenLayer.value, 2);
-            player.GetComponent<SpriteRenderer>().enabled = false;
-            player.GetComponent<PlayerController>().ChangeFlashlighStatus(false);
+            if (!lockerIsOccupied)
+            {
+                lockerIsOccupied = true;
+                PlayMessage(0,2);
 
-            playerInsideLocker = true;
-            player.GetComponent<PlayerController>().IsInsideLocker = true;
+            }
+            else
+            {
+                lockerIsOccupied = false;
+            }
+            PlaySound("LockerOpen");
+            
         }
         else
         {
-            // Unhide the player by setting its layer back to the default layer
-            player.layer = LayerMask.NameToLayer("Player");
-            player.GetComponent<SpriteRenderer>().enabled = true;
-            player.GetComponent<PlayerController>().ChangeFlashlighStatus(true);
+            lockerIsOccupied = false;
 
-            playerInsideLocker = false;
-            player.GetComponent<PlayerController>().IsInsideLocker = false;
+            PlaySound("LockerBroken");
+            playRandomMessage = false;
+            PlayMessage(3);
         }
         
-        
+
+        player.ShowPlayer(!lockerIsOccupied);
+
     }
+
+
+    public void TakeDamage(int damage)
+    {
+        lockerHealth.ReduceRecource(damage);
+        lockerLight.color = Color.red;
+    }
+
 }

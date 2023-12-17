@@ -6,8 +6,7 @@ using UnityEngine.UIElements;
 public class InteractObject : Interactable
 {
     
-    [SerializeField] protected string questInfo = "";
-    [SerializeField] private bool saves = false;
+    
     [SerializeField] private Door doorToUnlock;
 
 
@@ -27,33 +26,11 @@ public class InteractObject : Interactable
     // Update is called once per frame
     public override void Interact()
     {
-        if (closeEnoughToInteract)
-        {
-            string randomMessage = "";
-            if (messages.Count > 0 && messages[0] != "")
-            {
-                randomMessage = messages[0];
-                if (messages.Count > 1)
-                {
-                    randomMessage = messages[Random.Range(0, messages.Count)];
-                }
-            }
-            else
-            {
-                randomMessage = "NOT ASSIGNED, SHAME";
-            }
-            
-            
-            UIController.Instance.ShowMessage(randomMessage);
+        PlayMessage(0);
 
-            if (saves)
-            {
-                UIController.Instance.SaveToMemory(questInfo);
-            }
-            if(doorToUnlock != null)
-            {
-                doorToUnlock.SetDoorToLocked(false);
-            }
+        if (doorToUnlock != null)
+        {
+            doorToUnlock.SetDoorToLocked(false);
         }
     }
 

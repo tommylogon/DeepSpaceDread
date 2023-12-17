@@ -11,18 +11,29 @@ public class Door : Interactable
 
     public override void Interact()
     {
-        if (locked)
-        {
-            if(messages.Count > 0 && messages[0] != "")
-            {
-
-            }
-            UIController.Instance.ShowMessage(messages[0]);
-            return;
-        }
-
         base.Interact();
-        ToggleDoor();
+        if (!locked)
+        {
+            if (isOpen)
+            {
+                PlaySound("CloseDoor");
+            }
+            else
+            {
+                PlaySound("OpenDoor");
+            }
+            
+            ToggleDoor();
+            
+        }
+        if (messages.Count > 0 && messages[0] != "")
+        {
+            PlaySound("LockedDoor");
+            UIController.Instance.ShowMessage(messages[0]);
+        }
+        
+
+
     }
 
     private void ToggleDoor()

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool flashlightOn;
 
     public bool IsInsideLocker;
-    public ParticleSystem deathEffect;
+    public ParticleSystem damageEffect;
 
 
     [SerializeField] private float baseVisibility = 1f;
@@ -38,19 +39,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask litLayer;
     [SerializeField] private LayerMask wallLayer;
-    [SerializeField] private LayerMask alienLayer;
 
-    public delegate void NoiseGeneratedEventHandler(Vector2 noiseOrigin, float noiseRadius);
-    public event NoiseGeneratedEventHandler OnNoiseGenerated;
+   
 
     Rigidbody2D rb;
-
+    SpriteRenderer spriteRenderer;
 
     [SerializeField] private GameObject throwableObjectInventory;
 
     public PlayerControls controls;
     private TDPlayerMovement playerMovement;
     private Resource playerHealth;
+
+
     
     public InputAction move;
     public InputAction aim;
@@ -68,6 +69,7 @@ public class PlayerController : MonoBehaviour
         controls = new PlayerControls();
         playerMovement = GetComponent<TDPlayerMovement>();
         playerHealth = GetComponent<Resource>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Start()
@@ -128,7 +130,7 @@ public class PlayerController : MonoBehaviour
             Aim(aim.ReadValue<Vector2>());
             HandleMovementSounds();
         }
-        else if (playerState == State.Dead)
+        else if (playerState == State.Dead || rb.velocity == Vector2.zero)
         {
             StopMovingAndPlayingSounds();
         }
@@ -170,9 +172,9 @@ public class PlayerController : MonoBehaviour
         playerState = State.Dead;
         animator.SetBool("Dead", true);
         
-        if (deathEffect != null)
+        if (damageEffect != null)
         {
-            deathEffect.Play();
+            damageEffect.Play();
         }
 
         UIController.Instance.ShowGameOver(false);
@@ -304,11 +306,11 @@ public class PlayerController : MonoBehaviour
 
         if (colliders.Length > 0)
         {
-            visibility = 1f;
+            visibility = 0.08f;
         }
         else
         {
-            visibility = flashlightOn ? 0.5f : 0.2f;
+            visibility = flashlightOn ? 0.15f : 0.02f;
         }
     }
 
@@ -357,6 +359,7 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         GetComponent<PlayerSounds>().StopSound();
+        animator.speed = 0.5f;
     }
 
     private void ThrowObject()
@@ -404,14 +407,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GenerateNoise(Vector2 noiseOrigin, float noiseRadius, float hearingChance)
-    {
-        float randomChance = Random.Range(0f, 1f);
-        if (randomChance <= hearingChance)
-        {
-            OnNoiseGenerated?.Invoke(noiseOrigin, noiseRadius);
-        }
-    }
+    
 
     public bool CheckIfPlayerIsAlive()
     {
@@ -445,6 +441,24 @@ public class PlayerController : MonoBehaviour
     public Transform GetHoldingPoint()
     {
         return holdingPoint;
+    }
+
+    public void ShowPlayer(bool isVisible)
+    {
+        if (isVisible)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("BehindMask");
+        }
+        spriteRenderer.enabled = isVisible;
+        ChangeFlashlighStatus(isVisible);
+        IsInsideLocker = isVisible;
+
+
     }
     #endregion
 }

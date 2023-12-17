@@ -14,11 +14,6 @@ public class InteractOffice : InteractObject
         questInfo = questInfo.Replace("{code}", code);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void GenerateRandomCode()
     {

@@ -9,13 +9,19 @@ public class Interactable : MonoBehaviour, IInteractable
     public List<string> messageKeys;
     public MessageDatabase messageDatabase;
     [SerializeField] protected bool closeEnoughToInteract = false;
+    [SerializeField] protected bool playRandomMessage;
     [SerializeField] public float noiseRadius;
 
-    protected GameObject player;
+    protected PlayerController player;
 
     protected AudioSource soundSource;
+    [SerializeField] private List<string> SoundKeys;
+    [SerializeField] private List<AudioClip> soundValues;
 
-    public AudioClip interactionClip;
+    [SerializeField] protected string questInfo = "";
+    [SerializeField] private bool saves = false;
+
+    private Dictionary<string, AudioClip> interactionSounds;
 
 
     protected virtual void Start()
@@ -25,7 +31,11 @@ public class Interactable : MonoBehaviour, IInteractable
         {
             messages = messageDatabase.GetMessages(messageKeys);
         }
-
+        interactionSounds = new Dictionary<string, AudioClip>();
+        for (int i = 0; i < Mathf.Min(SoundKeys.Count, soundValues.Count); i++)
+        {
+            interactionSounds[SoundKeys[i]] = soundValues[i];
+        }
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -34,7 +44,7 @@ public class Interactable : MonoBehaviour, IInteractable
         {
             closeEnoughToInteract = true;
             UIController.Instance.ShowInteraction(interactText);
-            player = other.gameObject;
+            player = other.GetComponent<PlayerController>();
         }
     }
 
@@ -51,12 +61,53 @@ public class Interactable : MonoBehaviour, IInteractable
 
    
 
-public virtual void Interact()
+    public virtual void Interact()
     {
-        if (interactionClip != null)
+        PlaySound("DefaultSound");
+    }
+    protected void PlaySound(string soundKey)
+    {
+        if (interactionSounds.TryGetValue(soundKey, out AudioClip clip))
         {
-            soundSource.PlayOneShot(interactionClip);
-            player.GetComponent<PlayerController>().GenerateNoise(transform.position, noiseRadius, 1);
+            soundSource.PlayOneShot(clip);
+            GameHandler.instance.GenerateNoise(transform.position, noiseRadius, 1);
+        }
+    }
+
+    protected void PlayMessage(int messageIndex = 0, int messageRange = 1)
+    {
+        if (closeEnoughToInteract)
+        {
+            string selectedMessage = "It's Empty...";
+            if (messages.Count > 0 && messages[0] != "")
+            {
+                if (playRandomMessage || messageRange>1)
+                {
+                    
+                    if (messages.Count > 1)
+                    {
+                        selectedMessage = messages[Random.Range(0, messageRange)];
+                        if(selectedMessage == "")
+                        {
+                            selectedMessage = "Ugh...";
+                        }
+                    }
+
+                }
+                else
+                {
+                    selectedMessage = messages[messageIndex];
+                }
+            }            
+            UIController.Instance.ShowMessage(selectedMessage);
+
+            if (saves)
+            {
+                UIController.Instance.SaveToMemory(questInfo);
+            }
+            
         }
     }
 }
+
+

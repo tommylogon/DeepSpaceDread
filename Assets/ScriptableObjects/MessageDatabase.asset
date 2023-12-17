@@ -190,7 +190,10 @@ MonoBehaviour:
   - key: InteractLocker2
     message: The cramped space and lingering smell of sweat make me uneasy.
     tag: 7
-  - key: Interactlocker3
-    message: 'Scratched into the locker''s wall, I spot an ominous message: ''They''re
-      always watching.'
+  - key: InteractLocker3
+    message: 'Scratched into the locker''s wall, I spot an ominous message: ''The
+      lockers are not safe!''.'
+    tag: 7
+  - key: InteractLockerBroken
+    message: I cant use this anymore. it's broken.
     tag: 7

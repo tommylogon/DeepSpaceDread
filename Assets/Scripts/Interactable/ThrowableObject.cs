@@ -42,15 +42,9 @@ public class ThrowableObject : Interactable
         if (soundSource != null && impactSound != null)
         {
             soundSource.PlayOneShot(impactSound);
-        } 
-
-        if(player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
+        }         
         
-        player.GetComponent<PlayerController>().GenerateNoise(transform.position, impactSoundRadius,1f);
+        GameHandler.instance.GenerateNoise(transform.position, impactSoundRadius,1f);
     }
 
     public override void Interact() 
