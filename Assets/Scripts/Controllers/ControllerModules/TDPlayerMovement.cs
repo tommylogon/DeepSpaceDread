@@ -14,15 +14,27 @@ public class TDPlayerMovement : MonoBehaviour
     private Quaternion originalRotation;
     private bool spriteCanRotate;
     public bool isCrouching;
-    public bool isSprinting { get; private set; }
+    public bool isSprinting;
+    public movementState currentMovementState { get; private set; }
     
     
+    public enum movementState{ 
+        Idle,
+        Walking,
+        Sprinting
+    }
+
     // Start is called before the first frame update
     void Awake()
     {
         
         mainCameraTransform = Camera.main.transform;
         originalRotation = transform.rotation;
+        
+    }
+
+    private void Update()
+    {
         
     }
     private void Start()
@@ -49,19 +61,30 @@ public class TDPlayerMovement : MonoBehaviour
             Vector3 movement = (cameraUp * direction.y + cameraRight * direction.x);
             movement = Vector3.ClampMagnitude(movement, 1f);
 
-            float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+            float currentSpeed = currentMovementState == movementState.Sprinting ? sprintSpeed : moveSpeed;
             rb.AddForce(movement * currentSpeed);
             rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed * currentSpeed);
+
         }
         if (!spriteCanRotate && transform.rotation.z != 0)
         {
             transform.rotation = originalRotation;
         }
+        UpdateMovementState();
     }
 
     public void SetSprinting(bool sprinting)
     {
         isSprinting = sprinting;
+        switch (sprinting)
+        {
+            case true:
+                currentMovementState = movementState.Sprinting; 
+                break;
+            case false: currentMovementState = movementState.Walking; 
+                break;
+
+        }
     }
 
     public void EnableZeroG()
@@ -69,5 +92,21 @@ public class TDPlayerMovement : MonoBehaviour
         rb.drag = 0;
         spriteCanRotate = true;
         GetComponent<AudioSource>().enabled = false; ;
+    }
+
+    public void UpdateMovementState()
+    {
+        if(rb.velocity != Vector2.zero && !isSprinting)
+        {
+            currentMovementState = movementState.Walking;
+        }
+        else if (isSprinting)
+        {
+            currentMovementState = movementState.Sprinting;
+        }
+        else if(rb.velocity ==  Vector2.zero)
+        {
+            currentMovementState = movementState.Idle;
+        }
     }
 }

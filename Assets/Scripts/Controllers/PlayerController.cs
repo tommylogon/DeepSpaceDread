@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool flashlightOn;
 
     public bool IsInsideLocker;
-    public ParticleSystem damageEffect;
+    public GameObject damageEffect;
 
 
     [SerializeField] private float baseVisibility = 1f;
@@ -93,8 +93,8 @@ public class PlayerController : MonoBehaviour
         controls.Player.Interact.performed += _ => Interact();
         controls.Player.Interact.performed += _ => WakeUp();
         controls.Player.Restart.performed += _ => RestartScene();
-        controls.Player.Run.started += _ => Sprint(true);
-        controls.Player.Run.canceled += _ => Sprint(false);
+        controls.Player.Run.started += _ => playerMovement.SetSprinting(true);
+        controls.Player.Run.canceled += _ => playerMovement.SetSprinting(false);
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
         controls.Player.Escape.performed += _ => EscapeKeyPressed();
@@ -127,6 +127,7 @@ public class PlayerController : MonoBehaviour
         if (playerState == State.Alive)
         {
             playerMovement.Move(move.ReadValue<Vector2>());
+            UpdateAnimator();
             Aim(aim.ReadValue<Vector2>());
             HandleMovementSounds();
         }
@@ -174,7 +175,7 @@ public class PlayerController : MonoBehaviour
         
         if (damageEffect != null)
         {
-            damageEffect.Play();
+            Instantiate( damageEffect,gameObject.transform);
         }
 
         UIController.Instance.ShowGameOver(false);
@@ -232,9 +233,35 @@ public class PlayerController : MonoBehaviour
 
     public void Sprint(bool sprinting)
     {
-        playerMovement.SetSprinting(sprinting);
+        ;
         
-            animator.speed = sprinting ? 1.5f : 1;
+            
+    }
+
+    public void UpdateAnimator()
+    {
+        animator.SetFloat("Speed_Up", move.ReadValue<Vector2>().y);
+        animator.SetFloat("Speed_Side", move.ReadValue<Vector2>().x);
+        if (move.ReadValue<Vector2>().x < 0 && spriteRenderer.flipX != true)
+        {
+            spriteRenderer.flipX = true;
+        }
+        if (move.ReadValue<Vector2>().x > 0 && spriteRenderer.flipX != false)
+        {
+            spriteRenderer.flipX = false;
+        }
+        switch (playerMovement.currentMovementState)
+        {
+            case TDPlayerMovement.movementState.Idle:
+                animator.speed = 0.2f;
+                break;
+            case TDPlayerMovement.movementState.Walking:
+                animator.speed = 1;
+                break;
+            case TDPlayerMovement.movementState.Sprinting:
+                animator.speed = 1.5f;
+                break;
+        }
     }
 
 
@@ -323,7 +350,7 @@ public class PlayerController : MonoBehaviour
 
     private bool CanHearPlayerRunning()
     {
-        if (playerMovement.isSprinting && rb.velocity.magnitude > 0.5)
+        if (playerMovement.currentMovementState == TDPlayerMovement.movementState.Sprinting && rb.velocity.magnitude > 0.5)
         {
             return true;
         }
@@ -347,7 +374,7 @@ public class PlayerController : MonoBehaviour
     {
         if (rb.velocity.magnitude > 0.2)
         {
-            GetComponent<PlayerSounds>().PlayFootstepSound(playerMovement.isSprinting);
+            GetComponent<PlayerSounds>().PlayFootstepSound(playerMovement.currentMovementState == TDPlayerMovement.movementState.Sprinting);
         }
         else if (rb.velocity.magnitude < 0.1)
         {
@@ -359,7 +386,6 @@ public class PlayerController : MonoBehaviour
     {
         rb.velocity = Vector2.zero;
         GetComponent<PlayerSounds>().StopSound();
-        animator.speed = 0.5f;
     }
 
     private void ThrowObject()
