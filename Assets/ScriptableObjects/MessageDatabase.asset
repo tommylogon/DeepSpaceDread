@@ -197,3 +197,6 @@ MonoBehaviour:
   - key: InteractLockerBroken
     message: I cant use this anymore. it's broken.
     tag: 7
+  - key: Unlocked
+    message: '""'
+    tag: 0
