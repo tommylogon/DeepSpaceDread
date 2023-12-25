@@ -29,7 +29,15 @@ public class Door : Interactable
         if (messages.Count > 0 && messages[0] != "")
         {
             PlaySound("LockedDoor");
-            UIController.Instance.ShowMessage(messages[0]);
+            if(locked)
+            {
+                UIController.Instance.ShowMessage(messages[0]);
+            }
+            else
+            {
+                UIController.Instance.ShowMessage(messages[1]);
+            }
+            
         }
         
 

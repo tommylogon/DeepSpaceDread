@@ -5,7 +5,7 @@ public class Timer : MonoBehaviour
 {
     public static Timer instance;
 
-    public event EventHandler OnTimeOut;
+    public event Action OnTimeOut;
 
     public event Action<string> OnTimeChanged;
 
@@ -48,11 +48,11 @@ public class Timer : MonoBehaviour
         ;
 
 
-        if (timeLeft <= 0)
+        if (timeLeft <= 0 && !isTimeOut)
         {
             isTimeOut = true;
 
-            OnTimeOut?.Invoke(this, EventArgs.Empty);
+            OnTimeOut?.Invoke();
 
         }
 

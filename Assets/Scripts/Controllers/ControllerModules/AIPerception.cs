@@ -49,7 +49,11 @@ public class AIPerception : MonoBehaviour
     private void Update()
     {
         UpdateSight();
+
+        
     }
+
+    
 
     public void CheckIfAnyTargetInFOV()
     {

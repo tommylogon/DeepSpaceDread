@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2366922604042025749}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.024, y: 0.073, z: 0}
+  m_LocalPosition: {x: -0.0066666584, y: 0.000000029802322, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2366922604042025749}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
   m_Name: 
@@ -48,9 +48,9 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.706
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.11
+  m_FalloffIntensity: 0.598
+  m_Color: {r: 0.77272725, g: 1, b: 0, a: 1}
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 2.8
+  m_PointLightOuterRadius: 9.32
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -122,7 +122,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -138,8 +138,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2366922604140103963}
   - component: {fileID: 2366922604140103964}
-  - component: {fileID: 2366922604140103961}
-  - component: {fileID: 2366922604140103962}
+  - component: {fileID: 136699701}
+  - component: {fileID: 136699704}
+  - component: {fileID: 136699697}
   m_Layer: 7
   m_Name: PanelComplex
   m_TagString: Untagged
@@ -156,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 2366922604140103965}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.0037738, y: 14.533986, z: 0.63318336}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2366922604042025748}
@@ -204,7 +205,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1906244600, guid: 3be4d58a83aae5d438f6623c8fcddba8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8db8e0622dfc5914283ccad28e9cd03f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -215,8 +216,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2366922604140103961
-BoxCollider2D:
+--- !u!58 &136699701
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -229,19 +230,25 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.6, y: 1.15}
-    newSize: {x: 1.6, y: 1.15}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.6, y: 1.15}
-  m_EdgeRadius: 0
---- !u!114 &2366922604140103962
+  m_Radius: 0.75
+--- !u!58 &136699704
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2366922604140103965}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5000001
+--- !u!114 &136699697
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,19 +257,89 @@ MonoBehaviour:
   m_GameObject: {fileID: 2366922604140103965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bddb6201d7aba724d953e6ae9df60887, type: 3}
+  m_Script: {fileID: 11500000, guid: 0747d592fe252d24881c7aa25d0dae88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Press E or button X to interact
-  message: Attention all personnel. The station is currently in lockdown mode. Power
-    levels are at [x]% and life support systems are [operational/non-operational].
-    Please remain in your designated areas until further notice. All attempts to
-    restore the system are ongoing. Thank you for your cooperation.
-  messageKey: 
+  interactText: 'Reactor: Press E or button X to interact'
+  messages: []
+  messageKeys:
+  - InteractReactorStatus
+  - ReactorCritical
+  - ReactorOffline
+  - ReactorOnline
   messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
-  canInteract: 0
+  closeEnoughToInteract: 0
+  playRandomMessage: 0
   noiseRadius: 0
-  interactionClip: {fileID: 0}
+  SoundKeys: []
+  soundValues: []
   questInfo: 
   saves: 0
-  doorToUnlock: {fileID: 0}
+  doorToUnlock:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  EnviromentalLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  WarningLights:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  audioSources:
+  - {fileID: 0}
+  - {fileID: 0}
+  reactorState: 0
+  reactorCode: 421369

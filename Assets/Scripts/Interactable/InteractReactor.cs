@@ -67,7 +67,7 @@ public class InteractReactor : Interactable
 
     public void PullControlRods()
     {
-        if (unlocked)
+        if (unlocked && reactorState == ReactorState.Unstable)
         {
             UnlockAllDoors();
 
@@ -91,7 +91,7 @@ public class InteractReactor : Interactable
             }
             reactorState = ReactorState.PullControlRods;
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[0]);
+            UIController.Instance.ShowMessage(messages[1]);
             Timer.instance.PauseTimer(false);
             UIController.Instance.ShowTimer();
         }
@@ -101,7 +101,7 @@ public class InteractReactor : Interactable
 
     public void ShutDownReactor()
     {
-        if (unlocked)
+        if (unlocked && reactorState == ReactorState.Unstable)
         {
             UnlockAllDoors();
             StartCoroutine(ChangeLightColor(Color.blue, 0f, 30f));
@@ -127,7 +127,7 @@ public class InteractReactor : Interactable
             
 
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[1]);
+            UIController.Instance.ShowMessage(messages[2]);
             reactorState = ReactorState.ShutDownReactor;
         }
 
@@ -135,7 +135,7 @@ public class InteractReactor : Interactable
 
     public void Stabilize()
     {
-        if (unlocked)
+        if (unlocked && reactorState == ReactorState.Unstable)
         {
             foreach (Light2D item in WarningLights)
             {
@@ -160,7 +160,7 @@ public class InteractReactor : Interactable
             }
             reactorState = ReactorState.Stabilize;
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[2]);
+            UIController.Instance.ShowMessage(messages[3]);
         }
     }
 

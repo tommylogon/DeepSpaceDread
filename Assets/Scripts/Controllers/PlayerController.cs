@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         controls.Player.Throw.performed += _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed += _ => ToggleFlashlight();
         controls.Player.Escape.performed += _ => EscapeKeyPressed();
-
+        Timer.instance.OnTimeOut += PlayerDied;
         playerHealth.OnEmpty += PlayerDied;
     }
 
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour
         controls.Player.Throw.performed -= _ => ThrowObject();
         controls.Player.ToggleFlashlight.performed -= _ => ToggleFlashlight();
         controls.Player.Escape.performed -= _ => EscapeKeyPressed();
-
+        Timer.instance.OnTimeOut -= PlayerDied;
         playerHealth.OnEmpty -= PlayerDied;
     }
 
@@ -231,12 +231,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void Sprint(bool sprinting)
-    {
-        ;
-        
-            
-    }
+
 
     public void UpdateAnimator()
     {
