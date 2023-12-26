@@ -112,8 +112,10 @@ MonoBehaviour:
   closeEnoughToInteract: 0
   playRandomMessage: 0
   noiseRadius: 10
-  SoundKeys: []
-  soundValues: []
+  SoundKeys:
+  - LockerOpen
+  soundValues:
+  - {fileID: 8300000, guid: f3424f9f674241846acd97983399c743, type: 3}
   questInfo: 
   saves: 0
   hiddenLayer:
