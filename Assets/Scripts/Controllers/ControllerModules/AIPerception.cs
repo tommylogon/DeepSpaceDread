@@ -25,12 +25,14 @@ public class AIPerception : MonoBehaviour
     [SerializeField] private float minDistanceFromNoise =5;
     [SerializeField] private float maxDistanceFromNoise=25;
 
-    private Vector3 lastKnownPlayerPosition;
+    private Vector3 lastKnownTargetPosition;
 
 
     private Transform target;
 
+    public Action<GameObject> OnTargetInAttackRange;
     public Action<Vector3> OnTargetFound;
+    public Action<Vector3> OnTargetLost;
 
     // Start is called before the first frame update
     void Start()
@@ -83,28 +85,27 @@ public class AIPerception : MonoBehaviour
                
             }
         }
-        if (target != null && target.gameObject.layer == LayerMask.NameToLayer("BehindMask") && lastKnownPlayerPosition != null)
+        if (target != null && target.gameObject.layer == LayerMask.NameToLayer("BehindMask") && lastKnownTargetPosition != null)
         {
-            GameObject locker = FindNearestLocker(lastKnownPlayerPosition);
-            if (locker != null)
-            {
-                locker.GetComponent<Locker>().TakeDamage(1);
+                OnTargetLost?.Invoke(lastKnownTargetPosition);
                 target=null;
                 inView = false;
                 canSeePlayer = false;
                 
-            }
         }
-        
+        if (canSeePlayer && Vector2.Distance(transform.position, target.transform.position) < 0.5f /*&& playCon.CheckIfPlayerIsAlive()*/)
+        {
+            OnTargetInAttackRange?.Invoke(target.gameObject);
+        }
     }
 
     public void HearNoise(Vector2 noiseOrigin, float noiseRadius)
     {
         if (canSeePlayer && targetVisible >= 1) { return; }
 
-        float distanceToPlayer = Vector2.Distance(noiseOrigin, transform.position);
+        float distanceToNoise = Vector2.Distance(noiseOrigin, transform.position);
 
-        if (distanceToPlayer <= noiseRadius)
+        if (distanceToNoise <= noiseRadius)
         {
             float distanceFromNoise = Random.Range(minDistanceFromNoise, maxDistanceFromNoise);
             float angle = Random.Range(0, 360);
@@ -126,6 +127,7 @@ public class AIPerception : MonoBehaviour
         {
             canSeePlayer = false;
             targetVisible -= Time.deltaTime / 2;
+            OnTargetLost?.Invoke(target.position);
             
 
         }
@@ -138,7 +140,7 @@ public class AIPerception : MonoBehaviour
 
         if (canSeePlayer)
         {
-            lastKnownPlayerPosition = target.position;
+            lastKnownTargetPosition = target.position;
         }
     }
 
@@ -155,9 +157,9 @@ public class AIPerception : MonoBehaviour
 
     }
 
-    private GameObject FindNearestLocker(Vector3 searchPosition)
+    public GameObject FindNearestLocker(Vector3 searchPosition)
     {
-        GameObject nearestLocker = null;
+        Locker nearestLocker = null;
         float minDistance = Mathf.Infinity;
 
         foreach (var locker in FindObjectsOfType<Locker>()) // Assuming Locker is the component on hiding spots
@@ -166,10 +168,10 @@ public class AIPerception : MonoBehaviour
             if (distance < minDistance)
             {
                 minDistance = distance;
-                nearestLocker = locker.gameObject;
+                nearestLocker = locker;
             }
         }
 
-        return nearestLocker;
+        return nearestLocker.gameObject;
     }
 }

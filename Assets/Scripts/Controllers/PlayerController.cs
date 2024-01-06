@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamage
 {
     #region Fields and Properties
     
@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
         playerMovement = GetComponent<TDPlayerMovement>();
         playerHealth = GetComponent<Resource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
     }
 
     void Start()

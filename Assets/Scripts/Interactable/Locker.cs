@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class Locker : Interactable
+public class Locker : Interactable, IDamage
 
 {
    

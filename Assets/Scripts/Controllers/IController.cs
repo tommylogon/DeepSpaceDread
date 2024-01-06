@@ -12,9 +12,12 @@ public enum State
     Dead,
     Sleeping,
     Idle,
-    Chacing,
+    Chasing,
     Hunting, 
     Attacking,
     Fleeing,
-    Stunned
+    Stunned,
+    Investigating,
+    Eating,
+    Hungry,
 }

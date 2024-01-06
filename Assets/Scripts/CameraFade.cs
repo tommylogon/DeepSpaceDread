@@ -10,22 +10,26 @@ public class CameraFade : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(FadeToBlack());
+        StartCoroutine(FadeToBlack(true));
     }
 
-    IEnumerator FadeToBlack()
+    IEnumerator FadeToBlack(bool fadeIn)
     {
         float elapsedTime = 0f;
         Color currentColor = fadeImage.color;
+        float startAlpha = fadeIn ? 1f : 0f; // Start fully opaque if fading in, transparent if fading out
+        float endAlpha = fadeIn ? 0f : 1f;   // End fully transparent if fading in, opaque if fading out
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             float alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
+            alpha = fadeIn ? Mathf.Lerp(startAlpha, endAlpha, alpha) : Mathf.Lerp(endAlpha, startAlpha, alpha);
             fadeImage.color = new Color(currentColor.r, currentColor.g, currentColor.b, alpha);
             yield return null;
         }
 
-        fadeImage.color = new Color(currentColor.r, currentColor.g, currentColor.b, 1); // Ensure it ends fully black
+        // Ensure it ends at the exact alpha value
+        fadeImage.color = new Color(currentColor.r, currentColor.g, currentColor.b, endAlpha);
     }
 }

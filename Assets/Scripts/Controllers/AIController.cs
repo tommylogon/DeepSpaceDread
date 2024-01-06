@@ -16,7 +16,7 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private float walkingSpeed = 3f;
     [SerializeField] private float fleeDistance = 5f;
     private float stunEndTime;
-    
+
     [SerializeField] private float hunger = 0f;
     [SerializeField] private float hungerRate = 0.1f;
     [SerializeField] private float hungerThreshold = 0.8f;
@@ -29,16 +29,17 @@ public class AIController : MonoBehaviour, IController
     [SerializeField] private GameObject enemyIndicatorPrefab;
     [SerializeField] private GameObject enemyIndicator;
     [SerializeField] private GameObject alienPrefab;
+    private GameObject foundTarget;
 
-    
     [SerializeField] private bool moveRandomLocation = false;
-    
+
     [SerializeField] private bool alienHasScreamed;
 
     [SerializeField] private LayerMask corpseLayer;
     [SerializeField] private float eatingTime = 5f;
     public float rotationOffset = 135f;
-    private bool isEating = false;
+
+    private Vector3 lastKnownLocation;
 
 
 
@@ -50,7 +51,7 @@ public class AIController : MonoBehaviour, IController
     // Start is called before the first frame update
     void Start()
     {
-             
+
 
         navAgent = GetComponent<NavMeshAgent>();
         navAgent.updateRotation = false;
@@ -61,52 +62,108 @@ public class AIController : MonoBehaviour, IController
         perception = GetComponent<AIPerception>();
 
 
-
-
-
-
         enemyIndicator = Instantiate(enemyIndicatorPrefab);
         enemyIndicator.GetComponent<EnemyIndicator>().SetEnemy(gameObject);
         enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
 
         perception.OnTargetFound += TargetFound;
-     
+        perception.OnTargetLost += TargetLost;
+        perception.OnTargetInAttackRange += AttackTarget;
+
+        currentState = State.Hunting;
 
     }
 
     private void FixedUpdate()
     {
-        if (isEating)
+        if (currentState == State.Hunting)
         {
-            return;
+            UpdateHunger();
+
         }
-
-        hunger += hungerRate * Time.deltaTime;
-        hunger = Mathf.Clamp(hunger, 0, hungerThreshold);
-
-
-        if (UpdateAttack())
-        {
-            StunEnemy();
-        }
-        if (hunger >= hungerThreshold)
+        if (currentState == State.Hungry)
         {
             EatCorpse();
-           
         }
-        UpdateMove();
-        RotateSprite();
+        if (currentState == State.Chasing)
+        {
+            UpdateMove();
+            RotateSprite();
+        }
+
+        if (currentState == State.Attacking)
+        {
+            AttackTarget(foundTarget);
+        }
 
 
+        if (currentState == State.Idle)
+        {
+
+        }
+
+        if (currentState == State.Stunned)
+        {
+            UpdateStunned();
+
+        }
+        if (currentState == State.Investigating)
+        {
+            InvestigateArea();
+        }
 
     }
 
-    
+  
+
+    private void UpdateStunned()
+    {
+        if (Time.time >= stunEndTime)
+        {
+            currentState = State.Hunting;
+            navAgent.isStopped = false;
+        }
+
+    }
 
     private void TargetFound(Vector3 targetPos)
     {
-        navAgent.SetDestination(targetPos);
-        AlienScream();
+        if (currentState != State.Chasing)
+        {
+            currentState = State.Chasing;
+            navAgent.SetDestination(targetPos);
+            AlienScream();
+        }
+
+    }
+    private void TargetLost(Vector3 lastKnownPos)
+    {
+        if (currentState == State.Chasing)
+        {
+            currentState = State.Investigating;
+            lastKnownLocation = lastKnownPos;
+
+        }
+    }
+
+    private void InvestigateArea()
+    {
+        if (currentState == State.Investigating && lastKnownLocation != Vector3.zero)
+        {
+            navAgent.SetDestination(lastKnownLocation);
+            if (navAgent.remainingDistance < 1)
+            {
+                GameObject foundLocker = perception.FindNearestLocker(lastKnownLocation);
+                if (foundLocker != null)
+                {
+                    AttackTarget(foundLocker);
+                    
+
+                }
+                currentState = State.Hunting;
+                lastKnownLocation = Vector3.zero;
+            }
+        }
     }
 
     private void RotateSprite()
@@ -123,7 +180,7 @@ public class AIController : MonoBehaviour, IController
         if (screamDelay > 3f)
         {
             alienHasScreamed = false;
-           
+
         }
         if (!alienHasScreamed)
         {
@@ -132,23 +189,19 @@ public class AIController : MonoBehaviour, IController
             alienSounds.PlayPlayerSpottedSound();
         }
     }
-
-
-
-
-
+    private void UpdateHunger()
+    {
+        hunger += hungerRate * Time.deltaTime;
+        hunger = Mathf.Clamp(hunger, 0, hungerThreshold);
+        if (hunger >= hungerThreshold)
+        {
+            currentState = State.Hungry;
+        }
+    }
     private void UpdateMove()
     {
-        if (currentState == State.Stunned)
-        {
-            if (Time.time >= stunEndTime)
-            {
-                currentState = State.Idle;
-                navAgent.isStopped = false;
-            }
-            return;
-        }
-        if(navAgent != null && navAgent.isOnNavMesh)
+
+        if (navAgent != null && navAgent.isOnNavMesh)
         {
             if (!navAgent.pathPending && navAgent.remainingDistance > 1f)
             {
@@ -161,7 +214,7 @@ public class AIController : MonoBehaviour, IController
                 navAgent.SetDestination(randomPoint);
             }
         }
-        
+
 
         if (navAgent.velocity.magnitude > 0.1)
         {
@@ -172,14 +225,10 @@ public class AIController : MonoBehaviour, IController
             alienSounds.StopWalkingSound();
         }
     }
-
-
-    
-
-    private bool UpdateAttack()
+    private void AttackTarget(GameObject foundTarget)
     {
-        PlayerController playCon = playerRef.GetComponent<PlayerController>();
-        if (perception.canSeePlayer && Vector2.Distance(transform.position, playerRef.transform.position) < 0.5f && playCon.CheckIfPlayerIsAlive())
+        
+        if (perception.canSeePlayer && Vector2.Distance(transform.position, foundTarget.transform.position) < 0.5f /*&& playCon.CheckIfPlayerIsAlive()*/)
         {
 
             if (!alienSounds.IsPlaying())
@@ -187,12 +236,12 @@ public class AIController : MonoBehaviour, IController
                 alienSounds.PlayAttackSound();
 
             }
-            playCon.TakeDamage(1);
-            return true;
+             foundTarget.GetComponent<IDamage>().TakeDamage(1);
+            SetStunnedState();
 
         }
 
-        return false;
+        
     }
     private void EatCorpse()
     {
@@ -235,24 +284,30 @@ public class AIController : MonoBehaviour, IController
 
     private IEnumerator StartEating(InteractObject corpse)
     {
-        isEating = true;
-        navAgent.isStopped = true;
-        alienSounds.PlayEatingSound();
-
-        yield return new WaitForSeconds(eatingTime);
-
-        hunger = 0f;
-
-        isEating = false;
-        navAgent.isStopped = false;
-        alienSounds.StopEatingSound();
-        if (corpse != null)
+        if (currentState == State.Hungry)
         {
-            Instantiate(alienPrefab, Vector2.zero, Quaternion.identity);
-            yield return new WaitForSeconds(1f);
-            Destroy(corpse.gameObject);
-            alienSounds.PlayAlienEmergeSound();
+            navAgent.isStopped = true;
+            alienSounds.PlayEatingSound();
+
+            yield return new WaitForSeconds(eatingTime);
+
+            hunger = 0f;
+
+            currentState = State.Hunting;
+            navAgent.isStopped = false;
+            alienSounds.StopEatingSound();
+            currentState = State.Hunting;
+            if (corpse != null)
+            {
+                Instantiate(alienPrefab, Vector2.zero, Quaternion.identity);
+                yield return new WaitForSeconds(1f);
+                Destroy(corpse.gameObject);
+                alienSounds.PlayAlienEmergeSound();
+            }
         }
+
+
+
 
     }
 
@@ -275,7 +330,7 @@ public class AIController : MonoBehaviour, IController
     }
 
 
-    private void StunEnemy()
+    private void SetStunnedState()
     {
         currentState = State.Stunned;
         stunEndTime = Time.time + stunDuration;
@@ -290,9 +345,9 @@ public class AIController : MonoBehaviour, IController
             {
                 Flee();
             }
-            else if(targetState == State.Stunned)
+            else if (targetState == State.Stunned)
             {
-                StunEnemy();
+                SetStunnedState();
             }
         }
     }
