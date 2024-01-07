@@ -96,15 +96,15 @@ public class TDPlayerMovement : MonoBehaviour
 
     public void UpdateMovementState()
     {
-        if(rb.velocity != Vector2.zero && !isSprinting)
+        if(rb.velocity.magnitude > 0.3  && !isSprinting)
         {
             currentMovementState = movementState.Walking;
         }
-        else if (isSprinting)
+        else if (isSprinting )
         {
             currentMovementState = movementState.Sprinting;
         }
-        else if(rb.velocity ==  Vector2.zero)
+        else if(rb.velocity.magnitude <  0.2 && currentMovementState != movementState.Idle)
         {
             currentMovementState = movementState.Idle;
         }

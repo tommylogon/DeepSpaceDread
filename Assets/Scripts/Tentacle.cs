@@ -19,6 +19,11 @@ public class Tentacle : MonoBehaviour
         tentacleLineRenderer = GetComponent<LineRenderer>();
         segmentPoses = new Vector3[tentacleLength];
         segmentV = new Vector3[tentacleLength];
+
+        for(int i = 0; i < segmentPoses.Length; i++)
+        {
+            segmentPoses[i] = targetDir.position;
+        }
     }
 
     // Update is called once per frame

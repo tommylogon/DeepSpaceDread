@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour, IDamage
     public PlayerControls controls;
     private TDPlayerMovement playerMovement;
     private Resource playerHealth;
-
+    [SerializeField] Material playerDamageMaterial;
 
     
     public InputAction move;
@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour, IDamage
         playerMovement = GetComponent<TDPlayerMovement>();
         playerHealth = GetComponent<Resource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        playerDamageMaterial = spriteRenderer.material;
 
     }
 
@@ -163,6 +164,16 @@ public class PlayerController : MonoBehaviour, IDamage
     public void TakeDamage(int damage)
     {
         playerHealth.ReduceRecource(damage);
+        if(playerHealth.GetValue() > 0)
+        {
+            playerDamageMaterial.SetColor("_Color", Color.yellow);
+        }
+        if(playerHealth.GetValue() <= 0)
+        {
+            playerDamageMaterial.SetColor("_Color", Color.red);
+        }
+        
+
     }
 
     public void PlayerDied()
@@ -195,6 +206,7 @@ public class PlayerController : MonoBehaviour, IDamage
             UIController.Instance.HideGameOver();
             ToggleFlashlight();
             aroundPlayerLight.SetActive(true);
+            playerDamageMaterial.SetColor("_Color", Color.green);
         }
 
 

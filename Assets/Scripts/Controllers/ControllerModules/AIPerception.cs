@@ -127,14 +127,15 @@ public class AIPerception : MonoBehaviour
         {
             canSeePlayer = false;
             targetVisible -= Time.deltaTime / 2;
-            OnTargetLost?.Invoke(target.position);
+           
             
 
         }
         targetVisible = Mathf.Clamp01(targetVisible);
-        if(targetVisible <= 0)
+        if(targetVisible <= 0 && target != null)
         {
             canSeePlayer = false;
+            OnTargetLost?.Invoke(target.position);
             target = null;
         }
 

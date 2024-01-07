@@ -79,42 +79,43 @@ public class AIController : MonoBehaviour, IController
         if (currentState == State.Hunting)
         {
             UpdateHunger();
+            Move();
 
         }
-        if (currentState == State.Hungry)
+        else if (currentState == State.Hungry)
         {
             EatCorpse();
         }
-        if (currentState == State.Chasing)
+        else if (currentState == State.Chasing)
         {
-            UpdateMove();
+            CheckIfCloseToTarget();
             RotateSprite();
         }
 
-        if (currentState == State.Attacking)
+        else if (currentState == State.Attacking)
         {
             AttackTarget(foundTarget);
         }
 
 
-        if (currentState == State.Idle)
+        else if (currentState == State.Idle)
         {
 
         }
 
-        if (currentState == State.Stunned)
+        else if (currentState == State.Stunned)
         {
             UpdateStunned();
 
         }
-        if (currentState == State.Investigating)
+        else if (currentState == State.Investigating)
         {
             InvestigateArea();
         }
 
     }
 
-  
+
 
     private void UpdateStunned()
     {
@@ -128,8 +129,12 @@ public class AIController : MonoBehaviour, IController
 
     private void TargetFound(Vector3 targetPos)
     {
-        if (currentState != State.Chasing)
+        if (currentState == State.Hunting)
         {
+            if (navAgent.isStopped)
+            {
+                navAgent.isStopped = false;
+            }
             currentState = State.Chasing;
             navAgent.SetDestination(targetPos);
             AlienScream();
@@ -157,10 +162,9 @@ public class AIController : MonoBehaviour, IController
                 if (foundLocker != null)
                 {
                     AttackTarget(foundLocker);
-                    
 
-                }
-                currentState = State.Hunting;
+
+                }                
                 lastKnownLocation = Vector3.zero;
             }
         }
@@ -173,6 +177,13 @@ public class AIController : MonoBehaviour, IController
 
     }
 
+    private void CheckIfCloseToTarget()
+    {
+        if (navAgent.remainingDistance < 0.2 || navAgent.remainingDistance > 50000)
+        {
+            currentState = State.Hunting;
+        }
+    }
 
     private void AlienScream()
     {
@@ -198,7 +209,7 @@ public class AIController : MonoBehaviour, IController
             currentState = State.Hungry;
         }
     }
-    private void UpdateMove()
+    private void Move()
     {
 
         if (navAgent != null && navAgent.isOnNavMesh)
@@ -224,24 +235,25 @@ public class AIController : MonoBehaviour, IController
         {
             alienSounds.StopWalkingSound();
         }
+        RotateSprite();
     }
     private void AttackTarget(GameObject foundTarget)
     {
-        
-        if (perception.canSeePlayer && Vector2.Distance(transform.position, foundTarget.transform.position) < 0.5f /*&& playCon.CheckIfPlayerIsAlive()*/)
+
+        //if (perception.canSeePlayer && Vector2.Distance(transform.position, foundTarget.transform.position) < 0.5f /*&& playCon.CheckIfPlayerIsAlive()*/)
+        //{
+
+        if (!alienSounds.IsPlaying())
         {
-
-            if (!alienSounds.IsPlaying())
-            {
-                alienSounds.PlayAttackSound();
-
-            }
-             foundTarget.GetComponent<IDamage>().TakeDamage(1);
-            SetStunnedState();
+            alienSounds.PlayAttackSound();
 
         }
+        foundTarget.GetComponent<IDamage>().TakeDamage(1);
+        SetStunnedState();
 
-        
+        //}
+
+
     }
     private void EatCorpse()
     {
@@ -261,6 +273,11 @@ public class AIController : MonoBehaviour, IController
                     hungerThreshold *= 2;
                 }
             }
+        }
+        else
+        {
+            hungerThreshold--;
+            currentState = State.Hunting;
         }
     }
     private GameObject FindClosestCorpse()
@@ -286,6 +303,7 @@ public class AIController : MonoBehaviour, IController
     {
         if (currentState == State.Hungry)
         {
+            currentState = State.Eating;
             navAgent.isStopped = true;
             alienSounds.PlayEatingSound();
 
@@ -293,10 +311,10 @@ public class AIController : MonoBehaviour, IController
 
             hunger = 0f;
 
-            currentState = State.Hunting;
+
             navAgent.isStopped = false;
             alienSounds.StopEatingSound();
-            currentState = State.Hunting;
+
             if (corpse != null)
             {
                 Instantiate(alienPrefab, Vector2.zero, Quaternion.identity);
@@ -304,6 +322,7 @@ public class AIController : MonoBehaviour, IController
                 Destroy(corpse.gameObject);
                 alienSounds.PlayAlienEmergeSound();
             }
+            currentState = State.Hunting;
         }
 
 
