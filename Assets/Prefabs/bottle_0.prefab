@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3022158170381533846}
   - component: {fileID: 3022158170381533849}
-  - component: {fileID: 3022158170381533847}
   - component: {fileID: 1606170153021680913}
   - component: {fileID: 1704956739852036896}
+  - component: {fileID: 14611594}
   m_Layer: 0
   m_Name: bottle_0
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3022158170381533848}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.103615, y: -29.03143, z: 0.7100135}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -88,40 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3022158170381533847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022158170381533848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 312d855bc266f77409170146a619a2f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactText: Press E to interact
-  messages: []
-  messageKeys:
-  - Bottle
-  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
-  canInteract: 0
-  noiseRadius: 3
-  interactionClip: {fileID: 8300000, guid: c7c8e16d02a73b64c98bbae81a693a97, type: 3}
-  impactSound: {fileID: 8300000, guid: 6ec8bd2f4682156489976261a7f2d09d, type: 3}
-  impactSoundRadius: 30
-  targetState: 7
-  spriteRenderer: {fileID: 0}
-  brokenBottlePrefab:
-  - {fileID: 3640505714119373080, guid: 7ee556e8ca8a01a4d9018668dccfd5cb, type: 3}
-  - {fileID: 5671573977258192552, guid: 430871b22c665fd40a9d014e5bbecfa6, type: 3}
-  - {fileID: 8852748894644940071, guid: b1c8ab71f90f4c34ba2fe51bd7d998bb, type: 3}
-  - {fileID: 1999600393815551766, guid: c59683fd94bd4d849aa391008608a7e6, type: 3}
-  - {fileID: 4982271650835204857, guid: 949ef067c5e5eac449e63032d3099669, type: 3}
-  - {fileID: 5472181179950531330, guid: 648c82291859fde49a93a313d2f4a088, type: 3}
-  - {fileID: 4984986003914989592, guid: 9099a362f4b1f2b43a76f4472c2f3f87, type: 3}
-  - {fileID: 3101033651223607814, guid: 352a56b9d31308e4fb6a5dc1951c0c19, type: 3}
-  - {fileID: 5185094360560055277, guid: 4f185e1ef1a80c2458433e2ff3211802, type: 3}
 --- !u!50 &1606170153021680913
 Rigidbody2D:
   serializedVersion: 4
@@ -134,9 +100,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0056999996
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 1
+  m_LinearDrag: 0.5
+  m_AngularDrag: 3
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -239,6 +205,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &14611594
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022158170381533848}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.11333334, y: 0.34}
+    newSize: {x: 0.17, y: 0.51}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.11333334, y: 0.34}
+  m_EdgeRadius: 0
 --- !u!1001 &6632547803038311166
 PrefabInstance:
   m_ObjectHideFlags: 0

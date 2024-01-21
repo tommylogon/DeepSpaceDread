@@ -27,6 +27,9 @@ public class UIController : MonoBehaviour
     public VisualElement Keypad;
     public VisualElement ReactorControls;
 
+    public VisualElement PauseMenuUXML;
+    public VisualElement ReactorUXML;
+    public VisualElement TimerUXML;
 
     private TypewriterEffect typewriterEffect;
 

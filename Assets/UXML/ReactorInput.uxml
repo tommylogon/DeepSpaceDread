@@ -1,32 +1,32 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
-<ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 241px; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64); flex-direction: column;">
-                <ui:Label text="Reactor Status: Unstable. Emergency power active. Enter override code to stabilize."  style="color: rgb(255, 255, 255); white-space: normal; align-items: stretch; -unity-text-align: upper-left;" />
-                <ui:VisualElement name="UnlockedStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled@2x.png?fileID=2800000&amp;guid=6fb5cabb85ba3794682b16eba19440cb&amp;type=3#TrackLockButtonDisabled@2x&apos;); width: 32px; height: 32px; display: none;" />
-                <ui:VisualElement name="CodeDisplay" style="flex-direction: row; justify-content: flex-start; align-items: center;">
-                    <ui:Label text="Input code: " name="InputLabel" style="color: rgb(255, 255, 255);" />
-                    <ui:Label name="CodeLabel" style="color: rgb(255, 255, 255); width: 100px; background-color: rgba(0, 0, 0, 0.64); padding-left: 5px; padding-right: 5px;" />
-                    <ui:VisualElement name="LockStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonEnabled@2x.png?fileID=2800000&amp;guid=2c85066ea99cfbe4f90294bf295ce543&amp;type=3#d_TrackLockButtonEnabled@2x&apos;); width: 32px; height: 32px;" />
-                </ui:VisualElement>
-                <ui:VisualElement name="Keypad" style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
-                    <ui:Button text="1"  name="Button1" class="NumberButton" />
-                    <ui:Button text="2"  name="Button2" class="NumberButton" />
-                    <ui:Button text="3"  name="Button3" class="NumberButton" />
-                    <ui:Button text="4"  name="Button4" class="NumberButton" />
-                    <ui:Button text="5"  name="Button5" class="NumberButton" />
-                    <ui:Button text="6"  name="Button6" class="NumberButton" />
-                    <ui:Button text="7"  name="Button7" class="NumberButton" />
-                    <ui:Button text="8"  name="Button8" class="NumberButton" />
-                    <ui:Button text="X"  name="XButton" class="NumberButton" />
-                    <ui:Button text="9"  name="Button9" class="NumberButton" />
-                    <ui:Button text="0"  name="Button0" class="NumberButton" />
-                    <ui:Button text="OK"  name="OKButton" class="NumberButton" />
-                </ui:VisualElement>
-                <ui:VisualElement name="ReactorControls" style="flex-direction: column; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
-                    <ui:Button text="Remove Control Rods"  name="PullControlRodsButton" class="Button" />
-                    <ui:Button text="Shut Down Reactor"  name="ShutDownReactorButton" class="Button" />
-                    <ui:Button text="Stabilize"  name="StabilizeButton" class="Button" />
-                </ui:VisualElement>
-                <ui:Button text="Close Panel"  name="ClosePanelButton" class="Button" />
-            </ui:VisualElement>
+    <Style src="project://database/Assets/UXML/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
+    <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 259px; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64); flex-direction: column;">
+        <ui:Label text="Reactor Status: Unstable. Emergency power active. Enter override code to stabilize." style="color: rgb(255, 255, 255); white-space: normal; align-items: stretch; -unity-text-align: upper-left;" />
+        <ui:VisualElement name="UnlockedStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled@2x.png?fileID=2800000&amp;guid=6fb5cabb85ba3794682b16eba19440cb&amp;type=3#TrackLockButtonDisabled@2x&apos;); width: 32px; height: 32px; display: none;" />
+        <ui:VisualElement name="CodeDisplay" style="flex-direction: row; justify-content: flex-start; align-items: center;">
+            <ui:Label text="Input code: " name="InputLabel" style="color: rgb(255, 255, 255); height: 15px; align-items: flex-start; -unity-text-align: upper-left; white-space: nowrap; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;" />
+            <ui:Label name="CodeLabel" style="color: rgb(255, 255, 255); width: 100px; background-color: rgba(0, 0, 0, 0.64); padding-left: 0; padding-right: 0; height: 21px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0;" />
+            <ui:VisualElement name="LockStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/d_TrackLockButtonEnabled@2x.png?fileID=2800000&amp;guid=2c85066ea99cfbe4f90294bf295ce543&amp;type=3#d_TrackLockButtonEnabled@2x&apos;); width: 32px; height: 32px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Keypad" style="flex-direction: row; flex-wrap: wrap; justify-content: center; width: 189px; margin-top: 10px;">
+            <ui:Button text="1" name="Button1" class="NumberButton" />
+            <ui:Button text="2" name="Button2" class="NumberButton" />
+            <ui:Button text="3" name="Button3" class="NumberButton" />
+            <ui:Button text="4" name="Button4" class="NumberButton" />
+            <ui:Button text="5" name="Button5" class="NumberButton" />
+            <ui:Button text="6" name="Button6" class="NumberButton" />
+            <ui:Button text="7" name="Button7" class="NumberButton" />
+            <ui:Button text="8" name="Button8" class="NumberButton" />
+            <ui:Button text="9" name="Button9" class="NumberButton" />
+            <ui:Button text="X" name="XButton" class="NumberButton" />
+            <ui:Button text="0" name="Button0" class="NumberButton" />
+            <ui:Button text="OK" name="OKButton" class="NumberButton" />
+        </ui:VisualElement>
+        <ui:VisualElement name="ReactorControls" style="flex-direction: column; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
+            <ui:Button text="Remove Control Rods" name="PullControlRodsButton" class="Button" />
+            <ui:Button text="Shut Down Reactor" name="ShutDownReactorButton" class="Button" />
+            <ui:Button text="Stabilize" name="StabilizeButton" class="Button" />
+        </ui:VisualElement>
+        <ui:Button text="Close Panel" name="ClosePanelButton" class="Button" />
+    </ui:VisualElement>
 </ui:UXML>

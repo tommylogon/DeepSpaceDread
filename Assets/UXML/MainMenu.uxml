@@ -1,8 +1,6 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="Background" style="flex-grow: 1; align-items: center; justify-content: center;">
-        <ui:VisualElement style="align-items: center; justify-content: center; height: 200px; width: 200px; left: auto; top: auto; background-color: rgb(60, 60, 60);">
-            <ui:Label text="Main Menu" display-tooltip-when-elided="true" style="top: 20px; align-items: auto; position: absolute;" />
-            <ui:Button text="Start" display-tooltip-when-elided="true" name="MainMenu-Button" style="width: 76px;" />
-        </ui:VisualElement>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:VisualElement style="flex-direction: row;" />
+        <ui:Button text="Start" display-tooltip-when-elided="true" name="Start" style="height: 49px; width: 214px; position: absolute; top: 164px; left: 127px; font-size: 24px;" />
     </ui:VisualElement>
 </ui:UXML>

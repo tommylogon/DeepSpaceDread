@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Center" style="-unity-text-align: upper-center; width: auto; align-items: center; flex-grow: 1; justify-content: center;">
+        <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
+            <ui:Button text="RESUME" display-tooltip-when-elided="true" name="ResumeButton" class="Button" />
+            <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
+            <ui:Button text="CONTROLS" display-tooltip-when-elided="true" name="ControlsButton" class="Button" />
+            <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="Button" />
+            <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" class="Button" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

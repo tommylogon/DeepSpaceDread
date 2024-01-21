@@ -12,6 +12,7 @@ public class ThrowableObject : Interactable
     [SerializeField] private AudioClip impactSound;
 
    [SerializeField] private float impactSoundRadius;
+    [SerializeField] private bool disableOnHit;
 
     
 
@@ -71,6 +72,15 @@ public class ThrowableObject : Interactable
         else
         {
             HandleImpact(collision.collider);
+        }
+        DisableOnHit();
+    }
+
+    private void DisableOnHit()
+    {
+        if(disableOnHit) 
+        { 
+            gameObject.SetActive(false);
         }
     }
 
