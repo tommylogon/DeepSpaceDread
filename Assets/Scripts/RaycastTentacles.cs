@@ -5,14 +5,20 @@ using UnityEngine.AI;
 
 public class RaycastTentacles : MonoBehaviour
 {
-    public int numberOfRays = 5;
-    public float rayDistance = 10f;
-    public float angleBetweenRays = 15f;
+    [SerializeField] private int numberOfRays = 5;
+    [SerializeField] private float rayDistance = 10f;
+    [SerializeField] private float angleBetweenRays = 15f;
     private LineRenderer[] lineRenderers;
     private Vector3[] targetPositions;
-    public LayerMask TargetMask;
-    public float smoothFactor = 1f;
-    public Vector3 LastPosition;
+    [SerializeField] private LayerMask TargetMask;
+    [SerializeField] private float smoothFactor = 1f;
+    [SerializeField] private Vector3 LastPosition;
+
+
+
+    [SerializeField] private Material LineRendererMaterial;
+    [SerializeField] private float StartWidth;
+    [SerializeField] private float endWidth;
 
     float updateTimer;
 
@@ -34,10 +40,10 @@ public class RaycastTentacles : MonoBehaviour
 
             LineRenderer lr = lineRendererObject.AddComponent<LineRenderer>();
             lr.positionCount = 2; // Start and end points
-            lr.startWidth = 0.1f;
-            lr.endWidth = 0.01f;
+            lr.startWidth = StartWidth;
+            lr.endWidth = endWidth;
             lr.useWorldSpace = true; 
-            lr.material = new Material(Shader.Find("Sprites/Default")); // Use a basic sprite material
+            lr.material = LineRendererMaterial; // Use a basic sprite material
             lr.startColor = Color.black;
             lr.endColor = Color.black;
 
@@ -90,7 +96,7 @@ public class RaycastTentacles : MonoBehaviour
             }
             else if(hit.collider == null)
             {
-                lineRenderers[i].SetPosition(1, transform.position);
+                //lineRenderers[i].SetPosition(1, transform.position);
             }
             
         }
