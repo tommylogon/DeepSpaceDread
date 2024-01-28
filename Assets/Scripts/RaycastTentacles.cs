@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class RaycastTentacles : MonoBehaviour
 {
     [SerializeField] private int numberOfRays = 5;
-    [SerializeField] private float rayDistance = 10f;
+    [SerializeField] private float maxTentacleDistance = 10f;
     [SerializeField] private float angleBetweenRays = 15f;
+    [SerializeField] private float maxAccelerationDistance = 15f;
+    
+
     private LineRenderer[] lineRenderers;
     private Vector3[] targetPositions;
     [SerializeField] private LayerMask TargetMask;
@@ -17,21 +18,26 @@ public class RaycastTentacles : MonoBehaviour
 
 
     [SerializeField] private Material LineRendererMaterial;
-    [SerializeField] private float StartWidth;
-    [SerializeField] private float endWidth;
+    [SerializeField] private float minWidth;
+    [SerializeField] private float maxWidth;
 
     float updateTimer;
 
     [SerializeField] NavMeshAgent _agent;
-    // Start is called before the first frame update
+    
     void Start()
     {
+        InitalSetup();
+    }
+
+    private void InitalSetup()
+    {
         _agent = GetComponent<NavMeshAgent>();
-        if(lineRenderers == null)
+        if (lineRenderers == null)
         {
             lineRenderers = new LineRenderer[numberOfRays];
         }
-        
+
         targetPositions = new Vector3[numberOfRays];
         for (int i = 0; i < numberOfRays; i++)
         {
@@ -40,20 +46,20 @@ public class RaycastTentacles : MonoBehaviour
 
             LineRenderer lr = lineRendererObject.AddComponent<LineRenderer>();
             lr.positionCount = 2; // Start and end points
-            lr.startWidth = StartWidth;
-            lr.endWidth = endWidth;
-            lr.useWorldSpace = true; 
-            lr.material = LineRendererMaterial; // Use a basic sprite material
+            lr.startWidth = Random.Range(minWidth, maxWidth);
+            lr.endWidth = Random.Range(minWidth, maxWidth);
+            lr.useWorldSpace = true;
+            lr.material = LineRendererMaterial;
             lr.startColor = Color.black;
             lr.endColor = Color.black;
+            lr.sortingOrder = 1;
 
             lineRenderers[i] = lr;
         }
-       
+
         CastNewTentacles(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         SyncTentacleOrigin();
@@ -61,6 +67,7 @@ public class RaycastTentacles : MonoBehaviour
       
         CastNewTentacles(false);
         MoveTentacleTowardsTarget();
+        UpdateTentacleWidth();
     }
 
     private void SyncTentacleOrigin()
@@ -84,21 +91,22 @@ public class RaycastTentacles : MonoBehaviour
         {
             float angle = startAngle + angleBetweenRays * i;
             Vector2 rayDirection = Quaternion.Euler(0, 0, angle) * forwardDirection;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, rayDistance, TargetMask);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, rayDirection, maxTentacleDistance, TargetMask);
 
             if (hit.collider != null && (ShouldMoveTentacles(lineRenderers[i].GetPosition(lineRenderers[i].positionCount-1))|| overrideMovementCheck))
             {
                 
                 targetPositions[i] = hit.point;
-                MoveTentacleTowardsTarget();
+                
 
 
             }
-            else if(hit.collider == null)
+            else if(hit.collider == null && Vector2.Distance( lineRenderers[i].GetPosition(1), lineRenderers[i].GetPosition(0)) >= maxTentacleDistance) 
             {
+                targetPositions[i] = transform.position;
                 //lineRenderers[i].SetPosition(1, transform.position);
             }
-            
+            MoveTentacleTowardsTarget();
         }
     }
 
@@ -116,22 +124,44 @@ public class RaycastTentacles : MonoBehaviour
 
     private void MoveTentacleTowardsTarget()
     {
-        for(int i=0;  i < lineRenderers.Length; i++) 
+        for (int i = 0; i < lineRenderers.Length; i++)
         {
             Vector3 currentPosition = lineRenderers[i].GetPosition(1);
-            Vector3 newPosition = Vector3.Lerp(currentPosition, targetPositions[i], Time.deltaTime * smoothFactor); // smoothFactor is a speed control variable
 
-            if(newPosition != targetPositions[i])
-            {
-                lineRenderers[i].SetPosition(1, newPosition);
-            }
-            
+            float distanceToTarget = Vector3.Distance(currentPosition, targetPositions[i]);
+            float acceleration = Mathf.Clamp01(distanceToTarget / maxAccelerationDistance); // Adjust maxAccelerationDistance as needed
+
+            // Use a quadratic acceleration function
+            float accelerationFactor = acceleration * acceleration;
+
+            // Move the tentacle towards the target with the calculated acceleration
+            Vector3 newPosition = Vector3.Lerp(currentPosition, targetPositions[i], accelerationFactor);
+
+
+            lineRenderers[i].SetPosition(1, newPosition);
         }
-        
+
     }
 
     public void SpawnTentacles()
     {
         CastNewTentacles(true);
     }
+
+    private void UpdateTentacleWidth()
+    {
+        for (int i = 0; i < lineRenderers.Length; i++)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, targetPositions[i]);
+
+            // Calculate the width based on the distance using linear interpolation
+            float normalizedDistance = Mathf.Clamp01(distanceToTarget / maxTentacleDistance); // Adjust maxTentacleLength as needed
+            float tentacleWidth = Mathf.Lerp(minWidth, maxWidth, 1 - normalizedDistance);
+
+            // Set the calculated width to both start and end of the LineRenderer
+            lineRenderers[i].startWidth = tentacleWidth;
+            lineRenderers[i].endWidth = tentacleWidth;
+        }
+    }
+
 }

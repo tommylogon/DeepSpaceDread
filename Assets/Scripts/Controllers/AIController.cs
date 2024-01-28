@@ -63,7 +63,7 @@ public class AIController : MonoBehaviour, IController
 
 
         enemyIndicator = Instantiate(enemyIndicatorPrefab);
-        enemyIndicator.GetComponent<EnemyIndicator>().SetEnemy(gameObject);
+        enemyIndicator.GetComponent<EnemyIndicator>().SetTarget(gameObject);
         enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
 
         perception.OnTargetFound += TargetFound;
@@ -89,7 +89,7 @@ public class AIController : MonoBehaviour, IController
         else if (currentState == State.Chasing)
         {
             CheckIfCloseToTarget();
-            RotateSprite();
+           
         }
 
         else if (currentState == State.Attacking)
@@ -112,7 +112,7 @@ public class AIController : MonoBehaviour, IController
         {
             InvestigateArea();
         }
-
+        RotateSprite();
     }
 
 
@@ -172,8 +172,16 @@ public class AIController : MonoBehaviour, IController
 
     private void RotateSprite()
     {
-        float angle = Mathf.Atan2(navAgent.velocity.y, navAgent.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - rotationOffset));
+        Vector3 velocity = navAgent.velocity;
+        if (velocity.magnitude > 0.1f) // Check if the agent is moving to avoid division by zero
+        {
+            float angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle - rotationOffset));
+
+            // Smoothly interpolate between the current rotation and the target rotation
+            float rotationSpeed = navAgent.angularSpeed; // Adjust the speed as needed
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
 
     }
 
@@ -235,7 +243,7 @@ public class AIController : MonoBehaviour, IController
         {
             alienSounds.StopWalkingSound();
         }
-        RotateSprite();
+        
     }
     private void AttackTarget(GameObject foundTarget)
     {

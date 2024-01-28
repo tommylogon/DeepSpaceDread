@@ -22,11 +22,15 @@ public class Interactable : MonoBehaviour, IInteractable
     [SerializeField] private bool saves = false;
 
     private Dictionary<string, AudioClip> interactionSounds;
+    private AnimatedSpriteController animatedSpriteController;
 
 
     protected virtual void Start()
     {
         soundSource = GetComponent<AudioSource>();
+
+        
+
         if (messageDatabase != null && messageKeys.Count > 0)
         {
             messages = messageDatabase.GetMessages(messageKeys);
@@ -64,6 +68,13 @@ public class Interactable : MonoBehaviour, IInteractable
     public virtual void Interact()
     {
         PlaySound("DefaultSound");
+        if (TryGetComponent(out animatedSpriteController))
+        {
+            animatedSpriteController.TriggerAnimation();
+        }
+
+
+
     }
     protected void PlaySound(string soundKey)
     {

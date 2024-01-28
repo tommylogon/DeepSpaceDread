@@ -80,11 +80,11 @@ public class UIController : MonoBehaviour
         timerLabel = GetComponent<UIDocument>().rootVisualElement.Q<Label>("Countdown");
 
         messageLabel.visible = false;
-        reactorInputPanel.style.display = DisplayStyle.None;
+        //reactorInputPanel.style.display = DisplayStyle.None;
         timerLabel.visible = false;
-        menuPanel.style.display = DisplayStyle.None;
+        //menuPanel.style.display = DisplayStyle.None;
 
-        ReactorControls.style.display = DisplayStyle.None;
+        //ReactorControls.style.display = DisplayStyle.None;
         
        
         Timer.instance.OnTimeChanged += UpdateTimer;

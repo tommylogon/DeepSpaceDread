@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eb51f4c2feab03741bcff485b4eb748d
+guid: f54b21d89473f31428e8fdf387fcaac1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,9 +36,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 31
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,34 +117,34 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_sprite-Sheet_0
+      name: CryoPod_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        y: 173
+        width: 31
+        height: 57
+      alignment: 9
+      pivot: {x: 0.50000006, y: 0.1112869}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a668598038bd05e488dc3eaf2a5ee8aa
-      internalID: -1739469565
+      spriteID: 2414972746068cb4ab894b1890777220
+      internalID: -1666792475
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_1
+      name: CryoPod_1
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 32
+        x: 31
+        y: 173
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -152,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d4bf4b38aec00e4693a632ef824535d
-      internalID: 2076027214
+      spriteID: 1065e233779034a4ba0fc71b66e0d8a2
+      internalID: 435785123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_2
+      name: CryoPod_2
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
+        x: 62
+        y: 173
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c68933f612a31be43ba8cb655641f012
-      internalID: 1259258215
+      spriteID: 4549c8ffe0891ab40bf05bb65fa2ceba
+      internalID: 88215871
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_3
+      name: CryoPod_3
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
-        width: 32
-        height: 32
+        x: 93
+        y: 173
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6735d4f5a3d460408902238c55ac245
-      internalID: 1522004742
+      spriteID: 1e308d28669566b43b40c0edf0000edb
+      internalID: -995006973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_4
+      name: CryoPod_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
-        width: 32
-        height: 32
+        x: 124
+        y: 173
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,20 +215,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 952a9983d13d19f4596b19c498c2ef45
-      internalID: 1631721152
+      spriteID: 7bd709fa1ba26e143a880ca0735f3608
+      internalID: -707618070
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_5
+      name: CryoPod_5
       rect:
         serializedVersion: 2
-        x: 160
-        y: 64
-        width: 32
-        height: 32
+        x: 155
+        y: 173
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,146 +236,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2af604dc8de831d44886d825a3719e6e
-      internalID: -1872068388
+      spriteID: 5168ef4ad20a3e24cbda55054b81e410
+      internalID: 160331460
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e0b56a7e3b2d9ea4d9c17ca7694a5676
-      internalID: 622724922
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_7
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b98cff8b23dae014c8dfc45dd3f2fc42
-      internalID: 1107289724
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 831eb51391588b5448b111e83a951b25
-      internalID: -1087657962
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a0e95f72ef7194641b115e0cd8bfb389
-      internalID: 811117780
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 329d2ca1afb588b4d9bc1f613781c626
-      internalID: 995678919
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fb4185aa9f65651498402852bc40f716
-      internalID: -40609532
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Player_sprite-Sheet_12
+      name: CryoPod_6
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 32
-        height: 32
+        y: 116
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -383,20 +257,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c2c9afe796e8334089b3fff00691bab
-      internalID: -1248087568
+      spriteID: 0046433d6c6562548951389179d4af06
+      internalID: 1706421513
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_13
+      name: CryoPod_7
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
+        x: 31
+        y: 116
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -404,20 +278,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 38dd3c4069a403b4bb7799c0613a0a18
-      internalID: 1217332504
+      spriteID: 9467fd0f57bc82847844c96d4bd0dbb3
+      internalID: -999094737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_14
+      name: CryoPod_8
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
+        x: 0
+        y: 59
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -425,20 +299,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7dd8d5d3d134ab9489b40da335b9256a
-      internalID: 1654997373
+      spriteID: 3c5019db7ae731545883c86eab7deb95
+      internalID: 870467259
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_15
+      name: CryoPod_9
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 32
-        height: 32
+        x: 31
+        y: 59
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -446,20 +320,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 87d8b97a6ed2549489f148b2def91b8e
-      internalID: -94684021
+      spriteID: 2b86dd131906e204cbe7675d587cd7a9
+      internalID: 6241666
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_16
+      name: CryoPod_10
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
+        x: 62
+        y: 59
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,20 +341,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8d9c193e0cfc7be43ac375e137dc2cdb
-      internalID: 725629388
+      spriteID: 651721449de63234098a1e31a41b57c1
+      internalID: 1565731461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_sprite-Sheet_17
+      name: CryoPod_11
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
-        width: 32
-        height: 32
+        x: 93
+        y: 59
+        width: 31
+        height: 57
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -488,8 +362,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 522128fd6ea45bf4b91ef33b1137abfa
-      internalID: -681953327
+      spriteID: f05ff86cf3ee01b4a82eb6d19f336cde
+      internalID: -169378569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CryoPod_12
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 59
+        width: 31
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85ed73d351b46494d8d4425a2df9db17
+      internalID: 1852790886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CryoPod_13
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 59
+        width: 31
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec41de3bf6caf9742a6dae3401c6d4a1
+      internalID: -1525686613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CryoPod_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2
+        width: 31
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e819a44bdf6893439a23aaaf48a2f3f
+      internalID: -617466490
       vertices: []
       indices: 
       edges: []
@@ -505,24 +442,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Player_sprite-Sheet_0: -1739469565
-      Player_sprite-Sheet_1: 2076027214
-      Player_sprite-Sheet_10: 995678919
-      Player_sprite-Sheet_11: -40609532
-      Player_sprite-Sheet_12: -1248087568
-      Player_sprite-Sheet_13: 1217332504
-      Player_sprite-Sheet_14: 1654997373
-      Player_sprite-Sheet_15: -94684021
-      Player_sprite-Sheet_16: 725629388
-      Player_sprite-Sheet_17: -681953327
-      Player_sprite-Sheet_2: 1259258215
-      Player_sprite-Sheet_3: 1522004742
-      Player_sprite-Sheet_4: 1631721152
-      Player_sprite-Sheet_5: -1872068388
-      Player_sprite-Sheet_6: 622724922
-      Player_sprite-Sheet_7: 1107289724
-      Player_sprite-Sheet_8: -1087657962
-      Player_sprite-Sheet_9: 811117780
+      CryoPod_0: -1666792475
+      CryoPod_1: 435785123
+      CryoPod_10: 1565731461
+      CryoPod_11: -169378569
+      CryoPod_12: 1852790886
+      CryoPod_13: -1525686613
+      CryoPod_14: -617466490
+      CryoPod_2: 88215871
+      CryoPod_3: -995006973
+      CryoPod_4: -707618070
+      CryoPod_5: 160331460
+      CryoPod_6: 1706421513
+      CryoPod_7: -999094737
+      CryoPod_8: 870467259
+      CryoPod_9: 6241666
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
