@@ -62,9 +62,7 @@ public class AIController : MonoBehaviour, IController
         perception = GetComponent<AIPerception>();
 
 
-        enemyIndicator = Instantiate(enemyIndicatorPrefab);
-        enemyIndicator.GetComponent<EnemyIndicator>().SetTarget(gameObject);
-        enemyIndicator.GetComponent<EnemyIndicator>().SetPlayer(playerRef);
+        SetIndicator();
 
         perception.OnTargetFound += TargetFound;
         perception.OnTargetLost += TargetLost;
@@ -72,6 +70,13 @@ public class AIController : MonoBehaviour, IController
 
         currentState = State.Hunting;
 
+    }
+
+    private void SetIndicator()
+    {
+        enemyIndicator = Instantiate(enemyIndicatorPrefab);
+        enemyIndicator.GetComponent<DirectionIndicator>().SetTarget(gameObject);
+        enemyIndicator.GetComponent<DirectionIndicator>().SetPlayer(playerRef);
     }
 
     private void FixedUpdate()

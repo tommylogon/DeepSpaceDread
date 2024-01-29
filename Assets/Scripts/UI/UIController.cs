@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class UIController : MonoBehaviour
 {
     public static UIController Instance;
+    private TypewriterEffect typewriterEffect;
 
     private Label messageLabel;
     private Label interactoinLabel;
@@ -18,7 +19,6 @@ public class UIController : MonoBehaviour
 
     private VisualElement gameStatePanel;
     private VisualElement reactorInputPanel;
-    private VisualElement menuPanel;
     private VisualElement controlsPanel;
     private VisualElement settingsPanel;
     public VisualElement LockStatus;
@@ -27,11 +27,15 @@ public class UIController : MonoBehaviour
     public VisualElement Keypad;
     public VisualElement ReactorControls;
 
-    [SerializeField]private VisualTreeAsset PauseMenuUXML;
-    [SerializeField] private VisualTreeAsset ReactorUXML;
-    [SerializeField] private VisualTreeAsset TimerUXML;
+    [SerializeField]private VisualTreeAsset PauseMenuUI;
+    [SerializeField] private VisualTreeAsset ReactorUI;
+    [SerializeField] private VisualTreeAsset TimerUI;
 
-    private TypewriterEffect typewriterEffect;
+    private VisualElement timerPanel;
+    private VisualElement reactorPanel;
+    private VisualElement pauseMenuPanel;
+
+    
 
     public event Action<string> OnReactorOKButton_Clicked;
     public event Action OnPullControlRodsButton_Clicked;
@@ -43,23 +47,29 @@ public class UIController : MonoBehaviour
 
     private List<string> memoryList = new List<string>();
 
-    private VisualElement UICenterSection;
+    private VisualElement centerSection;
 
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        InitializeUI();
+       
+
+
+
+    }
+
+    private void oldInitialize()
+    {
         VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-        typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
 
-        UICenterSection = root.Q<VisualElement>("Center");
 
-        messageLabel = root.Q<Label>("message-lable");
-        interactoinLabel = root.Q<Label>("InteractionLable");
-        memoryLable = root.Q<Label>("MemoryText");
-        gameOverLable = root.Q<Label>("StartOrGameOver");
+       
 
-        gameStatePanel = root.Q<VisualElement>("GameStatePanel");
+        
+        
+
+        
         reactorInputPanel = root.Q<VisualElement>("ReactorInputPanel");
 
         CodeDisplay = root.Q<VisualElement>("CodeDisplay");
@@ -67,12 +77,11 @@ public class UIController : MonoBehaviour
         ReactorControls = root.Q<VisualElement>("ReactorControls");
 
         codeLable = root.Q<Label>("CodeLabel");
-        
-        menuPanel = root.Q<VisualElement>("MenuPanel");
+
         controlsPanel = root.Q<VisualElement>("ControlsPanel");
         settingsPanel = root.Q<VisualElement>("SettingsPanel");
 
-       
+
 
         LockStatus = root.Q<VisualElement>("LockStatus");
         unlockedStatus = root.Q<VisualElement>("UnlockedStatus");
@@ -85,35 +94,82 @@ public class UIController : MonoBehaviour
         //menuPanel.style.display = DisplayStyle.None;
 
         //ReactorControls.style.display = DisplayStyle.None;
-        
-       
-        Timer.instance.OnTimeChanged += UpdateTimer;
 
-        RegisterButtons(root);
-        
+
+
+
+
+        HideMessage();
+    }
+
+    private void InitializeUI()
+    {
+        Instance = this;
+        typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
+
+        pauseMenuPanel = PauseMenuUI.CloneTree();
+        pauseMenuPanel.style.display = DisplayStyle.None;
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        centerSection = root.Q<VisualElement>("Center");
+
+        centerSection.Insert(0,pauseMenuPanel);
+        RegisterElementReferenses(root);
+
+
+
+
+        RegisterPauseMenuButtons(root);
+
 
     }
 
-    public void RegisterButtons(VisualElement root)
+    private void RegisterElementReferenses(VisualElement root)
     {
+        messageLabel = root.Q<Label>("message-lable");
+        interactoinLabel = root.Q<Label>("InteractionLable");
+        memoryLable = root.Q<Label>("MemoryText");
+        gameStatePanel = root.Q<VisualElement>("GameStatePanel");
+        gameOverLable = root.Q<Label>("StartOrGameOver");
+    }
+
+    private void OnEnable()
+    {
+        Timer.instance.OnTimeChanged += UpdateTimer;
+    }
+    private void OnDisable()
+    {
+        Timer.instance.OnTimeChanged -= UpdateTimer;
+    }
+
+    private void RegisterPauseMenuButtons(VisualElement root)
+    {
+        Button resumeButton = root.Q<Button>("ResumeButton");
+        Button restartButton = root.Q<Button>("RestartButton");
+        Button settingsButton = root.Q<Button>("SettingsButton");
         Button exitButton = root.Q<Button>("ExitButton");
+
+        settingsButton.clicked += ShowSettingsPanel_Clicked;
+        resumeButton.clicked += TogglePauseMenu_Clicked;
+        restartButton.clicked += RestartButton_Clicked;
+        exitButton.clicked += ExitButton_Clicked;
+    }
+    public void RegisterReactorButtons(VisualElement root)
+    {
+        
         Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
         Button ShutDownReactorButton = root.Q<Button>("ShutDownReactorButton");
         Button StabilizeButton = root.Q<Button>("StabilizeButton");
         Button controlsButton = root.Q<Button>("ControlsButton");
-        Button settingsButton = root.Q<Button>("SettingsButton");
-        Button resumeButton = root.Q<Button>("ResumeButton");
-        Button restartButton = root.Q<Button>("RestartButton");
+
 
         controlsButton.clicked += () => { ShowControlsPanel(); };
-        settingsButton.clicked += () => { ShowSettingsPanel(); };
+        
         PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
         ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
         StabilizeButton.clicked += StabilizeButton_Clicked;
 
-        resumeButton.clicked += ToggleMenu;
-        restartButton.clicked += RestartButton_Clicked ;
-        exitButton.clicked += ExitButton_Clicked;
+        
+        
 
         for (int i = 0; i <= 9; i++)
         {
@@ -140,10 +196,7 @@ public class UIController : MonoBehaviour
         #endif
     }
 
-    private void RegisterPauseMenu()
-    {
-
-    }
+   
 
     public void UpdateTimer(string time)
     {
@@ -166,6 +219,7 @@ public class UIController : MonoBehaviour
     public void HideMessage()
     {
         messageLabel.visible = false;
+
     }
 
     public void HideMessageAfterDelay(float delay)
@@ -270,9 +324,9 @@ public class UIController : MonoBehaviour
         interactoinLabel.visible= false;
     }
 
-    internal void ToggleMenu()
+    internal void TogglePauseMenu_Clicked()
     {
-        menuPanel.style.display = menuPanel.style.display == DisplayStyle.Flex ? DisplayStyle.None : DisplayStyle.Flex;
+        pauseMenuPanel.style.display = pauseMenuPanel.style.display == DisplayStyle.Flex ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
     public void ShowControlsPanel()
@@ -285,7 +339,7 @@ public class UIController : MonoBehaviour
         controlsPanel.visible = false;
     }
 
-    public void ShowSettingsPanel()
+    public void ShowSettingsPanel_Clicked()
     {
         settingsPanel.visible = true;
     }
@@ -349,6 +403,7 @@ public class UIController : MonoBehaviour
 
     internal bool IsReactorShowing()
     {
+        return false;
         return reactorInputPanel.style.display != DisplayStyle.None;
     }
     public void RestartButton_Clicked()

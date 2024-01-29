@@ -28,7 +28,7 @@ public class Locker : Interactable, IDamage
     {
         if(lockerIsOccupied)
         {
-            player.transform.position = transform.position;
+            playerRef.transform.position = transform.position;
         }
     }
     public override void Interact()
@@ -59,7 +59,7 @@ public class Locker : Interactable, IDamage
         }
         
 
-        player.ShowPlayer(!lockerIsOccupied);
+        playerRef.ShowPlayer(!lockerIsOccupied);
 
     }
 

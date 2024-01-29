@@ -12,7 +12,7 @@ public class Interactable : MonoBehaviour, IInteractable
     [SerializeField] protected bool playRandomMessage;
     [SerializeField] public float noiseRadius;
 
-    protected PlayerController player;
+    protected PlayerController playerRef;
 
     protected AudioSource soundSource;
     [SerializeField] private List<string> SoundKeys;
@@ -48,7 +48,7 @@ public class Interactable : MonoBehaviour, IInteractable
         {
             closeEnoughToInteract = true;
             UIController.Instance.ShowInteraction(interactText);
-            player = other.GetComponent<PlayerController>();
+            playerRef = other.GetComponent<PlayerController>();
         }
     }
 
@@ -59,7 +59,7 @@ public class Interactable : MonoBehaviour, IInteractable
             closeEnoughToInteract = false;
             UIController.Instance.HideInteraction();
             UIController.Instance.HideMessageAfterDelay(10f);
-            player = null;
+            playerRef = null;
         }
     }
 

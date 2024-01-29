@@ -1,12 +1,20 @@
 .Button {
-    background-color: rgba(125, 125, 125, 0.6);
-    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 13px;
     -unity-text-outline-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     border-left-color: rgb(94, 93, 93);
     border-right-color: rgb(94, 93, 93);
     border-top-color: rgb(94, 93, 93);
     border-bottom-color: rgb(94, 93, 93);
+    background-image: url('project://database/Assets/Imports/Sci-Fi%20UI/_SciFi_GUISkin_/atlas.png?fileID=21300014&guid=56d84991286850f428b4e7df0cca7380&type=3#button1');
+    width: 127px;
+    height: 49px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    white-space: normal;
 }
 
 .Button:active {
@@ -18,6 +26,11 @@
     border-right-color: rgb(94, 93, 93);
     border-top-color: rgb(94, 93, 93);
     border-bottom-color: rgb(94, 93, 93);
+    background-image: url('project://database/Assets/Imports/Sci-Fi%20UI/_SciFi_GUISkin_/atlas.png?fileID=21300024&guid=56d84991286850f428b4e7df0cca7380&type=3#button_active');
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
 }
 
 .Text {
@@ -40,7 +53,7 @@
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
-    background-color: rgb(79, 79, 79);
+    background-color: rgb(70, 125, 166);
     -unity-text-outline-color: rgb(0, 0, 0);
     border-left-color: rgb(144, 144, 144);
     border-right-color: rgb(144, 144, 144);
@@ -51,6 +64,7 @@
     border-bottom-left-radius: 2px;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
+    font-size: 19px;
 }
 
 .VisualElementStyle {
@@ -69,4 +83,15 @@
 
 .ButtonStyle {
     display-tooltip-when-elided: true;
+}
+
+.Button {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }

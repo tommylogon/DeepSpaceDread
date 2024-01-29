@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         if (!UIController.Instance.IsReactorShowing())
         {
-            UIController.Instance.ToggleMenu();
+            UIController.Instance.TogglePauseMenu_Clicked();
         }
         else
         {

@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
-    <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: 259px; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64); flex-direction: column;">
+    <ui:VisualElement name="ReactorInputPanel" style="justify-content: flex-start; align-items: flex-start; width: auto; position: relative; top: auto; left: auto; display: flex; visibility: visible; background-color: rgba(0, 0, 0, 0.64); flex-direction: column; background-image: url(&apos;project://database/Assets/Imports/Sci-Fi%20UI/_SciFi_GUISkin_/atlas.png?fileID=21300000&amp;guid=56d84991286850f428b4e7df0cca7380&amp;type=3#window&apos;); padding-left: 30px; padding-right: 14px; padding-top: 35px; padding-bottom: 15px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
         <ui:Label text="Reactor Status: Unstable. Emergency power active. Enter override code to stabilize." style="color: rgb(255, 255, 255); white-space: normal; align-items: stretch; -unity-text-align: upper-left;" />
         <ui:VisualElement name="UnlockedStatus" style="background-image: url(&apos;project://database/Packages/com.unity.timeline/Editor/StyleSheets/Images/Icons/TrackLockButtonDisabled@2x.png?fileID=2800000&amp;guid=6fb5cabb85ba3794682b16eba19440cb&amp;type=3#TrackLockButtonDisabled@2x&apos;); width: 32px; height: 32px; display: none;" />
         <ui:VisualElement name="CodeDisplay" style="flex-direction: row; justify-content: flex-start; align-items: center;">
@@ -23,8 +23,8 @@
             <ui:Button text="OK" name="OKButton" class="NumberButton" />
         </ui:VisualElement>
         <ui:VisualElement name="ReactorControls" style="flex-direction: column; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px;">
-            <ui:Button text="Remove Control Rods" name="PullControlRodsButton" class="Button" />
-            <ui:Button text="Shut Down Reactor" name="ShutDownReactorButton" class="Button" />
+            <ui:Button text="Remove Control Rods" name="PullControlRodsButton" class="Button" style="white-space: normal;" />
+            <ui:Button text="Shut Down Reactor" name="ShutDownReactorButton" class="Button" style="white-space: normal;" />
             <ui:Button text="Stabilize" name="StabilizeButton" class="Button" />
         </ui:VisualElement>
         <ui:Button text="Close Panel" name="ClosePanelButton" class="Button" />

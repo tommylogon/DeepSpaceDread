@@ -18,8 +18,8 @@ public class InteractEscape : Interactable
     {
         if (closeEnoughToInteract)
         {
-            player.transform.position = transform.position;
-            player.GetComponent<SpriteRenderer>().sortingOrder = -2;
+            playerRef.transform.position = transform.position;
+            playerRef.GetComponent<SpriteRenderer>().sortingOrder = -2;
             onboard = true;
         }
     }
@@ -29,7 +29,7 @@ public class InteractEscape : Interactable
 
         if (onboard)
         {
-            player.transform.position = transform.position;
+            playerRef.transform.position = transform.position;
             transform.position = Vector2.MoveTowards(transform.position, targetPos.position, 4 * Time.deltaTime);
             UIController.Instance.ShowGameOver(true);
             Timer.instance.PauseTimer(true);

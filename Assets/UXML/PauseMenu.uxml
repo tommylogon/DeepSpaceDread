@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UXML/GameUI.uss?fileID=7433441132597879392&amp;guid=25d2965d3c2978947a7e76312aed7ea0&amp;type=3#GameUI" />
     <ui:VisualElement name="Center" style="-unity-text-align: upper-center; width: auto; align-items: center; flex-grow: 1; justify-content: center;">
-        <ui:VisualElement name="MenuPanel" style="left: auto; width: 200px; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch;">
-            <ui:Button text="RESUME" display-tooltip-when-elided="true" name="ResumeButton" class="Button" />
+        <ui:VisualElement name="MenuPanel" style="left: auto; width: auto; height: auto; right: auto; background-color: rgba(0, 0, 0, 0.57); position: relative; top: auto; display: flex; visibility: visible; -unity-text-align: upper-left; justify-content: flex-start; align-items: stretch; background-image: url(&apos;project://database/Assets/Imports/Sci-Fi%20UI/_SciFi_GUISkin_/atlas.png?fileID=21300000&amp;guid=56d84991286850f428b4e7df0cca7380&amp;type=3#window&apos;); padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px;">
+            <ui:Button text="RESUME" display-tooltip-when-elided="true" name="ResumeButton" class="Button" style="border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0;" />
             <ui:Button text="RESTART" display-tooltip-when-elided="true" name="RestartButton" class="Button" />
             <ui:Button text="CONTROLS" display-tooltip-when-elided="true" name="ControlsButton" class="Button" />
             <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="Button" />

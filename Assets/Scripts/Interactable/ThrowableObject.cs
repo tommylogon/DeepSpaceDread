@@ -53,9 +53,9 @@ public class ThrowableObject : Interactable
         
         base.Interact();
        
-        player.GetComponent<PlayerController>().AddToInventory(gameObject);
+        playerRef.GetComponent<PlayerController>().AddToInventory(gameObject);
 
-        transform.SetParent(player.GetComponent<PlayerController>().GetHoldingPoint());
+        transform.SetParent(playerRef.GetComponent<PlayerController>().GetHoldingPoint());
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
         spriteRenderer.sortingOrder = 4;

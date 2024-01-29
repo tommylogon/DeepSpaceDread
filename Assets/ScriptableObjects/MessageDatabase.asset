@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messages:
   - key: BodyIntro
-    message: You're all alone now, and something's out there. It can hear your every
-      move, so be careful and stay hidden. The escape pod is locked down tight, but
-      there's still hope. Trigger the self-destruct to override the lockdown and
-      make your escape. He has a note with a keycode
+    message: "If you hear this i guess it got me. You  are probably all alone now,
+      the overseer greenlit some bio-experiment and well what ever it is. it got
+      loose. I could not leave you in here but the overseer has locked down the station.
+      You are a smart kid. I'm sure you can get to the escape pods somehow. \r\ngood
+      luck, kiddo.\r\n"
     tag: 4
   - key: BodyLockerHint
     message: A mangled body lying on the ground. A note beside it warns of approaching
