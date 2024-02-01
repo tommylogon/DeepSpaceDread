@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
@@ -42,6 +44,8 @@ public class Interactable : MonoBehaviour, IInteractable
         }
     }
 
+ 
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -62,8 +66,22 @@ public class Interactable : MonoBehaviour, IInteractable
             playerRef = null;
         }
     }
+  
+    public void ShowInteractablePrompt()
+    {
+        if (!closeEnoughToInteract)
+        {
 
-   
+            UIController.Instance.ShowInteraction(interactText+", Too Far away."  );
+        }
+        else
+        {
+            UIController.Instance.ShowInteraction(interactText);
+        }
+        
+    }
+
+
 
     public virtual void Interact()
     {
@@ -119,6 +137,8 @@ public class Interactable : MonoBehaviour, IInteractable
             
         }
     }
+   
+
 }
 
 

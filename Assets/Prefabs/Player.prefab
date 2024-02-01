@@ -130,6 +130,8 @@ GameObject:
   - component: {fileID: 853036432819581023}
   - component: {fileID: 1803640571}
   - component: {fileID: 1803640572}
+  - component: {fileID: 381161389}
+  - component: {fileID: 3688651376082543390}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -177,7 +179,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9185f29d067abd44c94a8ef4a60e4415, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -197,7 +199,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1739469565, guid: eb51f4c2feab03741bcff485b4eb748d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -208,7 +210,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &853036432819580999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   godMode: 0
   IsInsideLocker: 0
-  damageEffect: {fileID: 4553287630450876387, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
+  damageEffect: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a, type: 3}
   baseVisibility: 1
   visibility: 0
   detectionRadius: 10
@@ -241,6 +243,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   throwableObjectInventory: {fileID: 0}
+  playerDamageMaterial: {fileID: 0}
   move:
     m_Name: Move
     m_Type: 0
@@ -297,7 +300,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -456,7 +459,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -503,6 +506,103 @@ MonoBehaviour:
   regenAmount: 1
   canTakeDamage: 1
   canRecharge: 0
+--- !u!114 &381161389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853036432819580997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9ddfe2a2407d3f0419d8384347fe5a86, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cb955881-7eca-4d4b-8129-9eb6992e6eeb
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow,/46D-C2A8/stick,/46D-C2A9/stick,/46D-C2AA/stick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 57949c77-1d75-4183-b7d6-25e27fd59ae7
+    m_ActionName: Player/Look[/Mouse/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aaa4b659-3dfe-4334-9251-f12694491d1c
+    m_ActionName: Player/Fire[/Mouse/leftButton,/46D-C2A8/trigger,/46D-C2A9/trigger,/46D-C2AA/trigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bd4936d5-4c2e-46d8-a8ef-843ad535bce8
+    m_ActionName: UI/Navigate[/46D-C2A8/stick/up,/46D-C2A9/stick/up,/46D-C2AA/stick/up,/46D-C2A8/stick/down,/46D-C2A9/stick/down,/46D-C2AA/stick/down,/46D-C2A8/stick/left,/46D-C2A9/stick/left,/46D-C2AA/stick/left,/46D-C2A8/stick/right,/46D-C2A9/stick/right,/46D-C2AA/stick/right,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aed7ea1c-0e84-4f51-ba3a-289b23668e00
+    m_ActionName: UI/Submit[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 75e81940-d392-4cb2-b9e5-52015b3eae60
+    m_ActionName: UI/Cancel[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 90dcaa2a-f778-4008-b2ae-68f7bc07c88a
+    m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ee478af6-d9df-439a-9564-0be4aa5e33ad
+    m_ActionName: UI/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7bb28708-8c65-471e-82cc-97def436d261
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d9d73807-e0e8-4047-a6bb-ac697c092cd2
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 41e0356b-bf7c-4595-8be2-b6c54708bc6c
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 280842a2-155d-4e1b-b06e-840b04423bc0
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d1edd725-f404-4f0d-8296-dc5258c762ba
+    m_ActionName: UI/TrackedDeviceOrientation
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 853036433040578259}
+--- !u!114 &3688651376082543390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853036432819580997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330a0c9eea4cfca4999372e02926ca20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 4096
 --- !u!1 &853036433040578256
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +616,7 @@ GameObject:
   - component: {fileID: 853036433040578257}
   - component: {fileID: 853036433040578093}
   - component: {fileID: 853036433040578094}
+  - component: {fileID: 732201352}
   m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -639,6 +740,20 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &732201352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853036433040578256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be14e5cd5b4f5904c8f23f901fc6cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeImage: {fileID: 0}
+  fadeDuration: 2
 --- !u!1 &853036433384851856
 GameObject:
   m_ObjectHideFlags: 0

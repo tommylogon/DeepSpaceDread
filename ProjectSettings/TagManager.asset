@@ -20,7 +20,7 @@ TagManager:
   - Borders
   - ThrowableObject
   - BehindMask
-  - 
+  - Interactable
   - Corpse
   - Enemy
   - Walls

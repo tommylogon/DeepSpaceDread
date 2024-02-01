@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2205999478819039764}
   - component: {fileID: 2314786020728200718}
   - component: {fileID: 7246823094664617786}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PanelRed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   - {x: 0.14773941, y: -0.42520332, z: 0}
   m_ShapePathHash: 1356572565
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1406
+  m_InstanceId: 132022
   m_LocalBounds:
     m_Center: {x: -0.017814636, y: 0.007906914, z: 0}
     m_Extent: {x: 0.16555405, y: 0.43311024, z: 0}
@@ -143,6 +143,9 @@ MonoBehaviour:
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}
+  directionIndicator: {fileID: 0}
+  indicatorPrefab: {fileID: 0}
+  indicatorTarget: {fileID: 0}
 --- !u!61 &2314786020728200718
 BoxCollider2D:
   m_ObjectHideFlags: 0

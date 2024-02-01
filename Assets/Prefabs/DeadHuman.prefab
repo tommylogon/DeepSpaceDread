@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4912432286794575091}
   - component: {fileID: 1208678085}
   - component: {fileID: 1208678084}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: DeadHuman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,12 +125,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: Press E to interact
-  message: A dead body. it is torn and broken
-  messageKey: 
+  messages: []
+  messageKeys: []
   messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
-  canInteract: 0
+  closeEnoughToInteract: 0
+  playRandomMessage: 0
   noiseRadius: 0
-  interactionClip: {fileID: 0}
+  SoundKeys: []
+  soundValues: []
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}
+  directionIndicator: {fileID: 0}
+  indicatorPrefab: {fileID: 0}
+  indicatorTarget: {fileID: 0}

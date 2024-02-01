@@ -38,7 +38,7 @@ public class InteractObject : Interactable
             
             if(indicatorTarget != null)
             {
-                directionIndicator.GetComponent<DirectionIndicator>().SetTarget(gameObject);
+                directionIndicator.GetComponent<DirectionIndicator>().SetTarget(indicatorTarget);
             }
             
             if(playerRef != null)

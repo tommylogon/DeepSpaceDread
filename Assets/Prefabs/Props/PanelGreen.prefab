@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2999531891820578604}
   - component: {fileID: -6631770664309068090}
   - component: {fileID: 7270791961394555672}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PanelGreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013976128505031622}
-  m_LocalRotation: {x: 0, y: 0, z: 0.59970117, w: 0.80022407}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.49, y: 13.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 4844227778834957902}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 73.697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8621998990126145999
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -113,6 +113,9 @@ MonoBehaviour:
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}
+  directionIndicator: {fileID: 0}
+  indicatorPrefab: {fileID: 0}
+  indicatorTarget: {fileID: 0}
 --- !u!114 &2999531891820578604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +142,7 @@ MonoBehaviour:
   - {x: 0.15830183, y: -0.43568802, z: 0}
   m_ShapePathHash: -1345815211
   m_Mesh: {fileID: 0}
-  m_InstanceId: -3776
+  m_InstanceId: 132052
   m_LocalBounds:
     m_Center: {x: -0.01876235, y: 0.011191368, z: 0}
     m_Extent: {x: 0.17706418, y: 0.4468794, z: 0}

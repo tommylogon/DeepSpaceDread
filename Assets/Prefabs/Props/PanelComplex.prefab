@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 136699701}
   - component: {fileID: 136699704}
   - component: {fileID: 136699697}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: PanelComplex
   m_TagString: Untagged
   m_Icon: {fileID: 0}

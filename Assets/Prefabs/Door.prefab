@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8327534971196084249}
   - component: {fileID: 8327534971196084326}
   - component: {fileID: -5233499166507207737}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,12 +191,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Door: Press E to interact'
-  message: 
-  messageKey: 
+  messages: []
+  messageKeys: []
   messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
-  canInteract: 0
+  closeEnoughToInteract: 0
+  playRandomMessage: 0
   noiseRadius: 0
-  interactionClip: {fileID: 0}
+  SoundKeys: []
+  soundValues: []
+  questInfo: 
+  saves: 0
   locked: 0
   doorAnimator: {fileID: 8327534971196084250}
   doorCollider: {fileID: 8327534971196084249}

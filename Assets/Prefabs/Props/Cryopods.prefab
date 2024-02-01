@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692550316932735603}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.47999954, z: 0}
+  m_LocalPosition: {x: 0, y: 1.095, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 8218784999561820019}
   - component: {fileID: 664444199}
   - component: {fileID: 5448865050629267081}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Cryopods
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bddb6201d7aba724d953e6ae9df60887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Press E to interact
+  interactText: 'Cryopod: Press E to interact'
   messages: []
   messageKeys:
   - InteractCryopod
@@ -242,6 +242,9 @@ MonoBehaviour:
   questInfo: 
   saves: 0
   doorToUnlock: {fileID: 0}
+  directionIndicator: {fileID: 0}
+  indicatorPrefab: {fileID: 0}
+  indicatorTarget: {fileID: 0}
 --- !u!61 &664444199
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -304,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5543911335987640154}
   - component: {fileID: 6444384734807748431}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: CryoDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

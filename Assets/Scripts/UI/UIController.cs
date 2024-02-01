@@ -120,6 +120,8 @@ public class UIController : MonoBehaviour
 
         RegisterPauseMenuButtons(root);
 
+        ClearTextFields();
+
 
     }
 
@@ -196,7 +198,12 @@ public class UIController : MonoBehaviour
         #endif
     }
 
-   
+   private void ClearTextFields()
+    {
+        messageLabel.text = "";
+        memoryLable.text = "";
+        HideMessage();
+    }
 
     public void UpdateTimer(string time)
     {
