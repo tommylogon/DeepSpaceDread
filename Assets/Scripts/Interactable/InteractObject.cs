@@ -12,6 +12,8 @@ public class InteractObject : Interactable
     [SerializeField] private GameObject directionIndicator;
     [SerializeField] private GameObject indicatorPrefab;
     [SerializeField] private GameObject indicatorTarget;
+    [SerializeField] private int minDistanceForIndicator;
+    [SerializeField] private int maxDistanceForIndicator;
 
     protected override void Start()
     {
@@ -24,7 +26,7 @@ public class InteractObject : Interactable
         if (indicatorPrefab != null)
         {
             directionIndicator = Instantiate(indicatorPrefab);
-            directionIndicator.GetComponent<DirectionIndicator>().SetDistances(0.5f, 7);
+            directionIndicator.GetComponent<DirectionIndicator>().SetDistances(minDistanceForIndicator, maxDistanceForIndicator);
         }
         SetIndicator();
 

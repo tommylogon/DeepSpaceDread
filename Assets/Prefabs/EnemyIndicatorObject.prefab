@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 350264426, guid: ccb97c7d5963ed94696d13c8b5474563, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,9 +97,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37d74c8432c71124fb5a2a3ab7a01ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  enemy: {fileID: 0}
-  distanceFromPlayer: 0.5
-  minDistanceToShow: 2
-  maxDistanceToShow: 10
-  rotationOffset: 135
