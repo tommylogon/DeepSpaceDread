@@ -12,6 +12,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private  bool RunGame;
     public delegate void NoiseGeneratedEventHandler(Vector2 noiseOrigin, float noiseRadius);
     public event NoiseGeneratedEventHandler OnNoiseGenerated;
+    private GameObject playerRef;
 
     public enum GameState
     {
@@ -53,4 +54,13 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public void SpawnEnemy(Vector3 spawnPosition)
+    {
+        throw new NotImplementedException(); 
+    }
+
+    public void startGame()
+    {
+        //when player presses interact, play the cryopod animation, and after it is finished, allow player to move
+    }
 }

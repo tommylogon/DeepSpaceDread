@@ -56,6 +56,7 @@ public class InteractObject : Interactable
     // Update is called once per frame
     public override void Interact()
     {
+        base.Interact();
         PlayMessage(0);
 
         if (doorToUnlock != null)

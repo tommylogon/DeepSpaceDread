@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour, IDamage
         aim = controls.Player.Aim;
 
         controls.Player.Interact.performed += _ => Interact();
-        controls.Player.Interact.performed += _ => WakeUp();
+        //controls.Player.Interact.performed += _ => WakeUp();
         controls.Player.Restart.performed += _ => RestartScene();
         controls.Player.Run.started += _ => playerMovement.SetSprinting(true);
         controls.Player.Run.canceled += _ => playerMovement.SetSprinting(false);
@@ -430,10 +430,19 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void Interact()
     {
-        if (interactableObject != null && playerState == State.Alive)
+        if(interactableObject != null)
         {
-            interactableObject.Interact();
-        }
+            if (playerState == State.Sleeping) 
+            {
+                interactableObject.Interact();
+                WakeUp();
+            }
+            else if(interactableObject != null && playerState == State.Alive)
+            {
+                interactableObject.Interact();
+            }
+        } 
+        
         if(IsInsideLocker && interactableObject == null)
         {
             Collider2D lockerCollider = Physics2D.OverlapCircle(transform.position, 2);

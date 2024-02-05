@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 public class Interactable : MonoBehaviour, IInteractable
 {
     [SerializeField] public string interactText = "Press E to interact";
+
+    [SerializeField] private InteractionModule[] interactionModules;
+
     public List<string> messages;
     public List<string> messageKeys;
     public MessageDatabase messageDatabase;
@@ -24,7 +27,7 @@ public class Interactable : MonoBehaviour, IInteractable
     [SerializeField] private bool saves = false;
 
     private Dictionary<string, AudioClip> interactionSounds;
-    private AnimatedSpriteController animatedSpriteController;
+    private AnimatedSpriteModule animatedSpriteController;
 
 
     protected virtual void Start()
@@ -85,10 +88,21 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public virtual void Interact()
     {
+        if(interactionModules.Length > 0)
+        {
+            for (int i = 0; i < interactionModules.Length; i++)
+            {
+                interactionModules[i].Interact();
+            }
+        }
+        else
+        {
+            Debug.Log(gameObject.name + " at " + transform.position + " Does not have any interaction modules");
+        }
         PlaySound("DefaultSound");
         if (TryGetComponent(out animatedSpriteController))
         {
-            animatedSpriteController.TriggerAnimation();
+            animatedSpriteController.TriggerAnimationAfterTime();
         }
 
 
