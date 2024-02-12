@@ -57,7 +57,7 @@ public class InteractObject : Interactable
     public override void Interact()
     {
         base.Interact();
-        PlayMessage(0);
+        //PlayMessage(0);
 
         if (doorToUnlock != null)
         {

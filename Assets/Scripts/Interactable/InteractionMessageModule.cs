@@ -23,10 +23,14 @@ public class InteractionMessageModule : InteractionModule
 
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    public override void Interact()
     {
-        
+        PlayMessage();
+    }
+    public  void Interact(string key)
+    {
+
     }
     protected void PlayMessage(int messageIndex = 0, int messageRange = 1)
     {

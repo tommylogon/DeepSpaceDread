@@ -91,7 +91,7 @@ public class InteractReactor : Interactable
             }
             reactorState = ReactorState.PullControlRods;
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[1]);
+            //UIController.Instance.ShowMessage(messages[1]);
             Timer.instance.PauseTimer(false);
             UIController.Instance.ShowTimer();
         }
@@ -127,7 +127,7 @@ public class InteractReactor : Interactable
             
 
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[2]);
+            //UIController.Instance.ShowMessage(messages[2]);
             reactorState = ReactorState.ShutDownReactor;
         }
 
@@ -160,7 +160,7 @@ public class InteractReactor : Interactable
             }
             reactorState = ReactorState.Stabilize;
             UIController.Instance.HideReactorPanel();
-            UIController.Instance.ShowMessage(messages[3]);
+            //UIController.Instance.ShowMessage(messages[3]);
         }
     }
 

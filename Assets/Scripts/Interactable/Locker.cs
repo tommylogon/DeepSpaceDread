@@ -39,23 +39,23 @@ public class Locker : Interactable, IDamage
             if (!lockerIsOccupied)
             {
                 lockerIsOccupied = true;
-                PlayMessage(0,2);
+              //  PlayMessage(0,2);
 
             }
             else
             {
                 lockerIsOccupied = false;
             }
-            PlaySound("LockerOpen");
+            //PlaySound("LockerOpen");
             
         }
         else
         {
             lockerIsOccupied = false;
 
-            PlaySound("LockerBroken");
-            playRandomMessage = false;
-            PlayMessage(3);
+            //PlaySound("LockerBroken");
+            //playRandomMessage = false;
+            //PlayMessage(3);
         }
         
 

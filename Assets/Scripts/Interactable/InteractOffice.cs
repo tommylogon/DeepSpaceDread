@@ -10,8 +10,8 @@ public class InteractOffice : InteractObject
         base.Start();
         GenerateRandomCode();
         SetReactorCode();
-        messages[0] = messages[0].Replace("{code}", code);
-        questInfo = questInfo.Replace("{code}", code);
+        //messages[0] = messages[0].Replace("{code}", code);
+        //questInfo = questInfo.Replace("{code}", code);
     }
 
 

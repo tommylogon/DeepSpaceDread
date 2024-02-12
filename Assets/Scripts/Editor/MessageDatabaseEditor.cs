@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
 using static MessageDatabase;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [CustomEditor(typeof(MessageDatabase))]
 public class MessageDatabaseEditor : Editor
@@ -34,19 +35,6 @@ public class MessageDatabaseEditor : Editor
         EditorGUILayout.LabelField("Filter by Tag", EditorStyles.boldLabel);
         filterTag = (Tag)EditorGUILayout.EnumPopup("Tag:", filterTag);
 
-        // Display filtered messages
-        GUILayout.Space(10);
-        EditorGUILayout.LabelField("Filtered Messages", EditorStyles.boldLabel);
-        DisplayFilteredMessages();
-
-        // Validation and error checking
-        GUILayout.Space(10);
-        EditorGUILayout.LabelField("Validation and Error Checking", EditorStyles.boldLabel);
-        if (GUILayout.Button("Check for Errors"))
-        {
-            ValidateMessages();
-        }
-
         // Add new message section
         GUILayout.Space(10);
         EditorGUILayout.LabelField("Add New Message", EditorStyles.boldLabel);
@@ -57,6 +45,80 @@ public class MessageDatabaseEditor : Editor
         if (GUILayout.Button("Add New"))
         {
             AddNewMessage();
+        }
+
+        // Display all messages
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("All Messages", EditorStyles.boldLabel);
+        DisplayAllMessages();
+
+        // Display filtered messages
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("Filtered Messages", EditorStyles.boldLabel);
+        DisplayMessages();
+
+        // Validation and error checking
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("Validation and Error Checking", EditorStyles.boldLabel);
+        if (GUILayout.Button("Check for Errors"))
+        {
+            ValidateMessages();
+        }
+
+        
+
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("Print Messages", EditorStyles.boldLabel);
+        if (GUILayout.Button("Print Messages"))
+        {
+            PrintMessages();
+        }
+    }
+
+    private void DisplayMessages()
+    {
+        if (string.IsNullOrEmpty(searchFilter) && filterTag == Tag.General)
+        {
+            DisplayAllMessages();
+            return;
+        }
+
+        foreach(var pair in messageDatabase.messagesDict)
+        {
+            var entry = pair.Value;
+            if((pair.Key.ToLower().Contains(searchFilter.ToLower()) || string.IsNullOrEmpty(searchFilter)) && entry.tag == filterTag)
+            {
+                EditorGUILayout.BeginVertical(GUI.skin.box);
+                EditorGUILayout.LabelField("Key:", pair.Key);
+                entry.tag = (Tag)EditorGUILayout.EnumPopup("Tag:", entry.tag);
+                entry.message = EditorGUILayout.TextArea(entry.message, GUILayout.Height(50));
+                EditorGUILayout.EndVertical();
+            }
+        }
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(messageDatabase);
+        }
+    }
+
+    private void DisplayAllMessages()
+    {
+        EditorGUI.BeginChangeCheck();
+
+        foreach (var pair in messageDatabase.messagesDict)
+        {
+            var entry = pair.Value;
+
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            EditorGUILayout.LabelField("Key:", pair.Key);
+            entry.tag = (Tag)EditorGUILayout.EnumPopup("Tag:", entry.tag);
+            entry.message = EditorGUILayout.TextArea(entry.message, GUILayout.Height(50));
+            EditorGUILayout.EndVertical();
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            EditorUtility.SetDirty(messageDatabase);
         }
     }
 
@@ -146,15 +208,14 @@ public class MessageDatabaseEditor : Editor
             return;
         }
 
-        if (messageDatabase.messages.Any(entry => entry.key == newKey))
+        if (messageDatabase.messagesDict.Any(entry => entry.Key == newKey))
         {
             Debug.LogWarning($"A message with the key '{newKey}' already exists.");
             return;
         }
 
-        messageDatabase.messages.Add(new MessageEntry
+        messageDatabase.messagesDict.Add(newKey, new MessageEntry
         {
-            key = newKey,
             tag = newTag,
             message = newMessage
         });
@@ -165,6 +226,17 @@ public class MessageDatabaseEditor : Editor
         newTag = Tag.General;
 
         EditorUtility.SetDirty(messageDatabase);
+    }
+    private void PrintMessages()
+    {
+        string output = "";
+
+        Debug.Log("Printing Messages:");
+        foreach (var entry in messageDatabase.messages)
+        {
+            output += $"Key: {entry.key}, Tag: {entry.tag}, Message: {entry.message}\r\n";
+        }
+        Debug.Log(output);
     }
 
 }

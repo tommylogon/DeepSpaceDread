@@ -16,29 +16,29 @@ public class Door : Interactable
         {
             if (isOpen)
             {
-                PlaySound("CloseDoor");
+                //PlaySound("CloseDoor");
             }
             else
             {
-                PlaySound("OpenDoor");
+                //PlaySound("OpenDoor");
             }
             
             ToggleDoor();
             
         }
-        if (messages.Count > 0 && messages[0] != "")
-        {
-            PlaySound("LockedDoor");
-            if(locked)
-            {
-                UIController.Instance.ShowMessage(messages[0]);
-            }
-            else
-            {
-                UIController.Instance.ShowMessage(messages[1]);
-            }
+        //if (messages.Count > 0 && messages[0] != "")
+        //{
+        //    PlaySound("LockedDoor");
+        //    if(locked)
+        //    {
+        //        //UIController.Instance.ShowMessage(messages[0]);
+        //    }
+        //    else
+        //    {
+        //        //UIController.Instance.ShowMessage(messages[1]);
+        //    }
             
-        }
+        //}
         
 
 

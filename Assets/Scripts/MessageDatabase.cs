@@ -17,7 +17,7 @@ public class MessageDatabase : ScriptableObject
     }
 
     public List<MessageEntry> messages;
-
+    public Dictionary<string, MessageEntry> messagesDict = new Dictionary<string, MessageEntry>();
     public string GetMessage(string key)
     {
         foreach (MessageEntry entry in messages)
@@ -40,6 +40,11 @@ public class MessageDatabase : ScriptableObject
         }
 
         return retrievedMessages;
+    }
+
+    public void ReplaceStringInMessage(string key,string whatToReplace, string replacement)
+    {
+
     }
 
     public enum Tag

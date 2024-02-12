@@ -40,10 +40,10 @@ public class ThrowableObject : Interactable
             rb.AddForce(bounceDirection * bounceForce, ForceMode2D.Impulse);
 
         }
-        if (soundSource != null && impactSound != null)
-        {
-            soundSource.PlayOneShot(impactSound);
-        }         
+        //if (soundSource != null && impactSound != null)
+        //{
+        //    soundSource.PlayOneShot(impactSound);
+        //}         
         
         GameHandler.instance.GenerateNoise(transform.position, impactSoundRadius,1f);
     }

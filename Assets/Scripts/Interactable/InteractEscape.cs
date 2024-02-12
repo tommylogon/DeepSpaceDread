@@ -37,13 +37,13 @@ public class InteractEscape : Interactable
             switch (reactor.reactorState)
             {
                 case InteractReactor.ReactorState.PullControlRods:
-                    UIController.Instance.ShowMessage(messages[0]);
+                    //UIController.Instance.ShowMessage(messages[0]);
                     break;
                 case InteractReactor.ReactorState.ShutDownReactor:
-                    UIController.Instance.ShowMessage(messages[1]);
+                    //UIController.Instance.ShowMessage(messages[1]);
                     break;
                 case InteractReactor.ReactorState.Stabilize:
-                    UIController.Instance.ShowMessage(messages[2]);
+                    //UIController.Instance.ShowMessage(messages[2]);
                     break;
                 default:
                     break;
