@@ -8,9 +8,9 @@ public class InteractionMessageModule : InteractionModule
     private List<string> messages;
     
     private MessageDatabase messageDatabase;
-    [SerializeField] protected bool playRandomMessage;
+    [SerializeField] private bool playRandomMessage;
 
-    [SerializeField] protected string questInfo = "";
+    [SerializeField] private string questInfo = "";
     [SerializeField] private bool saves = false;
 
     // Start is called before the first frame update
@@ -27,43 +27,50 @@ public class InteractionMessageModule : InteractionModule
     
     public override void Interact()
     {
-        PlayMessage();
+        PlayMessage("Default");
     }
     public  void Interact(string key)
     {
-
+        playMessage(key);
     }
-    protected void PlayMessage(int messageIndex = 0, int messageRange = 1)
+    private void PlayMessage(string key)
     {
         
             string selectedMessage = "Empty";
             if (messages.Count > 0 && messages[0] != "")
             {
-                if (playRandomMessage || messageRange > 1)
+               
+
+                if(playRandomMessage)
                 {
-
-                    if (messages.Count > 1)
-                    {
-                        selectedMessage = messages[Random.Range(0, messageRange)];
-                        if (selectedMessage == "")
-                        {
-                            selectedMessage = "Ugh...";
-                        }
-                    }
-
+                    selectedMessage=  playRandomMessage();
                 }
+                
                 else
                 {
-                    selectedMessage = messages[messageIndex];
+                    selectedMessage = messageDatabase.Getmessage(key);
                 }
             }
             UIController.Instance.ShowMessage(selectedMessage);
 
-            if (saves)
-            {
-                UIController.Instance.SaveToMemory(questInfo);
-            }
+            
 
         
     }
+    private string PlayRandomMessage()
+    {
+        if(playRandomMessage && messages.count>1)
+        {
+            return messages[random.Range(0,messages.length-1)]
+        }
+        return "";
+    }
+    private void SaveToInformationLog()
+    {
+        if (saves)
+        {
+                UIController.Instance.SaveToMemory(questInfo);
+        }
+    }
+    
 }
