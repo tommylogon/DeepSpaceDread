@@ -7,23 +7,28 @@ public class InteractionMessageModule : InteractionModule
     public List<string> messages;
     public List<string> messageKeys;
     public MessageDatabase messageDatabase;
+    public MessageDatabase.Tag interactionTagType;
     [SerializeField] protected bool playRandomMessage;
 
     [SerializeField] protected string questInfo = "";
     [SerializeField] private bool saves = false;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        if (messageDatabase != null && messageKeys.Count > 0)
+        if (messageDatabase != null)
         {
+            
             messages = messageDatabase.GetMessages(messageKeys);
         }
        
 
     }
 
-    
+
+
     public override void Interact()
     {
         PlayMessage();

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2999531891820578604}
   - component: {fileID: -6631770664309068090}
   - component: {fileID: 7270791961394555672}
+  - component: {fileID: 991236709484261755}
   m_Layer: 11
   m_Name: PanelGreen
   m_TagString: Untagged
@@ -104,16 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactText: Press E to interact
   interactionModules: []
-  messages: []
-  messageKeys: []
-  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
   closeEnoughToInteract: 0
-  playRandomMessage: 0
-  noiseRadius: 0
-  SoundKeys: []
-  soundValues: []
-  questInfo: 
-  saves: 0
   doorToUnlock: {fileID: 0}
   directionIndicator: {fileID: 0}
   indicatorPrefab: {fileID: 0}
@@ -197,6 +189,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &991236709484261755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013976128505031622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 512d62d733640ec4a855c26b4d621c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messages: []
+  messageKeys: []
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
+  interactionTagType: 6
+  playRandomMessage: 0
+  questInfo: 
+  saves: 0
 --- !u!1 &5810809575273802915
 GameObject:
   m_ObjectHideFlags: 0

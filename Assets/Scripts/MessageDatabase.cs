@@ -16,11 +16,13 @@ public class MessageDatabase : ScriptableObject
         public Tag tag;
     }
 
-    public List<MessageEntry> messages;
-    public Dictionary<string, MessageEntry> messagesDict = new Dictionary<string, MessageEntry>();
+    public List<MessageEntry> messageList;
+
+   
+
     public string GetMessage(string key)
     {
-        foreach (MessageEntry entry in messages)
+        foreach (MessageEntry entry in messageList)
         {
             if (entry.key == key)
             {
@@ -40,6 +42,18 @@ public class MessageDatabase : ScriptableObject
         }
 
         return retrievedMessages;
+    }
+    public List<string> GetKeys()
+    {
+        List<string> keys = new List<string>();
+        
+            foreach (MessageEntry entry in messageList)
+            {
+                keys.Add(entry.key);
+            }
+            
+        
+        return keys;
     }
 
     public void ReplaceStringInMessage(string key,string whatToReplace, string replacement)

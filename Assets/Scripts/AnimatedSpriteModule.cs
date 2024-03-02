@@ -41,7 +41,7 @@ public class AnimatedSpriteModule : InteractionModule
         if(animator != null)
         {
             TriggerNextAnimation();
-            spriteRenderer.sortingOrder--;
+            spriteRenderer.sortingOrder=1;
 
         }
     }

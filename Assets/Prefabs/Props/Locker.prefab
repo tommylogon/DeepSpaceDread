@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5027062020554551145}
   - component: {fileID: 2418930023135368397}
   - component: {fileID: 1856138693}
+  - component: {fileID: -180111804919866468}
   m_Layer: 0
   m_Name: Locker
   m_TagString: Untagged
@@ -102,22 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Locker: Press E to hide'
-  messages: []
-  messageKeys:
-  - InteractLocker1
-  - InteractLocker2
-  - InteractLocker3
-  - InteractLockerBroken
-  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
+  interactionModules: []
   closeEnoughToInteract: 0
-  playRandomMessage: 0
-  noiseRadius: 10
-  SoundKeys:
-  - LockerOpen
-  soundValues:
-  - {fileID: 8300000, guid: f3424f9f674241846acd97983399c743, type: 3}
-  questInfo: 
-  saves: 0
   hiddenLayer:
     serializedVersion: 2
     m_Bits: 1024
@@ -138,7 +125,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.47916666, y: 0.8541667}
+    oldSize: {x: 0.54761904, y: 0.97619045}
     newSize: {x: 0.47916666, y: 0.8541667}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -264,6 +251,26 @@ MonoBehaviour:
   regenAmount: 1
   canTakeDamage: 1
   canRecharge: 0
+--- !u!114 &-180111804919866468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5027062020554551144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 512d62d733640ec4a855c26b4d621c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messages: []
+  messageKeys:
+  - InteractLocker1
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
+  interactionTagType: 7
+  playRandomMessage: 0
+  questInfo: 
+  saves: 0
 --- !u!1 &5914786072213603217
 GameObject:
   m_ObjectHideFlags: 0

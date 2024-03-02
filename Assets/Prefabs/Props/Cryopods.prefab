@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 8218784999561820019}
   - component: {fileID: 664444199}
   - component: {fileID: 5448865050629267081}
+  - component: {fileID: -226250889604806667}
   m_Layer: 11
   m_Name: Cryopods
   m_TagString: Untagged
@@ -230,21 +231,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactText: 'Cryopod: Press E to interact'
-  messages: []
-  messageKeys:
-  - InteractCryopod
-  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
+  interactionModules: []
   closeEnoughToInteract: 0
-  playRandomMessage: 0
-  noiseRadius: 0
-  SoundKeys: []
-  soundValues: []
-  questInfo: 
-  saves: 0
   doorToUnlock: {fileID: 0}
   directionIndicator: {fileID: 0}
   indicatorPrefab: {fileID: 0}
   indicatorTarget: {fileID: 0}
+  minDistanceForIndicator: 0
+  maxDistanceForIndicator: 0
 --- !u!61 &664444199
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -297,6 +291,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.68}
   m_EdgeRadius: 0
+--- !u!114 &-226250889604806667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1739967326392801416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 512d62d733640ec4a855c26b4d621c62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messages: []
+  messageKeys: []
+  messageDatabase: {fileID: 11400000, guid: 753ec9cd6d88f8f40a7303ec48d15d81, type: 2}
+  interactionTagType: 7
+  playRandomMessage: 0
+  questInfo: 
+  saves: 0
 --- !u!1 &2183700762329229184
 GameObject:
   m_ObjectHideFlags: 0

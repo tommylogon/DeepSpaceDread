@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using static MessageDatabase;
-using static UnityEngine.EventSystems.EventTrigger;
 
 [CustomEditor(typeof(MessageDatabase))]
 public class MessageDatabaseEditor : Editor
@@ -14,6 +14,8 @@ public class MessageDatabaseEditor : Editor
     private string newKey = "";
     private string newMessage = "";
     private Tag newTag = Tag.General;
+
+    private string jsonFilePath = "Assets/messages.json";
 
     private void OnEnable()
     {
@@ -67,14 +69,30 @@ public class MessageDatabaseEditor : Editor
 
         
 
-        GUILayout.Space(10);
-        EditorGUILayout.LabelField("Print Messages", EditorStyles.boldLabel);
-        if (GUILayout.Button("Print Messages"))
-        {
-            PrintMessages();
-        }
-    }
+       
 
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("JSON Operations", EditorStyles.boldLabel);
+        if (GUILayout.Button("Write to JSON File"))
+        {
+            WriteToJsonFile();
+        }
+
+        // Read from JSON file button and file selection
+        GUILayout.Space(10);
+        EditorGUILayout.LabelField("Read from JSON File", EditorStyles.boldLabel);
+        if (GUILayout.Button("Select JSON File"))
+        {
+            jsonFilePath = EditorUtility.OpenFilePanel("Select JSON File", "", "json");
+        }
+        if (GUILayout.Button("Read from JSON File"))
+        {
+            ReadFromJsonFile();
+        }
+
+        
+    }
+    
     private void DisplayMessages()
     {
         if (string.IsNullOrEmpty(searchFilter) && filterTag == Tag.General)
@@ -83,13 +101,13 @@ public class MessageDatabaseEditor : Editor
             return;
         }
 
-        foreach(var pair in messageDatabase.messagesDict)
+        foreach(var entry in messageDatabase.messageList)
         {
-            var entry = pair.Value;
-            if((pair.Key.ToLower().Contains(searchFilter.ToLower()) || string.IsNullOrEmpty(searchFilter)) && entry.tag == filterTag)
+            
+            if((entry.key.ToLower().Contains(searchFilter.ToLower()) || string.IsNullOrEmpty(searchFilter)) && entry.tag == filterTag)
             {
                 EditorGUILayout.BeginVertical(GUI.skin.box);
-                EditorGUILayout.LabelField("Key:", pair.Key);
+                EditorGUILayout.LabelField("Key:", entry.key);
                 entry.tag = (Tag)EditorGUILayout.EnumPopup("Tag:", entry.tag);
                 entry.message = EditorGUILayout.TextArea(entry.message, GUILayout.Height(50));
                 EditorGUILayout.EndVertical();
@@ -105,12 +123,11 @@ public class MessageDatabaseEditor : Editor
     {
         EditorGUI.BeginChangeCheck();
 
-        foreach (var pair in messageDatabase.messagesDict)
+        foreach (var entry in messageDatabase.messageList)
         {
-            var entry = pair.Value;
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
-            EditorGUILayout.LabelField("Key:", pair.Key);
+            EditorGUILayout.LabelField("Key:", entry.key);
             entry.tag = (Tag)EditorGUILayout.EnumPopup("Tag:", entry.tag);
             entry.message = EditorGUILayout.TextArea(entry.message, GUILayout.Height(50));
             EditorGUILayout.EndVertical();
@@ -129,7 +146,7 @@ public class MessageDatabaseEditor : Editor
             return;
         }
 
-        List<MessageDatabase.MessageEntry> filteredMessages = messageDatabase.messages.FindAll(
+        List<MessageDatabase.MessageEntry> filteredMessages = messageDatabase.messageList.FindAll(
             entry => (entry.key.ToLower().Contains(searchFilter.ToLower()) || string.IsNullOrEmpty(searchFilter)) &&
                       entry.tag == filterTag
         );
@@ -153,7 +170,7 @@ public class MessageDatabaseEditor : Editor
     private void ValidateMessages()
     {
         // Check for duplicate keys
-        var duplicateKeys = messageDatabase.messages.GroupBy(x => x.key)
+        var duplicateKeys = messageDatabase.messageList.GroupBy(x => x.key)
             .Where(group => group.Count() > 1)
             .Select(group => group.Key);
 
@@ -169,7 +186,7 @@ public class MessageDatabaseEditor : Editor
         // Check for empty keys or messages
         bool emptyKeyFound = false;
         bool emptyMessageFound = false;
-        foreach (var message in messageDatabase.messages)
+        foreach (var message in messageDatabase.messageList)
         {
             if (string.IsNullOrEmpty(message.key))
             {
@@ -208,14 +225,15 @@ public class MessageDatabaseEditor : Editor
             return;
         }
 
-        if (messageDatabase.messagesDict.Any(entry => entry.Key == newKey))
+        if (messageDatabase.messageList.Any(entry => entry.key == newKey))
         {
             Debug.LogWarning($"A message with the key '{newKey}' already exists.");
             return;
         }
 
-        messageDatabase.messagesDict.Add(newKey, new MessageEntry
+        messageDatabase.messageList.Add(new MessageEntry
         {
+            key = newKey,
             tag = newTag,
             message = newMessage
         });
@@ -227,16 +245,25 @@ public class MessageDatabaseEditor : Editor
 
         EditorUtility.SetDirty(messageDatabase);
     }
-    private void PrintMessages()
-    {
-        string output = "";
 
-        Debug.Log("Printing Messages:");
-        foreach (var entry in messageDatabase.messages)
-        {
-            output += $"Key: {entry.key}, Tag: {entry.tag}, Message: {entry.message}\r\n";
-        }
-        Debug.Log(output);
+    private void WriteToJsonFile()
+    {
+        string json = JsonUtility.ToJson(messageDatabase);
+        File.WriteAllText(jsonFilePath, json);
+        Debug.Log("Messages written to JSON file: " + jsonFilePath);
     }
 
+    private void ReadFromJsonFile()
+    {
+        if (File.Exists(jsonFilePath))
+        {
+            string json = File.ReadAllText(jsonFilePath);
+            JsonUtility.FromJsonOverwrite(json, messageDatabase);
+            Debug.Log("Messages read from JSON file: " + jsonFilePath);
+        }
+        else
+        {
+            Debug.LogError("JSON file does not exist: " + jsonFilePath);
+        }
+    }
 }

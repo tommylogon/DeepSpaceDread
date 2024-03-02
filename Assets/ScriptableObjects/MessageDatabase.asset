@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f451c34368055b4e860d8cba8d73d0f, type: 3}
   m_Name: MessageDatabase
   m_EditorClassIdentifier: 
-  messages:
+  messageList:
   - key: BodyIntro
     message: "If you hear this i guess it got me. You  are probably all alone now,
       the overseer greenlit some bio-experiment and well what ever it is. it got
