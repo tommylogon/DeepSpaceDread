@@ -9,23 +9,23 @@ public class InteractReactor : Interactable
     public enum ReactorState
     {
         Unstable, 
-        PullControlRods,
-        ShutDownReactor,
-        Stabilize
+        Critical,
+        Offline,
+        Online
     }
 
     
 
     public Door[] doorToUnlock;
     public FlickerLight[] EnviromentalLights;
-    public Light2D[] WarningLights;
-    public AudioSource[] audioSources;
+    public Light2D[] WarningLights; 
+    public AudioSource[] audioSources; // moved to seperate module
 
     public ReactorState reactorState = ReactorState.Unstable;
 
     public string reactorCode = "421369";
 
-    private bool unlocked = false;
+    private bool unlocked = false; // move locks to interactable
 
     private Light2D reactorLight;
 
@@ -89,7 +89,7 @@ public class InteractReactor : Interactable
                 }
                 
             }
-            reactorState = ReactorState.PullControlRods;
+            reactorState = ReactorState.Critical;
             UIController.Instance.HideReactorPanel();
             //UIController.Instance.ShowMessage(messages[1]);
             Timer.instance.PauseTimer(false);
@@ -128,7 +128,7 @@ public class InteractReactor : Interactable
 
             UIController.Instance.HideReactorPanel();
             //UIController.Instance.ShowMessage(messages[2]);
-            reactorState = ReactorState.ShutDownReactor;
+            reactorState = ReactorState.offline;
         }
 
     }
@@ -158,7 +158,7 @@ public class InteractReactor : Interactable
 
                 }
             }
-            reactorState = ReactorState.Stabilize;
+            reactorState = ReactorState.Online;
             UIController.Instance.HideReactorPanel();
             //UIController.Instance.ShowMessage(messages[3]);
         }
