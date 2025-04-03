@@ -40,3 +40,4 @@
 3. Expand UI functionality
 4. Integrate audio triggers
 5. Develop environmental interactions (using RaycastTentacles, TentacleMover, and Tentacle)
+- Updated RaycastTentacles.cs to potentially improve tentacle movement

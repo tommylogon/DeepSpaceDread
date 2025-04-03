@@ -128,7 +128,7 @@ public class InteractReactor : Interactable
 
             UIController.Instance.HideReactorPanel();
             //UIController.Instance.ShowMessage(messages[2]);
-            reactorState = ReactorState.offline;
+            reactorState = ReactorState.Offline;
         }
 
     }

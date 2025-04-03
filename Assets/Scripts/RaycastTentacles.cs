@@ -106,8 +106,8 @@ public class RaycastTentacles : MonoBehaviour
                 targetPositions[i] = transform.position;
                 //lineRenderers[i].SetPosition(1, transform.position);
             }
-            MoveTentacleTowardsTarget();
         }
+        MoveTentacleTowardsTarget();
     }
 
     private bool ShouldMoveTentacles(Vector3 tentacleEndPoint)

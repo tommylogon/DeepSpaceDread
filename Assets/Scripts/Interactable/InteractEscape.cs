@@ -34,19 +34,21 @@ public class InteractEscape : Interactable
             UIController.Instance.ShowGameOver(true);
             Timer.instance.PauseTimer(true);
 
-            switch (reactor.reactorState)
+            if (reactor.reactorState == InteractReactor.ReactorState.Unstable)
             {
-                case InteractReactor.ReactorState.PullControlRods:
-                    //UIController.Instance.ShowMessage(messages[0]);
-                    break;
-                case InteractReactor.ReactorState.ShutDownReactor:
-                    //UIController.Instance.ShowMessage(messages[1]);
-                    break;
-                case InteractReactor.ReactorState.Stabilize:
-                    //UIController.Instance.ShowMessage(messages[2]);
-                    break;
-                default:
-                    break;
+                //UIController.Instance.ShowMessage(messages[0]);
+            }
+            else if (reactor.reactorState == InteractReactor.ReactorState.Critical)
+            {
+                //UIController.Instance.ShowMessage(messages[1]);
+            }
+            else if (reactor.reactorState == InteractReactor.ReactorState.Online)
+            {
+                //UIController.Instance.ShowMessage(messages[2]);
+            }
+            else
+            {
+                //UIController.Instance.ShowMessage("Reactor Offline");
             }
 
             if (Input.GetKeyDown(KeyCode.R))

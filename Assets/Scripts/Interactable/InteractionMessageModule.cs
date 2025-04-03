@@ -36,37 +36,31 @@ public class InteractionMessageModule : InteractionModule
     }
     public  void Interact(string key)
     {
-        playMessage(key);
+        PlayMessage(key);
     }
     private void PlayMessage(string key)
     {
         
-            string selectedMessage = "Empty";
-            if (messages.Count > 0 && messages[0] != "")
+        string selectedMessage = "Empty";
+        if (messages != null && messages.Count > 0 && messages[0] != "")
+        {
+            if(playRandomMessage)
             {
-               
-
-                if(playRandomMessage)
-                {
-                    selectedMessage=  playRandomMessage();
-                }
-                
-                else
-                {
-                    selectedMessage = messageDatabase.Getmessage(key);
-                }
+                selectedMessage = PlayRandomMessage();
             }
-            UIController.Instance.ShowMessage(selectedMessage);
-
-            
-
-        
+            else
+            {
+                selectedMessage = messageDatabase.GetMessage(key);
+            }
+        }
+        UIController.Instance.ShowMessage(selectedMessage);
     }
     private string PlayRandomMessage()
     {
-        if(playRandomMessage && messages.count>1)
+        System.Random random = new System.Random();
+        if(playRandomMessage && messages.Count > 1)
         {
-            return messages[random.Range(0,messages.length-1)]
+            return messages[random.Next(0, messages.Count)];
         }
         return "";
     }
