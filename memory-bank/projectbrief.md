@@ -21,7 +21,7 @@
 - Audio system integration
 
 ## Development Status
-- Early development phase
-- Core systems being established
+- Early access development phase
+- Core systems implemented and being refined
 - Asset pipeline in place
-- Basic player controls implemented
+- Basic player controls implemented and expanded

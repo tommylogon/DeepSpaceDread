@@ -32,3 +32,9 @@
 - ScriptableObjects for data
 - Event system for communication
 - Editor scripts for custom tooling (RaycastTentaclesEditor.cs)
+
+## MCP Servers
+- **github.com/justinpbarnett/unity-mcp**
+  - Provides tools for managing Unity scripts, scenes, game objects, and assets.
+- **github.com/modelcontextprotocol/servers/tree/main/src/github**
+  - Provides tools for interacting with the GitHub API.

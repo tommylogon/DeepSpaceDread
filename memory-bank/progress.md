@@ -8,7 +8,7 @@
 - ✅ Audio asset pipeline
 
 ## In Progress
-- 🚧 Alien AI behaviors
+- 🚧 Basic alien AI behaviors implemented (hunting, chasing, attacking)
 - 🚧 Environmental interactions
 - 🚧 UI functionality
 - 🚧 Audio implementation
@@ -22,7 +22,7 @@
 ## Pending Tasks
 - Implement save system
 - Develop tutorial/intro sequence
-- Create more alien behaviors
+- Further refine alien AI behaviors (corpse eating, improved hunting)
 - Expand environment interactions
 - Optimize rendering pipeline
 

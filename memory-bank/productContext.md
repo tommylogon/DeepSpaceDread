@@ -26,5 +26,5 @@
 ## Unique Selling Points
 - 2D/3D hybrid presentation
 - Focus on audio-based horror
-- Reactive alien AI
+- Planned reactive alien AI
 - Environmental storytelling
