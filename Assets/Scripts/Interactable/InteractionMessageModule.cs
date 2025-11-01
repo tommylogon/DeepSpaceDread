@@ -4,66 +4,69 @@ using UnityEngine;
 
 public class InteractionMessageModule : InteractionModule
 {
-    [SerializeField]private List<string> messageKeys;
-    private List<string> messages;
+    [SerializeField]public List<string> messageKeys;
     
-    private MessageDatabase messageDatabase;
+    [Tooltip("The database where all messages are stored.")]    
+    public MessageDatabase messageDatabase;
     public MessageDatabase.Tag interactionTagType;
     [SerializeField] private bool playRandomMessage;
 
     [SerializeField] private string questInfo = "";
     [SerializeField] private bool saves = false;
 
-    
+
 
     // Start is called before the first frame update
-    void Start()
-    {
-        if (messageDatabase != null)
-        {
-            
-            messages = messageDatabase.GetMessages(messageKeys);
-        }
-       
 
-    }
 
 
 
     public override void Interact()
     {
-        PlayMessage("Default");
-    }
-    public  void Interact(string key)
-    {
-        PlayMessage(key);
-    }
-    private void PlayMessage(string key)
-    {
-        
-        string selectedMessage = "Empty";
-        if (messages != null && messages.Count > 0 && messages[0] != "")
+        if (messageDatabase == null || messageKeys.Count == 0)
         {
-            if(playRandomMessage)
-            {
-                selectedMessage = PlayRandomMessage();
-            }
-            else
-            {
-                selectedMessage = messageDatabase.GetMessage(key);
-            }
+            Debug.LogWarning("InteractionMessageModule on " + gameObject.name + " is not configured correctly. Assign a MessageDatabase and at least one key.");
+            return;
         }
-        UIController.Instance.ShowMessage(selectedMessage);
-    }
-    private string PlayRandomMessage()
-    {
-        System.Random random = new System.Random();
-        if(playRandomMessage && messages.Count > 1)
+
+        string keyToPlay = "";
+
+        // Decide which key to use based on your improved logic
+        if (playRandomMessage && messageKeys.Count > 1)
         {
-            return messages[random.Next(0, messages.Count)];
+            // If random is ticked and we have multiple options, pick a random key
+            int randomIndex = Random.Range(0, messageKeys.Count);
+            keyToPlay = messageKeys[randomIndex];
         }
-        return "";
+        else
+        {
+            // Otherwise, just use the first key in the list.
+            // This works for single-item lists and multi-item lists where random is off.
+            keyToPlay = messageKeys[0];
+        }
+
+        // Get the message from the database using the selected key
+        string messageToShow = messageDatabase.GetMessage(keyToPlay);
+
+        // Show the message on the UI
+        UIController.Instance.ShowMessage(messageToShow);
+
+        // --- End of New Logic ---
+
+        // The logic for saving information remains the same
+        SaveToInformationLog();
     }
+    
+    // This method can still be useful if other scripts need to trigger a specific message.
+    public void PlaySpecificMessage(string key)
+    {
+        if (messageDatabase != null)
+        {
+            string messageToShow = messageDatabase.GetMessage(key);
+            UIController.Instance.ShowMessage(messageToShow);
+        }
+    }
+
     private void SaveToInformationLog()
     {
         if (saves)
