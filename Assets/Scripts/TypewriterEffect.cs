@@ -31,6 +31,7 @@ public class TypewriterEffect : MonoBehaviour
 
         // Start the new coroutine and store a reference to it
         showTextCoroutine = StartCoroutine(ShowText());
+        
     }
 
     IEnumerator ShowText()
@@ -42,6 +43,7 @@ public class TypewriterEffect : MonoBehaviour
             label.text = currentText;
             yield return new WaitForSeconds(delay);
         }
+        showTextCoroutine = null;
     }
     // Check if the ShowText coroutine has finished
     public bool IsTextWriterFinished()

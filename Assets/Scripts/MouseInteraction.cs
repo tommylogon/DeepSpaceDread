@@ -46,16 +46,15 @@ public class MouseInteraction : MonoBehaviour
 
     private GameObject GetMouseOverObject(Vector2 mousePosition)
     {
-        Vector2 rayOrigin = Camera.main.ScreenToWorldPoint(mousePosition);
-        Ray ray = new Ray(rayOrigin, Vector3.forward);
-
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.zero, float.MaxValue, interactableLayer);
-
-        if (hit.collider != null)
+        if (Camera.main == null)
         {
-            return hit.collider.gameObject;
+            Debug.LogError("No camera tagged 'MainCamera' in scene!");
+            return null;
         }
 
-        return null;
+        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(mousePosition);
+        Collider2D hit = Physics2D.OverlapPoint(worldPoint, interactableLayer);
+
+        return hit ? hit.gameObject : null;
     }
 }

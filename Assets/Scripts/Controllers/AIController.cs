@@ -255,7 +255,7 @@ public class AIController : MonoBehaviour, IController
 
         //if (perception.canSeePlayer && Vector2.Distance(transform.position, foundTarget.transform.position) < 0.5f /*&& playCon.CheckIfPlayerIsAlive()*/)
         //{
-
+        Debug.Log("Attacking " + foundTarget.name, foundTarget);
         if (!alienSounds.IsPlaying())
         {
             alienSounds.PlayAttackSound();
