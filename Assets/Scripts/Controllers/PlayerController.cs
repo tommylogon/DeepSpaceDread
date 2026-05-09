@@ -414,6 +414,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (IsInsideLocker) return;
         if (other.TryGetComponent<IInteractable>(out var interactable))
         {
             interactableObject = interactable;
@@ -422,6 +423,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (IsInsideLocker) return;
         if (other.TryGetComponent<IInteractable>(out var interactable) && interactable == interactableObject)
         {
             interactableObject = null;
@@ -429,26 +431,32 @@ public class PlayerController : MonoBehaviour, IDamage
     }
 
     private void Interact()
+{
+    // ----- LOCKER EXIT -----
+    if (IsInsideLocker)
     {
-        if(interactableObject != null)
+        Collider2D lockerCollider = Physics2D.OverlapCircle(transform.position, 2f);
+        if (lockerCollider != null && lockerCollider.TryGetComponent<IInteractable>(out var locker))
         {
-            if (playerState == State.Sleeping) 
-            {
-                interactableObject.Interact();
-                WakeUp();
-            }
-            else if(interactableObject != null && playerState == State.Alive)
-            {
-                interactableObject.Interact();
-            }
-        } 
-        
-        if(IsInsideLocker && interactableObject == null)
+            locker.Interact();
+        }
+        return; // never do anything else while hidden
+    }
+
+    // ----- NORMAL INTERACTION -----
+    if (interactableObject != null)
+    {
+        if (playerState == State.Sleeping)
         {
-            Collider2D lockerCollider = Physics2D.OverlapCircle(transform.position, 2);
-            OnTriggerEnter2D (lockerCollider);
+            interactableObject.Interact();
+            WakeUp();
+        }
+        else if (playerState == State.Alive)
+        {
+            interactableObject.Interact();
         }
     }
+}
 
     
 
@@ -499,7 +507,7 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         spriteRenderer.enabled = isVisible;
         ChangeFlashlighStatus(isVisible);
-        IsInsideLocker = isVisible;
+        IsInsideLocker = !isVisible;
 
 
     }
