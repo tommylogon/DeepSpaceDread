@@ -182,7 +182,6 @@ public class InteractReactor : Interactable
 
         while (elapsedTime < duration)
         {
-            yield return new WaitForSeconds(1);
             reactorLight.color = Color.Lerp(reactorLight.color, endColor, elapsedTime / duration);
             reactorLight.intensity = Mathf.Lerp(reactorLight.intensity, endIntensity, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
@@ -197,4 +196,5 @@ public class InteractReactor : Interactable
     {
         reactorCode = code; 
     }
+    
 }

@@ -59,70 +59,60 @@ public class UIController : MonoBehaviour
 
     }
 
-    private void oldInitialize()
-    {
-        VisualElement root = GetComponent<UIDocument>().rootVisualElement;
-
-
-       
-
-        
-        
-
-        
-        reactorInputPanel = root.Q<VisualElement>("ReactorInputPanel");
-
-        CodeDisplay = root.Q<VisualElement>("CodeDisplay");
-        Keypad = root.Q<VisualElement>("Keypad");
-        ReactorControls = root.Q<VisualElement>("ReactorControls");
-
-        codeLable = root.Q<Label>("CodeLabel");
-
-        controlsPanel = root.Q<VisualElement>("ControlsPanel");
-        settingsPanel = root.Q<VisualElement>("SettingsPanel");
-
-
-
-        LockStatus = root.Q<VisualElement>("LockStatus");
-        unlockedStatus = root.Q<VisualElement>("UnlockedStatus");
-
-        timerLabel = GetComponent<UIDocument>().rootVisualElement.Q<Label>("Countdown");
-
-        messageLabel.visible = false;
-        //reactorInputPanel.style.display = DisplayStyle.None;
-        timerLabel.visible = false;
-        //menuPanel.style.display = DisplayStyle.None;
-
-        //ReactorControls.style.display = DisplayStyle.None;
-
-
-
-
-
-        HideMessage();
-    }
-
     private void InitializeUI()
     {
         Instance = this;
         typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
 
-        pauseMenuPanel = PauseMenuUI.CloneTree();
-        pauseMenuPanel.style.display = DisplayStyle.None;
         var root = GetComponent<UIDocument>().rootVisualElement;
         centerSection = root.Q<VisualElement>("Center");
 
-        centerSection.Insert(0,pauseMenuPanel);
+        // --- Instantiate Pause Menu ---
+        pauseMenuPanel = PauseMenuUI.CloneTree();
+        pauseMenuPanel.style.display = DisplayStyle.None;
+        centerSection.Insert(0, pauseMenuPanel);
+        RegisterPauseMenuButtons(pauseMenuPanel);
+
+        // --- Instantiate Timer UI (if using separate UXML) ---
+        if (TimerUI != null)
+        {
+            timerPanel = TimerUI.CloneTree();
+            centerSection.Insert(1, timerPanel);
+            timerLabel = timerPanel.Q<Label>("Countdown");
+            timerLabel.visible = false;
+        }
+        else
+        {
+            // Fallback: look for timer in main UXML
+            timerLabel = root.Q<Label>("Countdown");
+            if (timerLabel != null) timerLabel.visible = false;
+        }
+
+        // --- Instantiate Reactor UI ---
+        reactorPanel = ReactorUI.CloneTree();
+        reactorPanel.style.display = DisplayStyle.None;
+        centerSection.Insert(2, reactorPanel);
+
+        // Register all reactor elements
+        RegisterReactorElements(reactorPanel);
+        RegisterReactorButtons(reactorPanel);
+
+        // Register main UI elements
         RegisterElementReferenses(root);
-
-
-
-
-        RegisterPauseMenuButtons(root);
-
         ClearTextFields();
+    }
+private void RegisterReactorElements(VisualElement root)
+    {
+        reactorInputPanel = root.Q<VisualElement>("ReactorInputPanel");
+        CodeDisplay = root.Q<VisualElement>("CodeDisplay");
+        Keypad = root.Q<VisualElement>("Keypad");
+        ReactorControls = root.Q<VisualElement>("ReactorControls");
+        LockStatus = root.Q<VisualElement>("LockStatus");
+        unlockedStatus = root.Q<VisualElement>("UnlockedStatus");
+        codeLable = root.Q<Label>("CodeLabel");
 
-
+        // Hide controls initially
+        ReactorControls.style.display = DisplayStyle.None;
     }
 
     private void RegisterElementReferenses(VisualElement root)
@@ -157,36 +147,31 @@ public class UIController : MonoBehaviour
     }
     public void RegisterReactorButtons(VisualElement root)
     {
-        
         Button PullControlRodsButton = root.Q<Button>("PullControlRodsButton");
         Button ShutDownReactorButton = root.Q<Button>("ShutDownReactorButton");
         Button StabilizeButton = root.Q<Button>("StabilizeButton");
         Button controlsButton = root.Q<Button>("ControlsButton");
 
+        if (controlsButton != null) controlsButton.clicked += ShowControlsPanel;
+        if (PullControlRodsButton != null) PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
+        if (ShutDownReactorButton != null) ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
+        if (StabilizeButton != null) StabilizeButton.clicked += StabilizeButton_Clicked;
 
-        controlsButton.clicked += () => { ShowControlsPanel(); };
-        
-        PullControlRodsButton.clicked += PullControlRodsButton_Clicked;
-        ShutDownReactorButton.clicked += ShutDownReactorButton_Clicked;
-        StabilizeButton.clicked += StabilizeButton_Clicked;
-
-        
-        
-
+        // Keypad buttons 0-9
         for (int i = 0; i <= 9; i++)
         {
             Button button = root.Q<Button>($"Button{i}");
-            RegisterKeypadButton(button);
+            if (button != null) RegisterKeypadButton(button);
         }
 
         Button OKButton = root.Q<Button>("OKButton");
-        RegisterOKButton(OKButton);
+        if (OKButton != null) RegisterOKButton(OKButton);
 
         Button XButton = root.Q<Button>("XButton");
-        RegisterXButton(XButton);
+        if (XButton != null) RegisterXButton(XButton);
 
         Button closePanelButton = root.Q<Button>("ClosePanelButton");
-        closePanelButton.clicked += ClosePanelButton_Clicked;
+        if (closePanelButton != null) closePanelButton.clicked += ClosePanelButton_Clicked;
     }
 
     private void ExitButton_Clicked()
@@ -266,8 +251,14 @@ public class UIController : MonoBehaviour
 
     public void ShowReactorPanel()
     {
+        reactorPanel.style.display = DisplayStyle.Flex;
         codeLable.text = "";
-        reactorInputPanel.style.display = DisplayStyle.Flex;
+        // Reset to login state
+        CodeDisplay.style.display = DisplayStyle.Flex;
+        Keypad.style.display = DisplayStyle.Flex;
+        ReactorControls.style.display = DisplayStyle.None;
+        LockStatus.style.display = DisplayStyle.Flex;
+        unlockedStatus.style.display = DisplayStyle.None;
     }
 
     public void HideReactorPanel()
@@ -410,8 +401,7 @@ public class UIController : MonoBehaviour
 
     internal bool IsReactorShowing()
     {
-        return false;
-        return reactorInputPanel.style.display != DisplayStyle.None;
+        return reactorPanel != null && reactorPanel.style.display != DisplayStyle.None;
     }
     public void RestartButton_Clicked()
     {
@@ -421,4 +411,5 @@ public class UIController : MonoBehaviour
     {
 
     }
+    
 }
