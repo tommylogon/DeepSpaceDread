@@ -20,7 +20,7 @@
             </ui:VisualElement>
             <ui:VisualElement name="MainContent" />
             <ui:VisualElement name="Message" style="position: relative; top: auto; left: auto; display: flex; height: auto; justify-content: flex-end; flex-grow: 0; align-items: flex-start; -unity-text-align: lower-center; flex-direction: column;">
-                <ui:Label text="Press x to interact" name="InteractionLable" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />
+                <ui:Label text="Press x to interact" name="InteractionLabel" class="Text" style="position: relative; height: 26px; top: auto; left: auto; width: 552px; white-space: normal; color: rgb(255, 255, 255); font-size: 24px; align-items: flex-start; -unity-text-align: lower-center;" />
                 <ui:Label text="Attention all personnel, this is an emergency broadcast from the station&apos;s warning system. A dangerous creature is on the loose and has already caused multiple casualties. We advise all personnel to make their way to the nearest escape pods immediately." name="message-lable" class="Text" style="position: relative; height: auto; top: auto; left: auto; width: 646px; white-space: normal; color: rgb(255, 255, 255); -unity-text-align: lower-left; align-items: flex-start;" />
             </ui:VisualElement>
         </ui:VisualElement>

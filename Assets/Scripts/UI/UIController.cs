@@ -50,13 +50,9 @@ public class UIController : MonoBehaviour
     private VisualElement centerSection;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         InitializeUI();
-       
-
-
-
     }
 
     private void InitializeUI()
@@ -64,12 +60,15 @@ public class UIController : MonoBehaviour
         Instance = this;
         typewriterEffect = gameObject.AddComponent<TypewriterEffect>();
 
-        var root = GetComponent<UIDocument>().rootVisualElement;
-        centerSection = root.Q<VisualElement>("Center");
-
-        // --- Instantiate Pause Menu ---
         pauseMenuPanel = PauseMenuUI.CloneTree();
         pauseMenuPanel.style.display = DisplayStyle.None;
+        var root = GetComponent<UIDocument>().rootVisualElement;
+        centerSection = root.Q<VisualElement>("Center");
+        if(root == null)
+        {
+            Debug.Log("root is null");
+        }
+        
         centerSection.Insert(0, pauseMenuPanel);
         RegisterPauseMenuButtons(pauseMenuPanel);
 
@@ -118,7 +117,7 @@ private void RegisterReactorElements(VisualElement root)
     private void RegisterElementReferenses(VisualElement root)
     {
         messageLabel = root.Q<Label>("message-lable");
-        interactoinLabel = root.Q<Label>("InteractionLable");
+        interactoinLabel = root.Q<Label>("InteractionLabel");
         memoryLable = root.Q<Label>("MemoryText");
         gameStatePanel = root.Q<VisualElement>("GameStatePanel");
         gameOverLable = root.Q<Label>("StartOrGameOver");
@@ -319,7 +318,10 @@ private void RegisterReactorElements(VisualElement root)
 
     public void HideInteraction()
     {
-        interactoinLabel.visible= false;
+        if (interactoinLabel != null)
+        {
+            interactoinLabel.visible= false;
+        }
     }
 
     internal void TogglePauseMenu_Clicked()

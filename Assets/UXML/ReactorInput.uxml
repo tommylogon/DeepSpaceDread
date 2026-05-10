@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UXML/reactor.uss?fileID=7433441132597879392&amp;guid=884fb996e5f16094180200832d727401&amp;type=3#reactor" />
-    <ui:VisualElement name="Reactor" class="reactor-panel">
+    <ui:VisualElement name="ReactorInputPanel" class="reactor-panel">
         <ui:VisualElement class="panel-header">
             <ui:Label text="NUCLEAR REACTOR CONTROL" class="header-title" />
             <ui:Label text="SECTOR 7-G // UNIT RB-093" class="header-sub" />
@@ -40,36 +40,37 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="divider" />
-        <ui:VisualElement class="code-section">
+        <ui:VisualElement name="CodeDisplay" class="code-section">
             <ui:VisualElement class="code-header">
                 <ui:Label text="AUTHORIZATION OVERRIDE" class="section-label" />
-                <ui:VisualElement name="LockIcon" class="lock-indicator lock-locked" />
+                <ui:VisualElement name="LockStatus" class="lock-indicator lock-locked" />
+                <ui:VisualElement name="UnlockedStatus" class="lock-indicator lock-unlocked" style="display: none;" />
             </ui:VisualElement>
             <ui:VisualElement class="code-display">
                 <ui:Label name="CodeLabel" text="____" class="code-text" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement class="keypad">
-            <ui:Button text="1" name="Btn1" class="key key-num" />
-            <ui:Button text="2" name="Btn2" class="key key-num" />
-            <ui:Button text="3" name="Btn3" class="key key-num" />
-            <ui:Button text="4" name="Btn4" class="key key-num" />
-            <ui:Button text="5" name="Btn5" class="key key-num" />
-            <ui:Button text="6" name="Btn6" class="key key-num" />
-            <ui:Button text="7" name="Btn7" class="key key-num" />
-            <ui:Button text="8" name="Btn8" class="key key-num" />
-            <ui:Button text="9" name="Btn9" class="key key-num" />
-            <ui:Button text="CLR" name="BtnClr" class="key key-clear" />
-            <ui:Button text="0" name="Btn0" class="key key-num" />
-            <ui:Button text="ENT" name="BtnOk" class="key key-enter" />
+        <ui:VisualElement name="Keypad" class="keypad">
+            <ui:Button text="1" name="Button1" class="key key-num" />
+            <ui:Button text="2" name="Button2" class="key key-num" />
+            <ui:Button text="3" name="Button3" class="key key-num" />
+            <ui:Button text="4" name="Button4" class="key key-num" />
+            <ui:Button text="5" name="Button5" class="key key-num" />
+            <ui:Button text="6" name="Button6" class="key key-num" />
+            <ui:Button text="7" name="Button7" class="key key-num" />
+            <ui:Button text="8" name="Button8" class="key key-num" />
+            <ui:Button text="9" name="Button9" class="key key-num" />
+            <ui:Button text="CLR" name="XButton" class="key key-clear" />
+            <ui:Button text="0" name="Button0" class="key key-num" />
+            <ui:Button text="ENT" name="OKButton" class="key key-enter" />
         </ui:VisualElement>
         <ui:VisualElement class="divider" />
-        <ui:VisualElement class="controls-section">
+        <ui:VisualElement name="ReactorControls" class="controls-section" style="display: none;">
             <ui:Label text="REACTOR CONTROLS" class="section-label" />
-            <ui:Button text="REMOVE CONTROL RODS" name="PullRodsBtn" class="ctrl-btn ctrl-warning" />
-            <ui:Button text="STABILIZE REACTOR" name="StabilizeBtn" class="ctrl-btn ctrl-primary" />
-            <ui:Button text="EMERGENCY SHUTDOWN" name="ShutdownBtn" class="ctrl-btn ctrl-danger ctrl-btn-last" />
+            <ui:Button text="REMOVE CONTROL RODS" name="PullControlRodsButton" class="ctrl-btn ctrl-warning" />
+            <ui:Button text="STABILIZE REACTOR" name="StabilizeButton" class="ctrl-btn ctrl-primary" />
+            <ui:Button text="EMERGENCY SHUTDOWN" name="ShutDownReactorButton" class="ctrl-btn ctrl-danger ctrl-btn-last" />
         </ui:VisualElement>
-        <ui:Button text="✕" name="CloseBtn" class="close-btn" />
+        <ui:Button text="✕" name="ClosePanelButton" class="close-btn" />
     </ui:VisualElement>
 </ui:UXML>
